@@ -1,0 +1,45 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowBackground">@drawable/bg</item>
+
+        <item name="android:textColorHint">@color/colour_five</item>
+        <item name="android:textColor">@color/colour_five</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <!--<item name="android:textColorHint">@color/colour_three</item>-->
+        <!--<item name="android:autofilledHighlight">@android:color/transparent</item>-->
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="cardview_theme" parent="CardView">
+        <!--<item name="android:layout_width">match_parent</item>-->
+        <!--<item name="android:layout_height">match_parent</item>-->
+        <!--<item name="cardBackgroundColor">#00fffb</item>-->
+        <item name="cardCornerRadius">22dp</item>
+    </style>
+
+    <style name="edittexttheme">
+        <item name="android:backgroundTint">@color/colour_five</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:selectAllOnFocus">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColorHighlight">#608d91</item>
+
+    </style>
+
+</resources>

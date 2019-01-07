@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "311398117829",
+    "firebase_url": "https://driver-8f4a1.firebaseio.com",
+    "project_id": "driver-8f4a1",
+    "storage_bucket": "driver-8f4a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311398117829:android:cd8a17ae21224023",
+        "android_client_info": {
+          "package_name": "h_mal.appttude.com.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "311398117829-ma5nflm7hviakaq16o2r0pubce6ar4rn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGShfTzdvwsoYOqtb5pwcnxPxec9u9f8Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

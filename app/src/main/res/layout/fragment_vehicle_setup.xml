@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/reg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:ems="10"
+                android:hint="Car reg"
+                android:inputType="none"
+                android:maxLines="1"
+                style="@style/edittexttheme" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/make"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:ems="10"
+                android:hint="Make"
+                android:inputType="none"
+                android:maxLines="1"
+                style="@style/edittexttheme" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/model"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:ems="10"
+                android:hint="Model"
+                android:inputType="none"
+                android:maxLines="1"
+                style="@style/edittexttheme" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/colour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:ems="10"
+                android:hint="Colour"
+                android:inputType="none"
+                android:maxLines="1"
+                style="@style/edittexttheme" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/keeper_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:ems="10"
+                android:hint="Name of keeper"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                style="@style/edittexttheme" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:ems="10"
+                android:gravity="top|left"
+                android:hint="Address of Keeper"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:maxLines="7"
+                android:minLines="4"
+                android:padding="12dp"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:textColorHighlight="#608d91" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/postcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:ems="10"
+                android:hint="Postcode of Keeper"
+                android:inputType="none"
+                android:maxLines="1"
+                android:padding="12dp"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:textColorHighlight="#608d91" />
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/start_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:ems="10"
+                android:hint="Start date"
+                android:inputType="date"
+                android:maxLines="1"
+                style="@style/edittexttheme" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/seized"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Vehicle Siezed"
+            android:padding="12dp"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/mot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/round_edit_text"
+            android:ems="10"
+            android:padding="12dp"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:text="Add MOT details"
+            android:textColorHighlight="#608d91" />
+
+        <TextView
+            android:id="@+id/retrievedmot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:padding="12dp"
+            android:text="MOT number : 254215751 \nExpiry Date: 22/10/2019" />
+
+
+        <TextView
+        android:id="@+id/insurance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/round_edit_text"
+        android:ems="10"
+        android:padding="12dp"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:text="Add insurance details"
+        android:textColorHighlight="#608d91" />
+
+        <TextView
+            android:id="@+id/insurance_retrieved"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:padding="12dp"
+            android:text="Insurer : Admiral \nInsurance No.: 483sdf4623\nExpiry Date: 22/10/2019"/>
+
+        <TextView
+            android:id="@+id/log_book"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/round_edit_text"
+            android:ems="10"
+            android:padding="12dp"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:text="Add Log Book"
+            android:textColorHighlight="#608d91" />
+
+        <TextView
+            android:id="@+id/log_book_retrieved"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:padding="12dp"
+            android:text="V5C number: 483sdf4623"/>
+
+        <Button
+            android:id="@+id/submit_vehicle"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/cardviewoutline"
+            android:text="@string/submit"
+            android:textColor="#91ddff"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</ScrollView>
