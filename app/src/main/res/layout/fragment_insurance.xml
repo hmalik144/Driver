@@ -1,22 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ins_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp"
-        android:layout_centerInParent="true">
+        android:paddingLeft="12dp"
+        android:paddingTop="12dp"
+        android:paddingRight="12dp">
+
+        <include
+            android:id="@+id/image_pager"
+            layout="@layout/multi_image_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/ins_view"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="12dp" />
 
         <TextView
             android:id="@+id/uploadInsurance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/lin_lay"
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="12dp"
             android:background="@drawable/round_edit_text"
@@ -52,30 +68,11 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/ins_no"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:ems="10"
-                android:hint="Insurance No.:"
-                android:inputType="date"
-                android:maxLines="1"
-                android:selectAllOnFocus="true"
-                android:singleLine="true"
-                android:textColorHighlight="#608d91" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
                 android:id="@+id/insurance_exp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
                 android:ems="10"
+                android:focusable="false"
                 android:hint="Insurance expiry:"
                 android:inputType="date"
                 android:maxLines="1"
@@ -88,7 +85,8 @@
 
 
     <Button
-        android:id="@+id/submit"
+        android:id="@+id/submit_ins"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -98,8 +96,9 @@
         android:background="@drawable/cardviewoutline"
         android:text="@string/submit"
         android:textColor="@android:color/black"
-        android:textStyle="bold"
-        style="?android:attr/borderlessButtonStyle" />
+        android:textStyle="bold" />
+
+
 
 
 </RelativeLayout>

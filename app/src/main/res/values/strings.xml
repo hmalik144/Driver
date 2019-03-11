@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Driver</string>
+    <string name="app_name">Choice Minicabs</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Driver Name</string>
@@ -14,6 +14,7 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
+    <string name="no_match_password">Passwords do not match</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
@@ -26,5 +27,10 @@
     <string name="take_pic">Open Camera</string>
     <string name="upload_pic">Upload from Storage</string>
     <string name="set_date">Select date</string>
-    <string name="image_required">Driving License Image Required</string>
+    <string name="image_required">Driver Photo Required</string>
+    <string name="no_role">No role detected</string>
+    <string name="list_item_image">list item image</string>
+    <string name="failed_retrieve">Failed to retrieve data</string>
+    <string name="failed_upload">Failed to upload data</string>
+    <string name="unsuccessful">Unable To upload</string>
 </resources>

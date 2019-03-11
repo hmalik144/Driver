@@ -11,11 +11,21 @@ public class VehicleProfileObject {
     public String keeperPostCode;
     public String startDate;
     public boolean seized;
-    public MotObject motObject;
-    public InsuranceObject insuranceObject;
-    public LogbookObject logbookObject;
 
     public VehicleProfileObject() {
+    }
+
+    public VehicleProfileObject(String reg, String make, String model, String colour, String keeperName,
+                                String keeperAddress, String keeperPostCode, String startDate, boolean seized) {
+        this.reg = reg;
+        this.make = make;
+        this.model = model;
+        this.colour = colour;
+        this.keeperName = keeperName;
+        this.keeperAddress = keeperAddress;
+        this.keeperPostCode = keeperPostCode;
+        this.startDate = startDate;
+        this.seized = seized;
     }
 
     public String getReg() {
@@ -54,15 +64,4 @@ public class VehicleProfileObject {
         return seized;
     }
 
-    public MotObject getMotObject() {
-        return motObject;
-    }
-
-    public InsuranceObject getInsuranceObject() {
-        return insuranceObject;
-    }
-
-    public LogbookObject getLogbookObject() {
-        return logbookObject;
-    }
 }

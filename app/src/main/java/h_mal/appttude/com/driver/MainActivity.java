@@ -2,17 +2,16 @@ package h_mal.appttude.com.driver;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -24,23 +23,49 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import h_mal.appttude.com.driver.Driver.DriverOverallFragment;
+import h_mal.appttude.com.driver.Driver.VehicleOverallFragment;
+import h_mal.appttude.com.driver.Driver.VehicleSetupFragment;
+import h_mal.appttude.com.driver.Driver.DriverProfileFragment;
+import h_mal.appttude.com.driver.Driver.homeDriverFragment;
+import h_mal.appttude.com.driver.Global.ApprovalsClass;
+import h_mal.appttude.com.driver.Global.ArchiveClass;
+import h_mal.appttude.com.driver.Global.ImageViewClass;
+import h_mal.appttude.com.driver.Global.ViewController;
+import h_mal.appttude.com.driver.SuperUser.homeSuperUserFragment;
+import h_mal.appttude.com.driver.User.LoginActivity;
+import h_mal.appttude.com.driver.User.profileFragment;
+
+import static h_mal.appttude.com.driver.Global.ExecuteFragment.executeFragment;
+import static h_mal.appttude.com.driver.Global.FirebaseClass.USER_FIREBASE;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ViewController.ViewControllerInterface {
 
     private static String TAG = MainActivity.class.getSimpleName();
 
@@ -50,7 +75,14 @@ public class MainActivity extends AppCompatActivity
     public static StorageReference storageReference;
     public static DatabaseReference mDatabase;
 
-    public static NavigationView navigationView;
+    public NavigationView navigationView;
+    ProgressBar progressBar;
+    public Toolbar toolbar;
+
+    public static ViewController viewController;
+    public static ImageViewClass imageViewClass;
+    public static ApprovalsClass approvalsClass;
+    public static ArchiveClass archiveClass;
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -63,12 +95,22 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        viewController = new ViewController(this);
+        imageViewClass = new ImageViewClass();
+        approvalsClass = new ApprovalsClass();
+        archiveClass = new ArchiveClass();
+
         auth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        DatabaseReference ref = mDatabase.child(USER_FIREBASE)
+                .child(auth.getCurrentUser().getUid())
+                .child("role");
+
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -79,20 +121,91 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        fragmentManager = getSupportFragmentManager();
-        executeFragment(new homeFragment());
-
         setupDrawer();
 
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.addOnBackStackChangedListener(backStackChangedListener);
+
+        progressBar = findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String role = (String) dataSnapshot.getValue();
+                Log.i(TAG, "onDataChange: " + role);
+                if (role.equals("driver")){
+                    executeFragment(new homeDriverFragment());
+
+                }else if(role.equals("super_user")){
+                    executeFragment(new homeSuperUserFragment());
+                }
+                drawerMenuItems(role);
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                progressBar.setVisibility(View.GONE);
+            }
+        });
     }
 
-    public static void executeFragment(Fragment f){
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container,f).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack(f.getClass().getSimpleName()).commit();
+    public FragmentManager.OnBackStackChangedListener backStackChangedListener= new FragmentManager.OnBackStackChangedListener() {
+        @Override
+        public void onBackStackChanged() {
+            String fragmentString = fragmentManager.getFragments().get(0).getClass().getSimpleName();
+            String title;
+
+            switch (fragmentString){
+                case "DriverProfileFragment":
+                    title = "Driver Profile";
+                break;
+                case "DriverLicenseFragment":
+                    title = "Drivers License";
+                    break;
+                case "InsuranceFragment":
+                    title = "Insurance";
+                    break;
+                case "logbookFragment":
+                    title = "Logbook";
+                    break;
+                case "MotFragment":
+                    title = "M.O.T";
+                    break;
+                case "PrivateHireLicenseFragment":
+                    title = "Private Hire License";
+                    break;
+                case "VehicleSetupFragment":
+                    title = "Vehicle Profile";
+                    break;
+                case "UserMainFragment":
+                    return;
+                case "ArchiveFragment":
+                    return;
+                default:
+                    title = getResources().getString(R.string.app_name);
+            }
+
+            setTitle(title);
+        }
+    };
+
+    @Override
+    public void setTitle(CharSequence title) {
+//        super.setTitle(title);
+
+        toolbar.setTitle(title);
     }
 
-    public static void setupDrawer(){
+    public void drawerMenuItems(String s){
+        if (s.equals("super_user")){
+            Menu menu = navigationView.getMenu();
+            menu.removeGroup(R.id.menu_group);
+        }
+    }
+
+    public void setupDrawer(){
         View header = navigationView.getHeaderView(0);
 
         TextView driverEmail = header.findViewById(R.id.driver_email);
@@ -108,14 +221,22 @@ public class MainActivity extends AppCompatActivity
                 driverName.setText(user.getDisplayName());
             }
 
-            Log.i(TAG, "setupDrawer: "+ storageReference.child("images/"+auth.getCurrentUser().getEmail()+"/profile_pic").getDownloadUrl());
-
             Picasso.get()
                     .load(user.getPhotoUrl())
-                    .placeholder(R.mipmap.ic_launcher_round)
+                    .placeholder(R.drawable.choice_img_round)
                     .into(driverImage);
         }
 
+        TextView textView = findViewById(R.id.logout);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                auth.signOut();
+                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
     }
 
@@ -126,9 +247,23 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if (fragmentManager.getBackStackEntryCount() > 1) {
-                fragmentManager.popBackStack();
+                if (fragmentManager.getFragments().get(0).getClass()
+                        .getSimpleName().equals("InsuranceFragment")){
+                    new AlertDialog.Builder(this)
+                            .setTitle("Return to previous?")
+                            .setMessage("Progress unsaved. Are you sure?")
+                            .setNegativeButton(android.R.string.no, null)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface arg0, int arg1) {
+                                    fragmentManager.popBackStack();
+                                }
+                            }).create().show();
+                }else{
+                    fragmentManager.popBackStack();
+                }
+
             }else{
-                new AlertDialog.Builder(this,R.style.Theme_AppCompat_Dialog_Alert)
+                new AlertDialog.Builder(this)
                         .setTitle("Leave?")
                         .setMessage("Are you sure you want to exit?")
                         .setNegativeButton(android.R.string.no, null)
@@ -140,13 +275,6 @@ public class MainActivity extends AppCompatActivity
                         }).create().show();
             }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
     }
 
     @Override
@@ -174,9 +302,9 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
             executeFragment(new profileFragment());
         } else if (id == R.id.nav_gallery) {
-            executeFragment(new driverProfileFragment());
+            executeFragment(new DriverOverallFragment());
         } else if (id == R.id.nav_slideshow) {
-            executeFragment(new VehicleSetupFragment());
+            executeFragment(new VehicleOverallFragment());
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -198,8 +326,72 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public static Target loadImage (final ProgressBar pb, final ImageView mainImage){
+
+        Target target =  new Target() {
+            @Override
+            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+                pb.setVisibility(View.GONE);
+
+                mainImage.setImageBitmap(bitmap);
+                mainImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imageViewClass.open(bitmap);
+                    }
+                });
+            }
+
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                pb.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                pb.setVisibility(View.VISIBLE);
+            }
+        };
+        mainImage.setTag(target);
+
+        return target;
+
+    }
+
     public static String getDateStamp(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmm");
         return sdf.format(new Date());
+    }
+
+    public static String getDateTimeStamp(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        return sdf.format(new Date());
+    }
+
+    public static String setAsDateTime(String strCurrentDate) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        Date newDate = format.parse(strCurrentDate);
+
+        format = new SimpleDateFormat("dd/MM/yyyy");
+        return format.format(newDate);
+    }
+
+    public static void printObjectAsJson(String TAG, Object o){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonParser jp = new JsonParser();
+        JsonElement je = jp.parse(new Gson().toJson(o));
+        String prettyJsonString = gson.toJson(je);
+
+        Log.i(TAG, "onBindViewHolder: object" + prettyJsonString);
+    }
+
+    @Override
+    public void progressVisibility(int vis) {
+        progressBar.setVisibility(vis);
+    }
+
+    @Override
+    public void updateDrawer() {
+        setupDrawer();
     }
 }
