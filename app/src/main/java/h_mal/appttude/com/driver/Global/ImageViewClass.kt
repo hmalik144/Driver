@@ -1,121 +1,96 @@
-package h_mal.appttude.com.driver.Global;
+package h_mal.appttude.com.driver.Global
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Bundle
+import android.os.Environment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.github.chrisbanes.photoview.PhotoView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import h_mal.appttude.com.driver.MainActivity
+import h_mal.appttude.com.driver.R
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 
-import com.github.chrisbanes.photoview.PhotoView;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import h_mal.appttude.com.driver.R;
-
-import static android.os.Environment.DIRECTORY_PICTURES;
-import static h_mal.appttude.com.driver.Global.ExecuteFragment.executeFragment;
-import static h_mal.appttude.com.driver.Global.ImageSelectorDialog.photoURI;
-import static h_mal.appttude.com.driver.MainActivity.getDateStamp;
-
-public class ImageViewClass {
-
-    public static final String IMAGE_VALUE = "image";
-    private static Bitmap bitmap;
-
-    public ImageViewClass() {
+class ImageViewClass {
+    fun open(bitmap: Bitmap?) {
+        Companion.bitmap = bitmap
+        ExecuteFragment.executeFragment(ImageViewerFragment())
     }
 
-    public void open(Bitmap bitmap){
-        ImageViewClass.bitmap = bitmap;
-        executeFragment(new ImageViewerFragment());
-    }
-
-    public static class ImageViewerFragment extends Fragment {
-
-        private View view;
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
+    class ImageViewerFragment : Fragment() {
+        private var view: View? = null
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
         }
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
             // Inflate the layout for this fragment
-            view = inflater.inflate(R.layout.fragment_image_viewer, container, false);
-
-            FloatingActionButton fab = view.findViewById(R.id.download_pic);
-
-            if (bitmap != null){
-                PhotoView photoView = view.findViewById(R.id.photo_view);
-                photoView.setImageBitmap(bitmap);
-
-                fab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            view = inflater.inflate(R.layout.fragment_image_viewer, container, false)
+            val fab: FloatingActionButton = view.findViewById(R.id.download_pic)
+            if (bitmap != null) {
+                val photoView: PhotoView = view.findViewById(R.id.photo_view)
+                photoView.setImageBitmap(bitmap)
+                fab.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(v: View) {
                         try {
-                            downloadPic();
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
+                            downloadPic()
+                        } catch (e: FileNotFoundException) {
+                            e.printStackTrace()
                         }
                     }
-                });
+                })
             }
-
-
-
-            return view;
+            return view
         }
 
-        @Override
-        public void onResume() {
-            super.onResume();
-            ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
-        @Override
-        public void onStop() {
-            super.onStop();
-            ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        override fun onResume() {
+            super.onResume()
+            (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+            activity!!.window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
 
-        private void downloadPic() throws FileNotFoundException {
-            File f = Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES);
-            String fname = "driver"+ getDateStamp() + ".jpg";
-            File image = new File(f,fname);
-            FileOutputStream fileOutputStream = new FileOutputStream(image);
+        override fun onStop() {
+            super.onStop()
+            (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+            activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
 
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100,fileOutputStream);
+        @Throws(FileNotFoundException::class)
+        private fun downloadPic() {
+            val f: File =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            val fname: String = "driver" + MainActivity.Companion.dateStamp + ".jpg"
+            val image: File = File(f, fname)
+            val fileOutputStream: FileOutputStream = FileOutputStream(image)
+            bitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
             try {
-                fileOutputStream.flush();
-                fileOutputStream.close();
-
-                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                Uri contentUri = Uri.fromFile(image);
-                mediaScanIntent.setData(contentUri);
-                getActivity().sendBroadcast(mediaScanIntent);
-            } catch (IOException e) {
-                e.printStackTrace();
+                fileOutputStream.flush()
+                fileOutputStream.close()
+                val mediaScanIntent: Intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+                val contentUri: Uri = Uri.fromFile(image)
+                mediaScanIntent.data = contentUri
+                activity!!.sendBroadcast(mediaScanIntent)
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
         }
+    }
+
+    companion object {
+        val IMAGE_VALUE: String = "image"
+        private var bitmap: Bitmap? = null
     }
 }

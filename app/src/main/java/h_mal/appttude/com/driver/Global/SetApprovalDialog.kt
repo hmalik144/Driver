@@ -1,155 +1,122 @@
-package h_mal.appttude.com.driver.Global;
+package h_mal.appttude.com.driver.Global
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.view.View
+import android.widget.ImageView
+import android.widget.Toast
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import h_mal.appttude.com.driver.MainActivity
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
-import h_mal.appttude.com.driver.R;
-
-import static h_mal.appttude.com.driver.Global.ExecuteFragment.executeFragment;
-import static h_mal.appttude.com.driver.Global.FirebaseClass.APPROVAL_CONSTANT;
-import static h_mal.appttude.com.driver.Global.FirebaseClass.APPROVAL_DENIED;
-import static h_mal.appttude.com.driver.Global.FirebaseClass.APPROVAL_PENDING;
-import static h_mal.appttude.com.driver.Global.FirebaseClass.APPROVED;
-import static h_mal.appttude.com.driver.Global.FirebaseClass.DRIVERS_LICENSE_FIREBASE;
-import static h_mal.appttude.com.driver.Global.FirebaseClass.DRIVER_DETAILS_FIREBASE;
-import static h_mal.appttude.com.driver.Global.FirebaseClass.INSURANCE_FIREBASE;
-import static h_mal.appttude.com.driver.Global.FirebaseClass.LOG_BOOK_FIREBASE;
-import static h_mal.appttude.com.driver.Global.FirebaseClass.MOT_FIREBASE;
-import static h_mal.appttude.com.driver.Global.FirebaseClass.PRIVATE_HIRE_FIREBASE;
-import static h_mal.appttude.com.driver.Global.FirebaseClass.PRIVATE_HIRE_VEHICLE_LICENSE;
-import static h_mal.appttude.com.driver.Global.FirebaseClass.USER_APPROVALS;
-import static h_mal.appttude.com.driver.Global.FirebaseClass.USER_FIREBASE;
-import static h_mal.appttude.com.driver.Global.FirebaseClass.VEHICLE_DETAILS_FIREBASE;
-import static h_mal.appttude.com.driver.MainActivity.approvalsClass;
-import static h_mal.appttude.com.driver.MainActivity.mDatabase;
-import static h_mal.appttude.com.driver.MainActivity.viewController;
-
-public class SetApprovalDialog{
-
-    private final String[] groupNames = {"Pending","Denied","Approved"};
-    private String approvalNameString;
-
-    public int statusCode;
-    private Activity activity;
-    private String userId;
-    private ImageView imageView;
-
-    public SetApprovalDialog(int statusCode, Activity activity, String userId, int position, ImageView imageView) {
-        this.statusCode = statusCode;
-        this.activity = activity;
-        this.userId = userId;
-        this.imageView = imageView;
-        this.approvalNameString = getElement(position);
-
-        init();
-    }
-
-    public void init(){
-        int checkedItem;
-        switch (statusCode){
-            case APPROVAL_PENDING:
-                checkedItem = 0;
-                break;
-            case APPROVAL_DENIED:
-                checkedItem = 1;
-                break;
-            case APPROVED:
-                checkedItem = 2;
-                break;
-            default:
-                checkedItem = -1;
-                break;
+class SetApprovalDialog constructor(
+    var statusCode: Int,
+    private val activity: Activity,
+    private val userId: String?,
+    position: Int,
+    private val imageView: ImageView
+) {
+    private val groupNames: Array<String> = arrayOf("Pending", "Denied", "Approved")
+    private val approvalNameString: String
+    fun init() {
+        val checkedItem: Int
+        when (statusCode) {
+            FirebaseClass.APPROVAL_PENDING -> checkedItem = 0
+            FirebaseClass.APPROVAL_DENIED -> checkedItem = 1
+            FirebaseClass.APPROVED -> checkedItem = 2
+            else -> checkedItem = -1
         }
-
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(activity);
-        alertBuilder.setSingleChoiceItems(groupNames, checkedItem, singleChoiceListener);
-//                .setPositiveButton(android.R.string.ok, submit);
-        alertBuilder.create().getOwnerActivity();
-        alertBuilder.show();
+        val alertBuilder: AlertDialog.Builder = AlertDialog.Builder(
+            activity
+        )
+        alertBuilder.setSingleChoiceItems(groupNames, checkedItem, singleChoiceListener)
+        //                .setPositiveButton(android.R.string.ok, submit);
+        alertBuilder.create().ownerActivity
+        alertBuilder.show()
     }
 
-    DialogInterface.OnClickListener singleChoiceListener = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            switch (which) {
-                case 0:
-                    statusCode = APPROVAL_PENDING;
-                    publishStatuscode(statusCode, dialog);
-                    return;
-                case 1:
-                    statusCode = APPROVAL_DENIED;
-                    publishStatuscode(statusCode, dialog);
-                    return;
-                case 2:
-                    statusCode = APPROVED;
-                    publishStatuscode(statusCode, dialog);
-                    return;
+    var singleChoiceListener: DialogInterface.OnClickListener =
+        object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface, which: Int) {
+                when (which) {
+                    0 -> {
+                        statusCode = FirebaseClass.APPROVAL_PENDING
+                        publishStatuscode(statusCode, dialog)
+                        return
+                    }
+                    1 -> {
+                        statusCode = FirebaseClass.APPROVAL_DENIED
+                        publishStatuscode(statusCode, dialog)
+                        return
+                    }
+                    2 -> {
+                        statusCode = FirebaseClass.APPROVED
+                        publishStatuscode(statusCode, dialog)
+                        return
+                    }
+                }
             }
         }
-    };
 
-    private void publishStatuscode(final int status, final DialogInterface dialog){
-        viewController.progress(View.VISIBLE);
-
-        if (!approvalNameString.equals("")){
-            mDatabase.child(USER_FIREBASE).child(userId).child(USER_APPROVALS).child(approvalNameString)
-                    .setValue(status).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()){
-                        Toast.makeText(activity, "Status change successful", Toast.LENGTH_SHORT).show();
-                        imageView.setImageResource(approvalsClass.setImageResource(status));
-                        dialog.dismiss();
-                    }else{
-                        Toast.makeText(activity, "Status change unsuccessful", Toast.LENGTH_SHORT).show();
+    private fun publishStatuscode(status: Int, dialog: DialogInterface) {
+        MainActivity.viewController!!.progress(View.VISIBLE)
+        if (!(approvalNameString == "")) {
+            MainActivity.mDatabase!!.child(FirebaseClass.USER_FIREBASE).child(
+                (userId)!!
+            ).child(FirebaseClass.USER_APPROVALS).child(approvalNameString)
+                .setValue(status).addOnCompleteListener(object : OnCompleteListener<Void?> {
+                    override fun onComplete(task: Task<Void?>) {
+                        if (task.isSuccessful) {
+                            Toast.makeText(activity, "Status change successful", Toast.LENGTH_SHORT)
+                                .show()
+                            imageView.setImageResource(
+                                MainActivity.approvalsClass!!.setImageResource(
+                                    status
+                                )
+                            )
+                            dialog.dismiss()
+                        } else {
+                            Toast.makeText(
+                                activity,
+                                "Status change unsuccessful",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        MainActivity.viewController!!.progress(View.GONE)
                     }
-                    viewController.progress(View.GONE);
-                }
-            });
-        }else {
-            Toast.makeText(activity, "Could not push status", Toast.LENGTH_SHORT).show();
+                })
+        } else {
+            Toast.makeText(activity, "Could not push status", Toast.LENGTH_SHORT).show()
         }
-
     }
 
-    private String getElement(int i){
-        String element = "";
-
-        switch (i){
-            case 0:
-                element = DRIVER_DETAILS_FIREBASE + APPROVAL_CONSTANT;
-                break;
-            case 1:
-                element = DRIVERS_LICENSE_FIREBASE + APPROVAL_CONSTANT;
-                break;
-            case 2:
-                element = PRIVATE_HIRE_FIREBASE + APPROVAL_CONSTANT;
-                break;
-            case 3:
-                element = VEHICLE_DETAILS_FIREBASE + APPROVAL_CONSTANT;
-                break;
-            case 4:
-                element = INSURANCE_FIREBASE + APPROVAL_CONSTANT;
-                break;
-            case 5:
-                element = MOT_FIREBASE + APPROVAL_CONSTANT;
-                break;
-            case 6:
-                element = LOG_BOOK_FIREBASE + APPROVAL_CONSTANT;
-                break;
-            case 7:
-                element = PRIVATE_HIRE_VEHICLE_LICENSE + APPROVAL_CONSTANT;
-
+    private fun getElement(i: Int): String {
+        var element: String = ""
+        when (i) {
+            0 -> element =
+                FirebaseClass.DRIVER_DETAILS_FIREBASE + FirebaseClass.APPROVAL_CONSTANT
+            1 -> element =
+                FirebaseClass.DRIVERS_LICENSE_FIREBASE + FirebaseClass.APPROVAL_CONSTANT
+            2 -> element =
+                FirebaseClass.PRIVATE_HIRE_FIREBASE + FirebaseClass.APPROVAL_CONSTANT
+            3 -> element =
+                FirebaseClass.VEHICLE_DETAILS_FIREBASE + FirebaseClass.APPROVAL_CONSTANT
+            4 -> element =
+                FirebaseClass.INSURANCE_FIREBASE + FirebaseClass.APPROVAL_CONSTANT
+            5 -> element =
+                FirebaseClass.MOT_FIREBASE + FirebaseClass.APPROVAL_CONSTANT
+            6 -> element =
+                FirebaseClass.LOG_BOOK_FIREBASE + FirebaseClass.APPROVAL_CONSTANT
+            7 -> element =
+                FirebaseClass.PRIVATE_HIRE_VEHICLE_LICENSE + FirebaseClass.APPROVAL_CONSTANT
         }
+        return element
+    }
 
-        return element;
+    init {
+        approvalNameString = getElement(position)
+        init()
     }
 }

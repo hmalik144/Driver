@@ -1,32 +1,23 @@
-package h_mal.appttude.com.driver.Global;
+package h_mal.appttude.com.driver.Global
 
-import android.app.Activity;
-import android.view.View;
+import android.app.Activity
 
-public class ViewController {
 
-    private Activity activity;
-
-    public ViewController(Activity activity) {
-        this.activity = activity;
-    }
-
-    public void progress(int vis){
-        if (activity instanceof ViewControllerInterface){
-            ((ViewControllerInterface) activity).progressVisibility(vis);
+class ViewController constructor(private val activity: Activity?) {
+    fun progress(vis: Int) {
+        if (activity is ViewControllerInterface) {
+            (activity as ViewControllerInterface).progressVisibility(vis)
         }
     }
 
-    public void reloadDrawer(){
-        if (activity instanceof ViewControllerInterface){
-            ((ViewControllerInterface) activity).updateDrawer();
+    fun reloadDrawer() {
+        if (activity is ViewControllerInterface) {
+            (activity as ViewControllerInterface).updateDrawer()
         }
     }
 
-    public interface ViewControllerInterface {
-
-        void progressVisibility(int vis);
-
-        void updateDrawer();
+    open interface ViewControllerInterface {
+        fun progressVisibility(vis: Int)
+        fun updateDrawer()
     }
 }

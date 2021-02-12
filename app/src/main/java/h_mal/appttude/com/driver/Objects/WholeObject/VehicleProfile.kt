@@ -1,55 +1,34 @@
-package h_mal.appttude.com.driver.Objects.WholeObject;
+package h_mal.appttude.com.driver.Objects.WholeObject
 
-import h_mal.appttude.com.driver.Objects.InsuranceObject;
-import h_mal.appttude.com.driver.Objects.LogbookObject;
-import h_mal.appttude.com.driver.Objects.MotObject;
-import h_mal.appttude.com.driver.Objects.PrivateHireVehicleObject;
-import h_mal.appttude.com.driver.Objects.VehicleProfileObject;
-
-public class VehicleProfile {
-
-    public InsuranceObject insurance_details;
-    public LogbookObject log_book;
-    public MotObject mot_details;
-    public VehicleProfileObject vehicle_details;
-    public PrivateHireVehicleObject private_hire_vehicle;
-
-    public VehicleProfile() {
-    }
-
-//    public VehicleProfile(InsuranceObject insurance_details, LogbookObject log_book, MotObject mot_details, VehicleProfileObject vehicle_details) {
-//        this.insurance_details = insurance_details;
-//        this.log_book = log_book;
-//        this.mot_details = mot_details;
-//        this.vehicle_details = vehicle_details;
-//    }
-
-        public VehicleProfile(InsuranceObject insurance_details, LogbookObject log_book, MotObject mot_details, VehicleProfileObject vehicle_details, PrivateHireVehicleObject private_hire_vehicle) {
-        this.insurance_details = insurance_details;
-        this.log_book = log_book;
-        this.mot_details = mot_details;
-        this.vehicle_details = vehicle_details;
-        this.private_hire_vehicle = private_hire_vehicle;
-    }
+import h_mal.appttude.com.driver.Objects.*
 
 
-    public PrivateHireVehicleObject getPrivateHireVehicleObject() {
-        return private_hire_vehicle;
-    }
+class VehicleProfile {
+    var insurance_details: InsuranceObject? = null
+    var log_book: LogbookObject? = null
+    var mot_details: MotObject? = null
+    var vehicle_details: VehicleProfileObject? = null
+    var privateHireVehicleObject: PrivateHireVehicleObject? = null
 
-    public InsuranceObject getInsurance_details() {
-        return insurance_details;
-    }
+    constructor()
 
-    public LogbookObject getLog_book() {
-        return log_book;
-    }
-
-    public MotObject getMot_details() {
-        return mot_details;
-    }
-
-    public VehicleProfileObject getVehicle_details() {
-        return vehicle_details;
+    //    public VehicleProfile(InsuranceObject insurance_details, LogbookObject log_book, MotObject mot_details, VehicleProfileObject vehicle_details) {
+    //        this.insurance_details = insurance_details;
+    //        this.log_book = log_book;
+    //        this.mot_details = mot_details;
+    //        this.vehicle_details = vehicle_details;
+    //    }
+    constructor(
+        insurance_details: InsuranceObject?,
+        log_book: LogbookObject?,
+        mot_details: MotObject?,
+        vehicle_details: VehicleProfileObject?,
+        private_hire_vehicle: PrivateHireVehicleObject?
+    ) {
+        this.insurance_details = insurance_details
+        this.log_book = log_book
+        this.mot_details = mot_details
+        this.vehicle_details = vehicle_details
+        privateHireVehicleObject = private_hire_vehicle
     }
 }

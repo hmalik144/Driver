@@ -1,59 +1,35 @@
-package h_mal.appttude.com.driver.Objects;
+package h_mal.appttude.com.driver.Objects
 
-import h_mal.appttude.com.driver.Objects.ApprovalsObject;
-import h_mal.appttude.com.driver.Objects.ArchiveObject;
-import h_mal.appttude.com.driver.Objects.UserObject;
-import h_mal.appttude.com.driver.Objects.WholeObject.DriverProfile;
-import h_mal.appttude.com.driver.Objects.WholeObject.VehicleProfile;
+import h_mal.appttude.com.driver.Objects.WholeObject.DriverProfile
+import h_mal.appttude.com.driver.Objects.WholeObject.VehicleProfile
 
-public class WholeDriverObject {
 
-    public DriverProfile driver_profile;
-    public String role;
-    public ArchiveObject archive;
-    public UserObject user_details;
-    public VehicleProfile vehicle_profile;
-    public ApprovalsObject approvalsObject;
-    public String driver_number;
+class WholeDriverObject {
+    var driver_profile: DriverProfile? = null
+    var role: String? = null
+    var archive: ArchiveObject? = null
+    var user_details: UserObject? = null
+    var vehicle_profile: VehicleProfile? = null
+    var approvalsObject: ApprovalsObject? = null
+    var driver_number: String? = null
 
-    public WholeDriverObject(DriverProfile driver_profile, String role, ArchiveObject archive, UserObject user_details, VehicleProfile vehicle_profile, ApprovalsObject approvalsObject, String driver_number) {
-        this.driver_profile = driver_profile;
-        this.role = role;
-        this.archive = archive;
-        this.user_details = user_details;
-        this.vehicle_profile = vehicle_profile;
-        this.approvalsObject = approvalsObject;
-        this.driver_number = driver_number;
+    constructor(
+        driver_profile: DriverProfile?,
+        role: String?,
+        archive: ArchiveObject?,
+        user_details: UserObject?,
+        vehicle_profile: VehicleProfile?,
+        approvalsObject: ApprovalsObject?,
+        driver_number: String?
+    ) {
+        this.driver_profile = driver_profile
+        this.role = role
+        this.archive = archive
+        this.user_details = user_details
+        this.vehicle_profile = vehicle_profile
+        this.approvalsObject = approvalsObject
+        this.driver_number = driver_number
     }
 
-    public WholeDriverObject() {
-    }
-
-    public String getDriver_number() {
-        return driver_number;
-    }
-
-    public ArchiveObject getArchive() {
-        return archive;
-    }
-
-    public DriverProfile getDriver_profile() {
-        return driver_profile;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public UserObject getUser_details() {
-        return user_details;
-    }
-
-    public VehicleProfile getVehicle_profile() {
-        return vehicle_profile;
-    }
-
-    public ApprovalsObject getApprovalsObject() {
-        return approvalsObject;
-    }
+    constructor()
 }

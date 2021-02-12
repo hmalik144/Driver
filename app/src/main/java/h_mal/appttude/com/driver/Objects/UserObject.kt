@@ -1,29 +1,16 @@
-package h_mal.appttude.com.driver.Objects;
+package h_mal.appttude.com.driver.Objects
 
-public class UserObject {
 
-    public String profileName;
-    public String profileEmail;
-    public String profilePicString;
 
-    public UserObject() {
-    }
+class UserObject {
+    var profileName: String? = null
+    var profileEmail: String? = null
+    var profilePicString: String? = null
 
-    public UserObject(String profileName, String profileEmail, String profilePicString) {
-        this.profileName = profileName;
-        this.profileEmail = profileEmail;
-        this.profilePicString = profilePicString;
-    }
-
-    public String getProfileName() {
-        return profileName;
-    }
-
-    public String getProfileEmail() {
-        return profileEmail;
-    }
-
-    public String getProfilePicString() {
-        return profilePicString;
+    constructor()
+    constructor(profileName: String?, profileEmail: String?, profilePicString: String?) {
+        this.profileName = profileName
+        this.profileEmail = profileEmail
+        this.profilePicString = profilePicString
     }
 }

@@ -1,278 +1,240 @@
-package h_mal.appttude.com.driver.Driver;
+package h_mal.appttude.com.driver.Driver
 
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Bundle
+import android.provider.MediaStore
+import android.text.TextUtils
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import androidx.fragment.app.Fragment
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Picasso
+import h_mal.appttude.com.driver.Global.*
+import h_mal.appttude.com.driver.Global.ImageSelectorResults.FilepathResponse
+import h_mal.appttude.com.driver.MainActivity
+import h_mal.appttude.com.driver.Objects.PrivateHireObject
+import h_mal.appttude.com.driver.R
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseError;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
-import java.util.UUID;
-
-import h_mal.appttude.com.driver.Global.DateDialog;
-import h_mal.appttude.com.driver.Global.FirebaseClass;
-import h_mal.appttude.com.driver.Global.ImageSelectorDialog;
-import h_mal.appttude.com.driver.Global.ImageSelectorResults;
-import h_mal.appttude.com.driver.Objects.PrivateHireObject;
-import h_mal.appttude.com.driver.R;
-
-import static h_mal.appttude.com.driver.Global.ExecuteFragment.UPLOAD_NEW;
-import static h_mal.appttude.com.driver.Global.FirebaseClass.*;
-import static h_mal.appttude.com.driver.Global.ImageSelectorDialog.CAMERA_REQUEST;
-import static h_mal.appttude.com.driver.Global.ImageSelectorDialog.MY_CAMERA_PERMISSION_CODE;
-import static h_mal.appttude.com.driver.MainActivity.approvalsClass;
-import static h_mal.appttude.com.driver.MainActivity.archiveClass;
-import static h_mal.appttude.com.driver.MainActivity.fragmentManager;
-import static h_mal.appttude.com.driver.MainActivity.getDateStamp;
-import static h_mal.appttude.com.driver.MainActivity.loadImage;
-import static h_mal.appttude.com.driver.MainActivity.mDatabase;
-import static h_mal.appttude.com.driver.MainActivity.auth;
-import static h_mal.appttude.com.driver.MainActivity.viewController;
-
-public class PrivateHireLicenseFragment extends Fragment {
-
-    private String TAG = this.getClass().getSimpleName();
-
-    private ImageView imageView;
-    ProgressBar pb;
-
-    EditText phNo;
-    EditText phExpiry;
-
-    public Uri filePath;
-
-    public Uri picUri;
-    String Ph_numberString;
-    String Ph_exprString;
-
-    DatabaseReference reference;
-
-    PrivateHireObject privateHireObject;
-    Boolean uploadNew;
-    String UID;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        uploadNew = false;
-
-        if (getArguments() != null){
-            Log.i(TAG, "onCreate: args = args exist");
-            if (getArguments().containsKey("user_id")){
-                UID = getArguments().getString("user_id");
-            }else {
-                UID = auth.getCurrentUser().getUid();
+class PrivateHireLicenseFragment : Fragment() {
+    private val TAG: String = this.javaClass.simpleName
+    private var imageView: ImageView? = null
+    var phNo: EditText? = null
+    var phExpiry: EditText? = null
+    var filePath: Uri? = null
+    var picUri: Uri? = null
+    var Ph_numberString: String? = null
+    var Ph_exprString: String? = null
+    var reference: DatabaseReference? = null
+    var privateHireObject: PrivateHireObject? = null
+    var uploadNew: Boolean? = null
+    var UID: String? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        uploadNew = false
+        if (arguments != null) {
+            Log.i(TAG, "onCreate: args = args exist")
+            if (arguments!!.containsKey("user_id")) {
+                UID = arguments!!.getString("user_id")
+            } else {
+                UID = MainActivity.auth!!.currentUser!!.uid
             }
-            if (getArguments().containsKey(UPLOAD_NEW)){
-                uploadNew = true;
+            if (arguments!!.containsKey(ExecuteFragment.UPLOAD_NEW)) {
+                uploadNew = true
             }
-        }else{
-            UID = auth.getCurrentUser().getUid();
+        } else {
+            UID = MainActivity.auth!!.currentUser!!.uid
         }
-
-        reference = mDatabase.child(USER_FIREBASE).child(UID)
-                .child(DRIVER_FIREBASE).child(PRIVATE_HIRE_FIREBASE);
+        reference =
+            MainActivity.mDatabase!!.child(FirebaseClass.USER_FIREBASE).child(
+                (UID)!!
+            )
+                .child(FirebaseClass.DRIVER_FIREBASE)
+                .child(FirebaseClass.PRIVATE_HIRE_FIREBASE)
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_private_hire_license, container, false);
-
-        viewController.progress(View.VISIBLE);
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                viewController.progress(View.GONE);
-
-                try{
-                    privateHireObject = dataSnapshot.getValue(PrivateHireObject.class);
-                }catch (Exception e){
-                    Log.e(TAG, "onDataChange: ", e);
-                }finally {
-                    if (privateHireObject != null){
-                        picUri = Uri.parse(privateHireObject.getPhImageString());
-                        Ph_numberString = privateHireObject.getPhNumber();
-                        Ph_exprString = privateHireObject.getPhExpiry();
-
-                        Log.i(TAG, "onDataChange: uploadNew = " + uploadNew);
-                        if (!uploadNew){
-                            phNo.setText(Ph_numberString);
-                            phExpiry.setText(Ph_exprString);
+        val view: View = inflater.inflate(R.layout.fragment_private_hire_license, container, false)
+        MainActivity.viewController!!.progress(View.VISIBLE)
+        reference!!.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                MainActivity.viewController!!.progress(View.GONE)
+                try {
+                    privateHireObject = dataSnapshot.getValue(PrivateHireObject::class.java)
+                } catch (e: Exception) {
+                    Log.e(TAG, "onDataChange: ", e)
+                } finally {
+                    if (privateHireObject != null) {
+                        picUri = Uri.parse(privateHireObject.getPhImageString())
+                        Ph_numberString = privateHireObject.getPhNumber()
+                        Ph_exprString = privateHireObject.phExpiry
+                        Log.i(TAG, "onDataChange: uploadNew = " + uploadNew)
+                        if (!uploadNew!!) {
+                            phNo!!.setText(Ph_numberString)
+                            phExpiry!!.setText(Ph_exprString)
                             Picasso.get()
-                                    .load(picUri)
-                                    .into(loadImage(pb,imageView));
+                                .load(picUri)
+                                .into(MainActivity.loadImage(imageView))
                         }
                     }
                 }
-
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                viewController.progress(View.GONE);
+            override fun onCancelled(databaseError: DatabaseError) {
+                MainActivity.viewController!!.progress(View.GONE)
             }
-        });
-
-        TextView uploadPH = view.findViewById(R.id.uploadphlic);
-        imageView = view.findViewById(R.id.imageView2);
-        pb = view.findViewById(R.id.pb_priv);
-
-        phNo = view.findViewById(R.id.ph_no);
-        phExpiry  = view.findViewById(R.id.ph_expiry);
-
-        phExpiry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DateDialog dateDialog = new DateDialog(getContext());
-                dateDialog.init(phExpiry);
-                dateDialog.show();
+        })
+        val uploadPH: TextView = view.findViewById(R.id.uploadphlic)
+        imageView = view.findViewById(R.id.imageView2)
+        phNo = view.findViewById(R.id.ph_no)
+        phExpiry = view.findViewById(R.id.ph_expiry)
+        phExpiry.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View) {
+                val dateDialog: DateDialog = DateDialog((context)!!)
+                dateDialog.init(phExpiry)
+                dateDialog.show()
             }
-        });
-
-        Button submit  = view.findViewById(R.id.submit);
-
-        uploadPH.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ImageSelectorDialog imageSelectorDialog = new ImageSelectorDialog(getContext());
-                imageSelectorDialog.setImageName("private_hire");
-                imageSelectorDialog.show();
-
+        })
+        val submit: Button = view.findViewById(R.id.submit)
+        uploadPH.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View) {
+                val imageSelectorDialog: ImageSelectorDialog = ImageSelectorDialog((context)!!)
+                imageSelectorDialog.setImageName("private_hire")
+                imageSelectorDialog.show()
             }
-        });
-
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Ph_numberString = phNo.getText().toString().trim();
-                Ph_exprString = phExpiry.getText().toString().trim();
+        })
+        submit.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View) {
+                Ph_numberString = phNo.getText().toString().trim({ it <= ' ' })
+                Ph_exprString = phExpiry.getText().toString().trim({ it <= ' ' })
 
                 //validation for data then submit
-
                 if (!TextUtils.isEmpty(Ph_numberString) &&
-                        !TextUtils.isEmpty(Ph_exprString)){
-                    viewController.progress(View.VISIBLE);
-                    if (filePath == null && picUri == null){
-                        Toast.makeText(getContext(), "No Driver image", Toast.LENGTH_SHORT).show();
-                        viewController.progress(View.GONE);
-                    }else {
-                        if (filePath != null){
-                            Log.i(TAG, "onClick: new Image uploaded");
-                            new FirebaseClass(getContext(),filePath,new Response(){
-                                @Override
-                                public void processFinish(Uri output) {
-                                    Log.i(TAG, "processFinish: ");
-                                    if (output != null){
-                                        picUri = output;
-                                        publishObject();
-
-                                    }else {
-                                        Toast.makeText(getContext(), R.string.unsuccessful, Toast.LENGTH_SHORT).show();
-                                        viewController.progress(View.GONE);
+                    !TextUtils.isEmpty(Ph_exprString)
+                ) {
+                    MainActivity.viewController!!.progress(View.VISIBLE)
+                    if (filePath == null && picUri == null) {
+                        Toast.makeText(context, "No Driver image", Toast.LENGTH_SHORT).show()
+                        MainActivity.viewController!!.progress(View.GONE)
+                    } else {
+                        if (filePath != null) {
+                            Log.i(TAG, "onClick: new Image uploaded")
+                            FirebaseClass(context, filePath, object : FirebaseClass.Response {
+                                override fun processFinish(output: Uri?) {
+                                    Log.i(TAG, "processFinish: ")
+                                    if (output != null) {
+                                        picUri = output
+                                        publishObject()
+                                    } else {
+                                        Toast.makeText(
+                                            context,
+                                            R.string.unsuccessful,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        MainActivity.viewController!!.progress(View.GONE)
                                     }
-
                                 }
-                            }).uploadImage(PRIVATE_HIRE_FIREBASE,PRIVATE_HIRE_FIREBASE + getDateStamp());
-                        }else{
-                            Log.i(TAG, "onClick: pushing with same image");
-                            publishObject();
+                            }).uploadImage(
+                                FirebaseClass.PRIVATE_HIRE_FIREBASE,
+                                FirebaseClass.PRIVATE_HIRE_FIREBASE + MainActivity.Companion.dateStamp
+                            )
+                        } else {
+                            Log.i(TAG, "onClick: pushing with same image")
+                            publishObject()
                         }
                     }
-                }else {
-                    if (TextUtils.isEmpty(Ph_numberString)){
-                        phNo.setError("Field required");
+                } else {
+                    if (TextUtils.isEmpty(Ph_numberString)) {
+                        phNo.setError("Field required")
                     }
-                    if (TextUtils.isEmpty(Ph_exprString)){
-                        phExpiry.setError("Field required");
+                    if (TextUtils.isEmpty(Ph_exprString)) {
+                        phExpiry.setError("Field required")
                     }
-                    if (picUri == null){
-                        Toast.makeText(getContext(), getString(R.string.image_required), Toast.LENGTH_SHORT).show();
+                    if (picUri == null) {
+                        Toast.makeText(
+                            context,
+                            getString(R.string.image_required),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
-
             }
-        });
-
-        return view;
+        })
+        return view
     }
 
-    private void publishObject(){
-
-        if (uploadNew){
-            archiveClass.archiveRecord(UID,PRIVATE_HIRE_FIREBASE,privateHireObject);
+    private fun publishObject() {
+        if ((uploadNew)!!) {
+            MainActivity.archiveClass!!.archiveRecord(
+                UID,
+                FirebaseClass.PRIVATE_HIRE_FIREBASE,
+                privateHireObject
+            )
         }
-
-        PrivateHireObject privateHireObjectNew = new PrivateHireObject(picUri.toString(),Ph_numberString,Ph_exprString);
-
-        mDatabase.child(USER_FIREBASE).child(UID).child(DRIVER_FIREBASE).child(PRIVATE_HIRE_FIREBASE)
-                .setValue(privateHireObjectNew).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    Log.i(TAG, "onComplete: publish = " + task.isSuccessful());
-                    approvalsClass.setStatusCode(UID,PRIVATE_HIRE_FIREBASE + APPROVAL_CONSTANT,APPROVAL_PENDING);
-                    fragmentManager.popBackStack();
-                }else {
-                    Toast.makeText(getContext(), R.string.unsuccessful, Toast.LENGTH_SHORT).show();
+        val privateHireObjectNew: PrivateHireObject =
+            PrivateHireObject(picUri.toString(), Ph_numberString, Ph_exprString)
+        MainActivity.mDatabase!!.child(FirebaseClass.USER_FIREBASE)
+            .child((UID)!!).child(FirebaseClass.DRIVER_FIREBASE)
+            .child(FirebaseClass.PRIVATE_HIRE_FIREBASE)
+            .setValue(privateHireObjectNew)
+            .addOnCompleteListener(object : OnCompleteListener<Void?> {
+                override fun onComplete(task: Task<Void?>) {
+                    if (task.isSuccessful) {
+                        Log.i(TAG, "onComplete: publish = " + task.isSuccessful)
+                        MainActivity.approvalsClass!!.setStatusCode(
+                            UID,
+                            FirebaseClass.PRIVATE_HIRE_FIREBASE + FirebaseClass.APPROVAL_CONSTANT,
+                            FirebaseClass.APPROVAL_PENDING
+                        )
+                        MainActivity.fragmentManager!!.popBackStack()
+                    } else {
+                        Toast.makeText(context, R.string.unsuccessful, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    MainActivity.viewController!!.progress(View.GONE)
                 }
-                viewController.progress(View.GONE);
-
-            }
-        });
-
+            })
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_CAMERA_PERMISSION_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(getContext(), "camera permission granted", Toast.LENGTH_LONG).show();
-                Intent cameraIntent = new
-                        Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == ImageSelectorDialog.MY_CAMERA_PERMISSION_CODE) {
+            if (grantResults.get(0) == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(context, "camera permission granted", Toast.LENGTH_LONG).show()
+                val cameraIntent: Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(cameraIntent, ImageSelectorDialog.CAMERA_REQUEST)
             } else {
-                Toast.makeText(getContext(), "camera permission denied", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "camera permission denied", Toast.LENGTH_LONG).show()
             }
-
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        new ImageSelectorResults().Results(getActivity(),requestCode, resultCode, data,
-                filePath,imageView,new ImageSelectorResults.FilepathResponse() {
-                    @Override
-                    public void processFinish(Uri output) {
-                        filePath = output;
-                    }
-                });
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.onActivityResult(requestCode, resultCode, data)
+        ImageSelectorResults().Results(
+            activity, requestCode, resultCode, data,
+            filePath, imageView, object : FilepathResponse {
+                override fun processFinish(output: Uri?) {
+                    filePath = output
+                }
+            })
     }
-
 }

@@ -1,127 +1,103 @@
-package h_mal.appttude.com.driver.Global;
+package h_mal.appttude.com.driver.Global
 
-import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.text.TextUtils;
-import android.util.Log;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.app.DatePickerDialog
+import android.content.Context
+import android.os.Build
+import android.text.TextUtils
+import android.util.Log
+import android.widget.DatePicker
+import android.widget.EditText
+import androidx.annotation.RequiresApi
+import h_mal.appttude.com.driver.R
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
-import h_mal.appttude.com.driver.R;
-
-public class DateDialog extends DatePickerDialog {
-
-    int mYear;
-    int mMonth;
-    int mDay;
-
-    EditText editText;
+class DateDialog : DatePickerDialog {
+    var mYear: Int = 0
+    var mMonth: Int = 0
+    var mDay: Int = 0
+    var editText: EditText? = null
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public DateDialog(@NonNull Context context) {
-        super(context);
-    }
+    constructor(context: Context) : super(context)
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public DateDialog(@NonNull Context context, int themeResId) {
-        super(context, themeResId);
+    constructor(context: Context, themeResId: Int) : super(context, themeResId)
+
+    constructor(
+        context: Context,
+        listener: OnDateSetListener?,
+        year: Int, month: Int, dayOfMonth: Int
+    ) : super(context, listener, year, month, dayOfMonth)
+
+    constructor(
+        context: Context,
+        themeResId: Int,
+        listener: OnDateSetListener?,
+        year: Int,
+        monthOfYear: Int,
+        dayOfMonth: Int
+    ) : super(context, themeResId, listener, year, monthOfYear, dayOfMonth)
+
+    override fun setTitle(title: CharSequence) {
+        super.setTitle(title)
     }
 
-    public DateDialog(@NonNull Context context,
-                      @Nullable DatePickerDialog.OnDateSetListener listener,
-                      int year, int month, int dayOfMonth) {
-        super(context, listener, year, month, dayOfMonth);
-
-
+    override fun setOnDateSetListener(listener: OnDateSetListener?) {
+        super.setOnDateSetListener(dateSetListener)
     }
 
-    public DateDialog(@NonNull Context context, int themeResId, @Nullable DatePickerDialog.OnDateSetListener listener, int year, int monthOfYear, int dayOfMonth) {
-        super(context, themeResId, listener, year, monthOfYear, dayOfMonth);
-
-
-    }
-
-    @Override
-    public void setTitle(CharSequence title) {
-        super.setTitle(title);
-    }
-
-    @Override
-    public void setOnDateSetListener(@Nullable DatePickerDialog.OnDateSetListener listener) {
-        super.setOnDateSetListener(dateSetListener);
-    }
-
-    public void init(EditText editText){
-        this.editText = editText;
-
-        String dateString = editText.getText().toString();
-
-        Date javaDate = null;
-
-        if(TextUtils.isEmpty(dateString)){
-            Calendar calendar = Calendar.getInstance();
-            mYear = calendar.get(Calendar.YEAR);
-            mMonth = calendar.get(Calendar.MONTH);
-            mDay = calendar.get(Calendar.DAY_OF_MONTH);
-        }else {
+    fun init(editText: EditText?) {
+        this.editText = editText
+        val dateString: String = editText!!.text.toString()
+        var javaDate: Date? = null
+        if (TextUtils.isEmpty(dateString)) {
+            val calendar: Calendar = Calendar.getInstance()
+            mYear = calendar.get(Calendar.YEAR)
+            mMonth = calendar.get(Calendar.MONTH)
+            mDay = calendar.get(Calendar.DAY_OF_MONTH)
+        } else {
             try {
-                SimpleDateFormat sdfrmt = new SimpleDateFormat("dd/MM/yyyy");
-                sdfrmt.setLenient(false);
-                javaDate = sdfrmt.parse(dateString);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }finally {
+                val sdfrmt: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
+                sdfrmt.isLenient = false
+                javaDate = sdfrmt.parse(dateString)
+            } catch (e: ParseException) {
+                e.printStackTrace()
+            } finally {
                 if (javaDate != null) {
-                    mYear = Integer.parseInt(dateString.substring(6, dateString.length()));
-                    mMonth = Integer.parseInt(dateString.substring(3, 5))-1;
-                    mDay = Integer.parseInt(dateString.substring(0, 2));
-                }else {
-                    Calendar calendar = Calendar.getInstance();
-                    mYear = calendar.get(Calendar.YEAR);
-                    mMonth = calendar.get(Calendar.MONTH);
-                    mDay = calendar.get(Calendar.DAY_OF_MONTH);
+                    mYear = dateString.substring(6, dateString.length).toInt()
+                    mMonth = dateString.substring(3, 5).toInt() - 1
+                    mDay = dateString.substring(0, 2).toInt()
+                } else {
+                    val calendar: Calendar = Calendar.getInstance()
+                    mYear = calendar.get(Calendar.YEAR)
+                    mMonth = calendar.get(Calendar.MONTH)
+                    mDay = calendar.get(Calendar.DAY_OF_MONTH)
                 }
             }
-
         }
-
-        Log.i(this.getClass().getSimpleName(), "init: year =" + mYear +
-                "month = " + mMonth +
-                "day = " + mDay);
-
-
-        updateDate(mYear,mMonth,mDay);
-
-        setOnDateSetListener(null);
-
-        this.setTitle(getContext().getString(R.string.set_date));
-        this.show();
+        Log.i(
+            this.javaClass.simpleName, ("init: year =" + mYear +
+                    "month = " + mMonth +
+                    "day = " + mDay)
+        )
+        updateDate(mYear, mMonth, mDay)
+        setOnDateSetListener(null)
+        this.setTitle(context.getString(R.string.set_date))
+        show()
     }
 
-    DatePickerDialog.OnDateSetListener dateSetListener = new OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            mYear = year;
-            mMonth = month + 1;
-            mDay = dayOfMonth;
-
-            editText.setText(String.format("%02d", mDay) + "/" +
-                    String.format("%02d", (mMonth)) +"/" +
-                    mYear
-            );
-
+    var dateSetListener: OnDateSetListener = object : OnDateSetListener {
+        override fun onDateSet(view: DatePicker, year: Int, month: Int, dayOfMonth: Int) {
+            mYear = year
+            mMonth = month + 1
+            mDay = dayOfMonth
+            editText!!.setText(
+                (String.format("%02d", mDay) + "/" + String.format("%02d", (mMonth)) + "/" +
+                        mYear)
+            )
         }
-    };
-
+    }
 }

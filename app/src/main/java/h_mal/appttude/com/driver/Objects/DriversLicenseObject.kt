@@ -1,29 +1,16 @@
-package h_mal.appttude.com.driver.Objects;
+package h_mal.appttude.com.driver.Objects
 
-public class DriversLicenseObject {
 
-    public String licenseImageString;
-    public String licenseNumber;
-    public String licenseExpiry;
 
-    public DriversLicenseObject() {
-    }
+class DriversLicenseObject {
+    var licenseImageString: String? = null
+    var licenseNumber: String? = null
+    var licenseExpiry: String? = null
 
-    public DriversLicenseObject(String licenseImageString, String licenseNumber, String licenseExpiry) {
-        this.licenseImageString = licenseImageString;
-        this.licenseNumber = licenseNumber;
-        this.licenseExpiry = licenseExpiry;
-    }
-
-    public String getLicenseImageString() {
-        return licenseImageString;
-    }
-
-    public String getLicenseNumber() {
-        return licenseNumber;
-    }
-
-    public String getLicenseExpiry() {
-        return licenseExpiry;
+    constructor()
+    constructor(licenseImageString: String?, licenseNumber: String?, licenseExpiry: String?) {
+        this.licenseImageString = licenseImageString
+        this.licenseNumber = licenseNumber
+        this.licenseExpiry = licenseExpiry
     }
 }

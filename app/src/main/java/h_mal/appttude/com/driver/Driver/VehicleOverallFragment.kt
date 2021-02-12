@@ -1,188 +1,194 @@
-package h_mal.appttude.com.driver.Driver;
+package h_mal.appttude.com.driver.Driver
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import h_mal.appttude.com.driver.Global.ExecuteFragment
+import h_mal.appttude.com.driver.Global.FirebaseClass
+import h_mal.appttude.com.driver.MainActivity
+import h_mal.appttude.com.driver.Objects.ApprovalsObject
+import h_mal.appttude.com.driver.Objects.WholeDriverObject
+import h_mal.appttude.com.driver.R
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
-import h_mal.appttude.com.driver.Objects.ApprovalsObject;
-import h_mal.appttude.com.driver.Objects.WholeDriverObject;
-import h_mal.appttude.com.driver.R;
-
-import static h_mal.appttude.com.driver.Global.ExecuteFragment.executeFragment;
-import static h_mal.appttude.com.driver.Global.FirebaseClass.USER_FIREBASE;
-import static h_mal.appttude.com.driver.MainActivity.approvalsClass;
-import static h_mal.appttude.com.driver.MainActivity.archiveClass;
-import static h_mal.appttude.com.driver.MainActivity.auth;
-import static h_mal.appttude.com.driver.MainActivity.mDatabase;
-import static h_mal.appttude.com.driver.MainActivity.viewController;
-
-public class VehicleOverallFragment extends Fragment {
-
-    ImageView vehicleApr;
-    ImageView insuranceApr;
-    ImageView motApr;
-    ImageView logbookApr;
-    private ImageView privateHireCarApr;
-    TextView insuranceExp;
-    TextView motExp;
-    private TextView privateHireExp;
-    private CardView vehicleProfile;
-    private CardView insurance;
-    private CardView mot;
-    private CardView logbook;
-    private CardView privateHireCar;
-
-    private DatabaseReference reference;
-    private WholeDriverObject wholeDriverObject;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        reference = mDatabase.child(USER_FIREBASE).child(auth.getCurrentUser().getUid());
+class VehicleOverallFragment : Fragment() {
+    var vehicleApr: ImageView? = null
+    var insuranceApr: ImageView? = null
+    var motApr: ImageView? = null
+    var logbookApr: ImageView? = null
+    private var privateHireCarApr: ImageView? = null
+    var insuranceExp: TextView? = null
+    var motExp: TextView? = null
+    private var privateHireExp: TextView? = null
+    private var vehicleProfile: CardView? = null
+    private var insurance: CardView? = null
+    private var mot: CardView? = null
+    private var logbook: CardView? = null
+    private var privateHireCar: CardView? = null
+    private var reference: DatabaseReference? = null
+    private var wholeDriverObject: WholeDriverObject? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        reference =
+            MainActivity.mDatabase!!.child(FirebaseClass.USER_FIREBASE).child(
+                MainActivity.auth!!.currentUser!!.uid
+            )
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_vehicle_overall, container, false);
-
-        vehicleProfile = view.findViewById(R.id.vehicle_prof);
-        insurance = view.findViewById(R.id.insurance);
-        mot = view.findViewById(R.id.mot);
-        logbook = view.findViewById(R.id.logbook);
-        privateHireCar = view.findViewById(R.id.private_hire_vehicle_license);
-
-        vehicleApr = view.findViewById(R.id.approval_vehicle);
-        insuranceApr = view.findViewById(R.id.approval_insurance);
-        motApr = view.findViewById(R.id.approval_mot);
-        logbookApr = view.findViewById(R.id.approval_lb);
-        privateHireCarApr = view.findViewById(R.id.approval_ph_car);
-
-        insuranceExp = view.findViewById(R.id.ins_exp);
-        motExp = view.findViewById(R.id.mot_exp);
-        privateHireExp = view.findViewById(R.id.ph_car_exp);
-
-        insuranceExp.setVisibility(View.GONE);
-        motExp.setVisibility(View.GONE);
-        privateHireExp.setVisibility(View.GONE);
-
-        viewController.progress(View.VISIBLE);
-        reference.addListenerForSingleValueEvent(valueEventListener);
-
-        return view;
+        val view: View = inflater.inflate(R.layout.fragment_vehicle_overall, container, false)
+        vehicleProfile = view.findViewById(R.id.vehicle_prof)
+        insurance = view.findViewById(R.id.insurance)
+        mot = view.findViewById(R.id.mot)
+        logbook = view.findViewById(R.id.logbook)
+        privateHireCar = view.findViewById(R.id.private_hire_vehicle_license)
+        vehicleApr = view.findViewById(R.id.approval_vehicle)
+        insuranceApr = view.findViewById(R.id.approval_insurance)
+        motApr = view.findViewById(R.id.approval_mot)
+        logbookApr = view.findViewById(R.id.approval_lb)
+        privateHireCarApr = view.findViewById(R.id.approval_ph_car)
+        insuranceExp = view.findViewById(R.id.ins_exp)
+        motExp = view.findViewById(R.id.mot_exp)
+        privateHireExp = view.findViewById(R.id.ph_car_exp)
+        insuranceExp.setVisibility(View.GONE)
+        motExp.setVisibility(View.GONE)
+        privateHireExp.setVisibility(View.GONE)
+        MainActivity.viewController!!.progress(View.VISIBLE)
+        reference!!.addListenerForSingleValueEvent(valueEventListener)
+        return view
     }
 
-    ValueEventListener valueEventListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            wholeDriverObject = dataSnapshot.getValue(WholeDriverObject.class);
-
-            if (wholeDriverObject.approvalsObject != null) {
-                ApprovalsObject approvalsObject = wholeDriverObject.getApprovalsObject();
-
-                vehicleApr.setImageResource(approvalsClass.setImageResource(approvalsObject.getVehicle_details_approval()));
-                insuranceApr.setImageResource(approvalsClass.setImageResource(approvalsObject.getInsurance_details_approval()));
-                motApr.setImageResource(approvalsClass.setImageResource(approvalsObject.getMot_details_approval()));
-                logbookApr.setImageResource(approvalsClass.setImageResource(approvalsObject.getLog_book_approval()));
-                privateHireCarApr.setImageResource(approvalsClass.setImageResource(approvalsObject.getPh_car_approval()));
+    var valueEventListener: ValueEventListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            wholeDriverObject = dataSnapshot.getValue(WholeDriverObject::class.java)
+            if (wholeDriverObject!!.approvalsObject != null) {
+                val approvalsObject: ApprovalsObject? = wholeDriverObject.approvalsObject
+                vehicleApr!!.setImageResource(
+                    MainActivity.approvalsClass!!.setImageResource(
+                        approvalsObject.vehicle_details_approval
+                    )
+                )
+                insuranceApr!!.setImageResource(
+                    MainActivity.approvalsClass!!.setImageResource(
+                        approvalsObject.insurance_details_approval
+                    )
+                )
+                motApr!!.setImageResource(
+                    MainActivity.approvalsClass!!.setImageResource(
+                        approvalsObject.getMot_details_approval()
+                    )
+                )
+                logbookApr!!.setImageResource(
+                    MainActivity.approvalsClass!!.setImageResource(
+                        approvalsObject.getLog_book_approval()
+                    )
+                )
+                privateHireCarApr!!.setImageResource(
+                    MainActivity.approvalsClass!!.setImageResource(
+                        approvalsObject.getPh_car_approval()
+                    )
+                )
             }
-
-            if (wholeDriverObject.vehicle_profile != null){
-                if (wholeDriverObject.getVehicle_profile().insurance_details != null){
-                    insuranceExp.setVisibility(View.VISIBLE);
-                    insuranceExp.setText("Expiry: " + wholeDriverObject.getVehicle_profile().getInsurance_details().getExpiryDate());
+            if (wholeDriverObject!!.vehicle_profile != null) {
+                if (wholeDriverObject.getVehicle_profile().insurance_details != null) {
+                    insuranceExp!!.visibility = View.VISIBLE
+                    insuranceExp!!.text = "Expiry: " + wholeDriverObject.getVehicle_profile().getInsurance_details()
+                        .getExpiryDate()
                 }
-                if (wholeDriverObject.getVehicle_profile().mot_details != null){
-                    motExp.setVisibility(View.VISIBLE);
-                    motExp.setText("Expiry: " + wholeDriverObject.getVehicle_profile().getMot_details().getMotExpiry());
+                if (wholeDriverObject.getVehicle_profile().mot_details != null) {
+                    motExp!!.visibility = View.VISIBLE
+                    motExp!!.text = "Expiry: " + wholeDriverObject.getVehicle_profile().getMot_details()
+                        .getMotExpiry()
                 }
-                if (wholeDriverObject.getVehicle_profile().private_hire_vehicle != null){
-                    privateHireExp.setVisibility(View.VISIBLE);
-                    privateHireExp.setText("Expiry: " + wholeDriverObject.getVehicle_profile().getPrivateHireVehicleObject().getPhCarExpiry());
+                if (wholeDriverObject.getVehicle_profile().private_hire_vehicle != null) {
+                    privateHireExp!!.visibility = View.VISIBLE
+                    privateHireExp!!.text = "Expiry: " + wholeDriverObject.getVehicle_profile()
+                        .getPrivateHireVehicleObject().getPhCarExpiry()
                 }
             }
-
-            vehicleProfile.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (wholeDriverObject.vehicle_profile == null){
-                        executeFragment(new VehicleSetupFragment());
-                    }else {
-                        archiveClass.openDialogArchive(getContext(),wholeDriverObject.getVehicle_profile().getVehicle_details()
-                                ,new VehicleSetupFragment());
+            vehicleProfile!!.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(v: View) {
+                    if (wholeDriverObject!!.vehicle_profile == null) {
+                        ExecuteFragment.executeFragment(VehicleSetupFragment())
+                    } else {
+                        MainActivity.archiveClass!!.openDialogArchive(
+                            context,
+                            wholeDriverObject.getVehicle_profile().getVehicle_details(),
+                            VehicleSetupFragment()
+                        )
                     }
                 }
-            });
-
-            insurance.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (wholeDriverObject.vehicle_profile == null){
-                        executeFragment(new InsuranceFragment());
-                    }else {
-                        archiveClass.openDialogArchive(getContext(),wholeDriverObject.getVehicle_profile().getInsurance_details()
-                                ,new InsuranceFragment());
+            })
+            insurance!!.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(v: View) {
+                    if (wholeDriverObject!!.vehicle_profile == null) {
+                        ExecuteFragment.executeFragment(InsuranceFragment())
+                    } else {
+                        MainActivity.archiveClass!!.openDialogArchive(
+                            context,
+                            wholeDriverObject.getVehicle_profile().getInsurance_details(),
+                            InsuranceFragment()
+                        )
                     }
                 }
-            });
-
-            mot.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (wholeDriverObject.vehicle_profile == null){
-                        executeFragment(new MotFragment());
-                    }else {
-                        archiveClass.openDialogArchive(getContext(),wholeDriverObject.getVehicle_profile().getMot_details()
-                                ,new MotFragment());
+            })
+            mot!!.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(v: View) {
+                    if (wholeDriverObject!!.vehicle_profile == null) {
+                        ExecuteFragment.executeFragment(MotFragment())
+                    } else {
+                        MainActivity.archiveClass!!.openDialogArchive(
+                            context,
+                            wholeDriverObject.getVehicle_profile().getMot_details(),
+                            MotFragment()
+                        )
                     }
                 }
-            });
-
-            logbook.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (wholeDriverObject.vehicle_profile == null){
-                        executeFragment(new logbookFragment());
-                    }else {
-                        archiveClass.openDialogArchive(getContext(),wholeDriverObject.getVehicle_profile().getLog_book()
-                                ,new logbookFragment());
+            })
+            logbook!!.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(v: View) {
+                    if (wholeDriverObject!!.vehicle_profile == null) {
+                        ExecuteFragment.executeFragment(logbookFragment())
+                    } else {
+                        MainActivity.archiveClass!!.openDialogArchive(
+                            context,
+                            wholeDriverObject.getVehicle_profile().getLog_book(),
+                            logbookFragment()
+                        )
                     }
                 }
-            });
-
-            privateHireCar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (wholeDriverObject.vehicle_profile == null){
-                        executeFragment(new PrivateHireVehicleFragment());
-                    }else {
-                        archiveClass.openDialogArchive(getContext(),wholeDriverObject.getVehicle_profile().getPrivateHireVehicleObject()
-                                ,new PrivateHireVehicleFragment());
+            })
+            privateHireCar!!.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(v: View) {
+                    if (wholeDriverObject!!.vehicle_profile == null) {
+                        ExecuteFragment.executeFragment(PrivateHireVehicleFragment())
+                    } else {
+                        MainActivity.archiveClass!!.openDialogArchive(
+                            context,
+                            wholeDriverObject.getVehicle_profile().getPrivateHireVehicleObject(),
+                            PrivateHireVehicleFragment()
+                        )
                     }
                 }
-            });
-
-
-            viewController.progress(View.GONE);
+            })
+            MainActivity.viewController!!.progress(View.GONE)
         }
 
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-            viewController.progress(View.GONE);
+        override fun onCancelled(databaseError: DatabaseError) {
+            MainActivity.viewController!!.progress(View.GONE)
         }
-    };
-
+    }
 }

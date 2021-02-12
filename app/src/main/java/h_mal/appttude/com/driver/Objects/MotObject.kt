@@ -1,23 +1,14 @@
-package h_mal.appttude.com.driver.Objects;
+package h_mal.appttude.com.driver.Objects
 
-public class MotObject {
 
-    public String motImageString;
-    public String motExpiry;
 
-    public MotObject() {
-    }
+class MotObject {
+    var motImageString: String? = null
+    var motExpiry: String? = null
 
-    public MotObject(String motImageString, String motExpiry) {
-        this.motImageString = motImageString;
-        this.motExpiry = motExpiry;
-    }
-
-    public String getMotImageString() {
-        return motImageString;
-    }
-
-    public String getMotExpiry() {
-        return motExpiry;
+    constructor()
+    constructor(motImageString: String?, motExpiry: String?) {
+        this.motImageString = motImageString
+        this.motExpiry = motExpiry
     }
 }

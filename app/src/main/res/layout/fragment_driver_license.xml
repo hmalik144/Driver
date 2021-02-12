@@ -35,12 +35,6 @@
                 android:scaleType="centerCrop"
                 tools:src="@drawable/choice_img_round" />
 
-            <ProgressBar
-                android:id="@+id/pb_dl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone" />
         </android.support.v7.widget.CardView>
 
         <TextView

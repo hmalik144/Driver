@@ -1,49 +1,36 @@
-package h_mal.appttude.com.driver.SuperUser;
+package h_mal.appttude.com.driver.SuperUser
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.ListView;
-
-import h_mal.appttude.com.driver.Archive.ArchiveFragment;
-import h_mal.appttude.com.driver.Global.ExecuteFragment;
-import h_mal.appttude.com.driver.MainActivity;
-import h_mal.appttude.com.driver.Objects.WholeObject.MappedObject;
-import h_mal.appttude.com.driver.R;
-
-public class UserMainFragment extends Fragment {
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.GridView
+import androidx.fragment.app.Fragment
+import h_mal.appttude.com.driver.Objects.WholeObject.MappedObject
+import h_mal.appttude.com.driver.R
 
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+class UserMainFragment : Fragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_user_main, container, false);
-
-        Log.i("UserMain", "onCreateView: height = " + view.getHeight());
-
-        MappedObject mappedObject = getArguments().getParcelable("mapped");
-
-        getActivity().setTitle(mappedObject.getWholeDriverObject().getUser_details().getProfileName());
+        val view: View = inflater.inflate(R.layout.fragment_user_main, container, false)
+        Log.i("UserMain", "onCreateView: height = " + view.height)
+        val mappedObject: MappedObject = arguments!!.getParcelable("mapped")
+        activity.setTitle(
+            mappedObject.getWholeDriverObject().getUser_details().getProfileName()
+        )
 
 //        ListView listView = view.findViewById(R.id.approvals_list);
-        GridView listView = view.findViewById(R.id.approvals_list);
-        listView.setAdapter(new ApprovalListAdapter(getActivity(), new MappedObject[]{mappedObject}));
-
-        return view;
+        val listView: GridView = view.findViewById(R.id.approvals_list)
+        listView.adapter = ApprovalListAdapter((activity)!!, arrayOf(mappedObject))
+        return view
     }
-
-
 }

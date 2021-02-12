@@ -1,56 +1,41 @@
-package h_mal.appttude.com.driver.Objects.WholeObject;
+package h_mal.appttude.com.driver.Objects.WholeObject
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.os.Parcel
+import android.os.Parcelable
+import h_mal.appttude.com.driver.Objects.WholeDriverObject
 
-import h_mal.appttude.com.driver.Objects.WholeDriverObject;
 
-public class MappedObject implements Parcelable {
+class MappedObject : Parcelable {
+    var userId: String? = null
+    var wholeDriverObject: WholeDriverObject? = null
 
-    public String userId;
-    public WholeDriverObject wholeDriverObject;
-
-    public MappedObject(String userId, WholeDriverObject wholeDriverObject) {
-        this.userId = userId;
-        this.wholeDriverObject = wholeDriverObject;
+    constructor(userId: String?, wholeDriverObject: WholeDriverObject?) {
+        this.userId = userId
+        this.wholeDriverObject = wholeDriverObject
     }
 
-    public MappedObject() {
+    constructor()
+    protected constructor(`in`: Parcel) {
+        userId = `in`.readString()
     }
 
-    protected MappedObject(Parcel in) {
-        userId = in.readString();
+    override fun describeContents(): Int {
+        return 0
     }
 
-    public static final Creator<MappedObject> CREATOR = new Creator<MappedObject>() {
-        @Override
-        public MappedObject createFromParcel(Parcel in) {
-            return new MappedObject(in);
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(userId)
+    }
+
+    companion object {
+        val CREATOR: Parcelable.Creator<MappedObject> = object : Parcelable.Creator<MappedObject?> {
+            override fun createFromParcel(`in`: Parcel): MappedObject? {
+                return MappedObject(`in`)
+            }
+
+            override fun newArray(size: Int): Array<MappedObject?> {
+                return arrayOfNulls(size)
+            }
         }
-
-        @Override
-        public MappedObject[] newArray(int size) {
-            return new MappedObject[size];
-        }
-    };
-
-    public String getUserId() {
-        return userId;
     }
-
-    public WholeDriverObject getWholeDriverObject() {
-        return wholeDriverObject;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(userId);
-    }
-
-
 }

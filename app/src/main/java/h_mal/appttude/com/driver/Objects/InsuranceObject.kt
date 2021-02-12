@@ -1,31 +1,16 @@
-package h_mal.appttude.com.driver.Objects;
+package h_mal.appttude.com.driver.Objects
 
-import java.util.List;
 
-public class InsuranceObject {
 
-    public List<String> photoStrings;
-    public String insurerName;
-    public String expiryDate;
+class InsuranceObject {
+    var photoStrings: MutableList<String?>? = null
+    var insurerName: String? = null
+    var expiryDate: String? = null
 
-    public InsuranceObject() {
-    }
-
-    public InsuranceObject(List<String> photoStrings, String insurerName, String expiryDate) {
-        this.photoStrings = photoStrings;
-        this.insurerName = insurerName;
-        this.expiryDate = expiryDate;
-    }
-
-    public List<String> getPhotoStrings() {
-        return photoStrings;
-    }
-
-    public String getInsurerName() {
-        return insurerName;
-    }
-
-    public String getExpiryDate() {
-        return expiryDate;
+    constructor()
+    constructor(photoStrings: MutableList<String?>?, insurerName: String?, expiryDate: String?) {
+        this.photoStrings = photoStrings
+        this.insurerName = insurerName
+        this.expiryDate = expiryDate
     }
 }
