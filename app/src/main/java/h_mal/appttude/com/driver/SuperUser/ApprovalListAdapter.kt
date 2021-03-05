@@ -3,7 +3,6 @@ package h_mal.appttude.com.driver.SuperUser
 import android.app.Activity
 import android.content.Context
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,22 +10,29 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import h_mal.appttude.com.driver.Archive.ArchiveFragment
-import h_mal.appttude.com.driver.Driver.*
-import h_mal.appttude.com.driver.Global.ExecuteFragment
 import h_mal.appttude.com.driver.Global.FirebaseClass
 import h_mal.appttude.com.driver.Global.SetApprovalDialog
 import h_mal.appttude.com.driver.MainActivity
-import h_mal.appttude.com.driver.Objects.ApprovalsObject
 import h_mal.appttude.com.driver.Objects.ArchiveObject
-import h_mal.appttude.com.driver.Objects.WholeDriverObject
 import h_mal.appttude.com.driver.Objects.WholeObject.MappedObject
 import h_mal.appttude.com.driver.R
+import h_mal.appttude.com.driver.driver.InsuranceFragment
+import h_mal.appttude.com.driver.ui.driver.driverprofile.DriverLicenseFragment
+import h_mal.appttude.com.driver.ui.driver.driverprofile.DriverProfileFragment
+import h_mal.appttude.com.driver.ui.driver.driverprofile.PrivateHireLicenseFragment
+import h_mal.appttude.com.driver.ui.driver.vehicleprofile.LogbookFragment
+import h_mal.appttude.com.driver.ui.driver.vehicleprofile.MotFragment
+import h_mal.appttude.com.driver.ui.driver.vehicleprofile.PrivateHireVehicleFragment
+import h_mal.appttude.com.driver.ui.driver.vehicleprofile.VehicleProfileFragment
 
 
-class ApprovalListAdapter constructor(activity: Activity, objects: Array<MappedObject>) :
-    ArrayAdapter<MappedObject?>(activity, 0, objects) {
-    private val TAG: String = "ApprovalListAdapter"
+class ApprovalListAdapter(
+    val activity: Activity,
+    objects: Array<MappedObject>
+): ArrayAdapter<MappedObject?>(activity, 0, objects) {
+
+    var mappedObject: MappedObject = objects[0]
+
     var names: Array<String> = arrayOf(
         "Driver Profile",
         "Driver License",
@@ -37,8 +43,8 @@ class ApprovalListAdapter constructor(activity: Activity, objects: Array<MappedO
         "Logbook",
         "P/H Vehicle"
     )
-    var mappedObject: MappedObject
-    var activity: Activity
+
+
     var approvalCode: Int = 0
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var listItemView: View? = convertView
@@ -56,51 +62,38 @@ class ApprovalListAdapter constructor(activity: Activity, objects: Array<MappedO
                 approvalCode
             )
         )
-        imageView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View) {
-                SetApprovalDialog(
-                    approvalCode,
-                    activity,
-                    mappedObject.getUserId(),
-                    position,
-                    imageView
-                )
-            }
-        })
-        val archiveImage: ImageView = listItemView.findViewById(R.id.archive_icon)
-        if (mappedObject.getWholeDriverObject().archive != null) {
-            Log.i(
-                TAG,
-                "getView: archive = " + getArchive(
-                    position,
-                    mappedObject.getWholeDriverObject().getArchive()
-                )
+        imageView.setOnClickListener {
+            SetApprovalDialog(
+                approvalCode,
+                activity,
+                mappedObject.userId,
+                position,
+                imageView
             )
+        }
+        val archiveImage: ImageView = listItemView.findViewById(R.id.archive_icon)
+        mappedObject.wholeDriverObject?.archive?.let {
+
+
             archiveImage.visibility = getArchive(
                 position,
-                mappedObject.getWholeDriverObject().getArchive()
+                it
             )
-            archiveImage.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(v: View) {
-                    var s: String? = null
-                    when (position) {
-                        1 -> s = FirebaseClass.DRIVERS_LICENSE_FIREBASE
-                        2 -> s = FirebaseClass.PRIVATE_HIRE_FIREBASE
-                        3 -> s = FirebaseClass.VEHICLE_DETAILS_FIREBASE
-                        4 -> s = FirebaseClass.INSURANCE_FIREBASE
-                        5 -> s = FirebaseClass.MOT_FIREBASE
-                        6 -> s = FirebaseClass.LOG_BOOK_FIREBASE
-                        7 -> s = FirebaseClass.PRIVATE_HIRE_VEHICLE_LICENSE
-                    }
-                    ExecuteFragment.executeFragment(ArchiveFragment(), mappedObject.getUserId(), s)
+            archiveImage.setOnClickListener {
+                var s: String? = null
+                when (position) {
+                    1 -> s = FirebaseClass.DRIVERS_LICENSE_FIREBASE
+                    2 -> s = FirebaseClass.PRIVATE_HIRE_FIREBASE
+                    3 -> s = FirebaseClass.VEHICLE_DETAILS_FIREBASE
+                    4 -> s = FirebaseClass.INSURANCE_FIREBASE
+                    5 -> s = FirebaseClass.MOT_FIREBASE
+                    6 -> s = FirebaseClass.LOG_BOOK_FIREBASE
+                    7 -> s = FirebaseClass.PRIVATE_HIRE_VEHICLE_LICENSE
                 }
-            })
-        }
-        listItemView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View) {
-                getFragment(position)
+//                executeFragment(ArchiveFragment(), mappedObject.userId, s)
             }
-        })
+        }
+        listItemView.setOnClickListener(View.OnClickListener { getFragment(position) })
         listItemView.minimumHeight = parent.height / 4
         listItemView.setPadding(
             convertDpToPixel(9f, context).toInt(),
@@ -119,15 +112,14 @@ class ApprovalListAdapter constructor(activity: Activity, objects: Array<MappedO
         var o: Any? = null
         val visible: Int
         when (i) {
-            0 -> {
-            }
+            0 -> { }
             1 -> o = archiveObject!!.driver_license
             2 -> o = archiveObject!!.private_hire
             3 -> o = archiveObject!!.vehicle_details
             4 -> o = archiveObject!!.insurance_details
             5 -> o = archiveObject!!.mot_details
             6 -> o = archiveObject!!.log_book
-            7 -> o = archiveObject.private_hire_vehicle
+            7 -> o = archiveObject!!.ph_car
         }
         if (o != null) {
             visible = View.VISIBLE
@@ -138,101 +130,68 @@ class ApprovalListAdapter constructor(activity: Activity, objects: Array<MappedO
     }
 
     private fun getFragment(i: Int) {
-        var f: Fragment? = null
-        val wholeDriverObject: WholeDriverObject? = mappedObject.getWholeDriverObject()
-        var o: Any? = null
-        when (i) {
+        lateinit var f: Fragment
+        val driverProfile by lazy { mappedObject.wholeDriverObject?.driver_profile }
+        val vehicleProfile by lazy { mappedObject.wholeDriverObject?.vehicle_profile }
+        val o: Any? = when (i) {
             0 -> {
                 f = DriverProfileFragment()
-                if (wholeDriverObject!!.driver_profile != null && wholeDriverObject.getDriver_profile().driver_profile != null) {
-                    o = wholeDriverObject.getDriver_profile().getDriver_profile()
-                }
+                driverProfile?.driver_profile
             }
             1 -> {
                 f = DriverLicenseFragment()
-                if (wholeDriverObject!!.driver_profile != null && wholeDriverObject.getDriver_profile().driver_license != null) {
-                    o = wholeDriverObject.getDriver_profile().driver_license
-                }
+                driverProfile?.driver_license
             }
             2 -> {
                 f = PrivateHireLicenseFragment()
-                if (wholeDriverObject!!.driver_profile != null && wholeDriverObject.getDriver_profile().private_hire != null) {
-                    o = wholeDriverObject.getDriver_profile().private_hire
-                }
+                driverProfile?.private_hire
             }
             3 -> {
-                f = VehicleSetupFragment()
-                if (wholeDriverObject!!.vehicle_profile != null && wholeDriverObject.getVehicle_profile().vehicle_details != null) {
-                    o = wholeDriverObject.getVehicle_profile().getVehicle_details()
-                }
+                f = VehicleProfileFragment()
+                vehicleProfile?.vehicle_details
             }
             4 -> {
                 f = InsuranceFragment()
-                if (wholeDriverObject!!.vehicle_profile != null && wholeDriverObject.getVehicle_profile().insurance_details != null) {
-                    o = wholeDriverObject.getVehicle_profile().getInsurance_details()
-                }
+                vehicleProfile?.insurance_details
             }
             5 -> {
                 f = MotFragment()
-                if (wholeDriverObject!!.vehicle_profile != null && wholeDriverObject.getVehicle_profile().mot_details != null) {
-                    o = wholeDriverObject.getVehicle_profile().getMot_details()
-                }
+                vehicleProfile?.insurance_details
             }
             6 -> {
-                f = logbookFragment()
-                if (wholeDriverObject!!.vehicle_profile != null && wholeDriverObject.getVehicle_profile().log_book != null) {
-                    o = wholeDriverObject.getVehicle_profile().getLog_book()
-                }
+                f = LogbookFragment()
+                vehicleProfile?.log_book
             }
             7 -> {
                 f = PrivateHireVehicleFragment()
-                if (wholeDriverObject!!.vehicle_profile != null && wholeDriverObject.getVehicle_profile().private_hire_vehicle != null) {
-                    o = wholeDriverObject.getVehicle_profile().getPrivateHireVehicleObject()
-                }
+                vehicleProfile?.privateHireVehicleObject
             }
+            else -> null
         }
         if (o == null) {
-            ExecuteFragment.executeFragment(f, mappedObject.getUserId())
+//            executeFragment(f, mappedObject.userId)
         } else {
-            MainActivity.archiveClass!!.openDialogArchive(
-                context, o, mappedObject.getUserId(), f
+            MainActivity.archiveClass.openDialogArchive(
+                context, o, mappedObject.userId, f
             )
         }
     }
 
     private fun getApprovalStatusCode(i: Int): Int {
-        var statusCode: Int = FirebaseClass.NO_DATE_PRESENT
-        if (mappedObject.getWholeDriverObject().approvalsObject != null) {
-            val approvalsObject: ApprovalsObject? =
-                mappedObject.getWholeDriverObject().approvalsObject
-            when (i) {
-                0 -> if (approvalsObject!!.driver_details_approval != 0) {
-                    statusCode = approvalsObject.getDriver_details_approval()
-                }
-                1 -> if (approvalsObject!!.driver_license_approval != 0) {
-                    statusCode = approvalsObject.driver_license_approval
-                }
-                2 -> if (approvalsObject!!.private_hire_approval != 0) {
-                    statusCode = approvalsObject.private_hire_approval
-                }
-                3 -> if (approvalsObject!!.vehicle_details_approval != 0) {
-                    statusCode = approvalsObject.vehicle_details_approval
-                }
-                4 -> if (approvalsObject!!.insurance_details_approval != 0) {
-                    statusCode = approvalsObject.insurance_details_approval
-                }
-                5 -> if (approvalsObject!!.mot_details_approval != 0) {
-                    statusCode = approvalsObject.getMot_details_approval()
-                }
-                6 -> if (approvalsObject!!.log_book_approval != 0) {
-                    statusCode = approvalsObject.getLog_book_approval()
-                }
-                7 -> if (approvalsObject.private_hire_vehicle_approval != 0) {
-                    statusCode = approvalsObject.getPh_car_approval()
-                }
+        val statusCode = mappedObject.wholeDriverObject?.approvalsObject?.let{
+                when (i) {
+                0 -> it.driver_details_approval
+                1 -> it.driver_license_approval
+                2 -> it.private_hire_approval
+                3 -> it.vehicle_details_approval
+                4 -> it.insurance_details_approval
+                5 -> it.mot_details_approval
+                6 -> it.log_book_approval
+                7 -> it.ph_car_approval
+                else -> FirebaseClass.NO_DATE_PRESENT
             }
         }
-        return statusCode
+        return statusCode ?: FirebaseClass.NO_DATE_PRESENT
     }
 
     companion object {
@@ -242,8 +201,5 @@ class ApprovalListAdapter constructor(activity: Activity, objects: Array<MappedO
         }
     }
 
-    init {
-        mappedObject = objects.get(0)
-        this.activity = activity
-    }
+
 }

@@ -3,12 +3,7 @@ package h_mal.appttude.com.driver.Global
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import h_mal.appttude.com.driver.MainActivity
 
 
 class SetApprovalDialog constructor(
@@ -61,35 +56,33 @@ class SetApprovalDialog constructor(
         }
 
     private fun publishStatuscode(status: Int, dialog: DialogInterface) {
-        MainActivity.viewController!!.progress(View.VISIBLE)
-        if (!(approvalNameString == "")) {
-            MainActivity.mDatabase!!.child(FirebaseClass.USER_FIREBASE).child(
-                (userId)!!
-            ).child(FirebaseClass.USER_APPROVALS).child(approvalNameString)
-                .setValue(status).addOnCompleteListener(object : OnCompleteListener<Void?> {
-                    override fun onComplete(task: Task<Void?>) {
-                        if (task.isSuccessful) {
-                            Toast.makeText(activity, "Status change successful", Toast.LENGTH_SHORT)
-                                .show()
-                            imageView.setImageResource(
-                                MainActivity.approvalsClass!!.setImageResource(
-                                    status
-                                )
-                            )
-                            dialog.dismiss()
-                        } else {
-                            Toast.makeText(
-                                activity,
-                                "Status change unsuccessful",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                        MainActivity.viewController!!.progress(View.GONE)
-                    }
-                })
-        } else {
-            Toast.makeText(activity, "Could not push status", Toast.LENGTH_SHORT).show()
-        }
+
+//        if (!(approvalNameString == "")) {
+//            MainActivity.mDatabase!!.child(FirebaseClass.USER_FIREBASE).child(
+//                (userId)!!
+//            ).child(FirebaseClass.USER_APPROVALS).child(approvalNameString)
+//                .setValue(status).addOnCompleteListener { task ->
+//                    if (task.isSuccessful) {
+//                        Toast.makeText(activity, "Status change successful", Toast.LENGTH_SHORT)
+//                            .show()
+//                        imageView.setImageResource(
+//                            MainActivity.approvalsClass!!.setImageResource(
+//                                status
+//                            )
+//                        )
+//                        dialog.dismiss()
+//                    } else {
+//                        Toast.makeText(
+//                            activity,
+//                            "Status change unsuccessful",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//
+//                }
+//        } else {
+//            Toast.makeText(activity, "Could not push status", Toast.LENGTH_SHORT).show()
+//        }
     }
 
     private fun getElement(i: Int): String {

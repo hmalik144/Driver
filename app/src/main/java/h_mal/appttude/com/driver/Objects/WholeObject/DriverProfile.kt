@@ -1,8 +1,8 @@
 package h_mal.appttude.com.driver.Objects.WholeObject
 
-import h_mal.appttude.com.driver.Objects.DriverProfileObject
-import h_mal.appttude.com.driver.Objects.DriversLicenseObject
-import h_mal.appttude.com.driver.Objects.PrivateHireObject
+import h_mal.appttude.com.driver.model.DriverProfileObject
+import h_mal.appttude.com.driver.model.DriversLicenseObject
+import h_mal.appttude.com.driver.model.PrivateHireObject
 
 
 class DriverProfile {

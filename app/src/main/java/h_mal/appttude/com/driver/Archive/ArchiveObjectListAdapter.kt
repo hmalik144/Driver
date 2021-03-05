@@ -1,7 +1,6 @@
 package h_mal.appttude.com.driver.Archive
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +12,16 @@ import com.squareup.picasso.Picasso
 import h_mal.appttude.com.driver.Global.FirebaseClass
 import h_mal.appttude.com.driver.Global.ImageSwiperClass
 import h_mal.appttude.com.driver.MainActivity
-import h_mal.appttude.com.driver.Objects.*
+import h_mal.appttude.com.driver.Objects.ArchiveObject
+import h_mal.appttude.com.driver.Objects.InsuranceObject
+import h_mal.appttude.com.driver.Objects.LogbookObject
+import h_mal.appttude.com.driver.Objects.PrivateHireVehicleObject
 import h_mal.appttude.com.driver.R
+import h_mal.appttude.com.driver.model.DriversLicenseObject
+import h_mal.appttude.com.driver.model.MotObject
+import h_mal.appttude.com.driver.model.PrivateHireObject
+import h_mal.appttude.com.driver.model.VehicleProfileObject
+import h_mal.appttude.com.driver.utils.DateUtils.convertDateStringDatePattern
 import java.text.ParseException
 
 class ArchiveObjectListAdapter(
@@ -94,7 +101,6 @@ class ArchiveObjectListAdapter(
                         fieldTwoText.text = driversLicenseObject.licenseNumber
                     }
                     FirebaseClass.MOT_FIREBASE -> {
-                        Log.i(TAG, "getView: MOT OBJECT")
                         expiryHolder.visibility = View.VISIBLE
                         fieldTwo.visibility = View.GONE
                         val motObject: MotObject = getItem(position) as MotObject
@@ -141,7 +147,7 @@ class ArchiveObjectListAdapter(
                 val expiryText: TextView = listItemView.findViewById(R.id.exp_text)
                 val fieldTwoText: TextView = listItemView.findViewById(R.id.archive_insurer)
                 val insuranceObject: InsuranceObject = getItem(position) as InsuranceObject
-                swiperClass.reinstantiateList(insuranceObject.photoStrings)
+//                swiperClass.reinstantiateList(insuranceObject.photoStrings)
                 expiryText.text = insuranceObject.expiryDate
                 fieldTwoText.text = insuranceObject.insurerName
             } else if ((archiveString == FirebaseClass.VEHICLE_DETAILS_FIREBASE)) {
@@ -155,7 +161,7 @@ class ArchiveObjectListAdapter(
                 val keeperAddress: TextView = listItemView.findViewById(R.id.keeper_address)
                 val carText: TextView = listItemView.findViewById(R.id.car_text_arch)
                 val carColour: TextView = listItemView.findViewById(R.id.car_colour)
-                val carSeized: TextView = listItemView.findViewById(R.id.seized)
+                val carSeized: TextView = listItemView.findViewById(R.id.seized_checkbox)
                 val startDate: TextView = listItemView.findViewById(R.id.first_date)
                 val vehicleProfileObject: VehicleProfileObject =
                     getItem(position) as VehicleProfileObject
@@ -180,7 +186,7 @@ class ArchiveObjectListAdapter(
     private fun dateString(position: Int) {
         var success: Boolean = true
         try {
-            dateArchivedText!!.text = MainActivity.setAsDateTime(mKeys.get(position))
+            dateArchivedText!!.text = mKeys[position].convertDateStringDatePattern("yyyyMMdd_HHmmss", "dd/MM/yyyy")
         } catch (e: ParseException) {
             e.printStackTrace()
             success = false

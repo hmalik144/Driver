@@ -1,15 +1,7 @@
 package h_mal.appttude.com.driver.Global
 
-import android.app.ProgressDialog
 import android.content.Context
 import android.net.Uri
-import com.google.android.gms.tasks.Continuation
-import com.google.android.gms.tasks.Task
-import com.google.firebase.storage.OnProgressListener
-import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
-import h_mal.appttude.com.driver.MainActivity
-import h_mal.appttude.com.driver.utils.displayToast
 
 class FirebaseClass constructor(var context: Context?, var filePath: Uri?, var delegate: Response) {
     open interface Response {
@@ -17,46 +9,41 @@ class FirebaseClass constructor(var context: Context?, var filePath: Uri?, var d
     }
 
     fun uploadImage(path: String, name: String) {
-        if (filePath != null) {
-            val progressDialog: ProgressDialog = ProgressDialog(context)
-            progressDialog.setTitle("Uploading...")
-            progressDialog.show()
-            val ref: StorageReference = MainActivity.storageReference!!.child(
-                ("images/" + MainActivity.auth!!.currentUser!!
-                    .uid + "/" + path
-                        + "/" + name)
-            )
-            val uploadTask: UploadTask = ref.putFile(filePath!!)
-            uploadTask.addOnProgressListener(object : OnProgressListener<UploadTask.TaskSnapshot> {
-                override fun onProgress(taskSnapshot: UploadTask.TaskSnapshot) {
-                    val progress: Double =
-                        (100.0 * taskSnapshot.bytesTransferred / taskSnapshot
-                            .totalByteCount)
-                    progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
-                }
-            }).continueWithTask(object : Continuation<UploadTask.TaskSnapshot?, Task<Uri>> {
-                @Throws(Exception::class)
-                override fun then(task: Task<UploadTask.TaskSnapshot?>): Task<Uri> {
-                    if (!task.isSuccessful) {
-                        throw (task.exception)!!
-                    }
-
-                    // Continue with the task to get the download URL
-                    return ref.downloadUrl
-                }
-            }).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    delegate.processFinish(task.result)
-                    progressDialog.dismiss()
-                    context?.displayToast("Uploaded Successfully")
-                    println("onComplete: uploaded Successful uri: " + task.result)
-                } else {
-                    delegate.processFinish(null)
-                    progressDialog.dismiss()
-                    context?.displayToast("Uploaded Successfully")
-                }
-            }
-        }
+//        if (filePath != null) {
+//            val progressDialog: ProgressDialog = ProgressDialog(context)
+//            progressDialog.setTitle("Uploading...")
+//            progressDialog.show()
+//            val ref: StorageReference = MainActivity.storageReference!!.child(
+//                ("images/" + MainActivity.auth!!.currentUser!!
+//                    .uid + "/" + path
+//                        + "/" + name)
+//            )
+//            val uploadTask: UploadTask = ref.putFile(filePath!!)
+//            uploadTask.addOnProgressListener { taskSnapshot ->
+//                val progress: Double =
+//                    (100.0 * taskSnapshot.bytesTransferred / taskSnapshot
+//                        .totalByteCount)
+//                progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
+//            }.continueWithTask { task ->
+//                if (!task.isSuccessful) {
+//                    throw (task.exception)!!
+//                }
+//
+//                // Continue with the task to get the download URL
+//                ref.downloadUrl
+//            }.addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    delegate.processFinish(task.result)
+//                    progressDialog.dismiss()
+//                    context?.displayToast("Uploaded Successfully")
+//                    println("onComplete: uploaded Successful uri: " + task.result)
+//                } else {
+//                    delegate.processFinish(null)
+//                    progressDialog.dismiss()
+//                    context?.displayToast("Uploaded Successfully")
+//                }
+//            }
+//        }
     }
 
     companion object {

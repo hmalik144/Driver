@@ -12,9 +12,6 @@ import h_mal.appttude.com.driver.R
 
 
 class UserMainFragment : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,14 +20,11 @@ class UserMainFragment : Fragment() {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_user_main, container, false)
         Log.i("UserMain", "onCreateView: height = " + view.height)
-        val mappedObject: MappedObject = arguments!!.getParcelable("mapped")
-        activity.setTitle(
-            mappedObject.getWholeDriverObject().getUser_details().getProfileName()
-        )
+        val mappedObject: MappedObject = requireArguments().getParcelable<MappedObject>("mapped")
+        activity?.title = mappedObject.wholeDriverObject?.user_details?.profileName
 
-//        ListView listView = view.findViewById(R.id.approvals_list);
         val listView: GridView = view.findViewById(R.id.approvals_list)
-        listView.adapter = ApprovalListAdapter((activity)!!, arrayOf(mappedObject))
+        listView.adapter = ApprovalListAdapter(requireActivity(), arrayOf(mappedObject))
         return view
     }
 }

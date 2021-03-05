@@ -17,15 +17,12 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:adjustViewBounds="true">
-
-
-
-        <androidx.core.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-        </androidx.core.view.ViewPager>
+        </androidx.viewpager.widget.ViewPager>
 
         <ImageView
             android:id="@+id/delete"

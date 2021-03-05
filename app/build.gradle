@@ -40,28 +40,52 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.exifinterface:exifinterface:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.appcompat:appcompat:1.0.0"
+    implementation "com.google.android.material:material:1.0.0"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    implementation "androidx.exifinterface:exifinterface:1.0.0"
+    implementation "androidx.constraintlayout:constraintlayout:1.1.3"
+    implementation "androidx.fragment:fragment-ktx:1.2.5"
+    implementation "androidx.activity:activity-ktx:1.2.0"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.3.3"
+    implementation "androidx.navigation:navigation-ui-ktx:2.3.3"
+    implementation "androidx.drawerlayout:drawerlayout:1.1.1"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0"
+    implementation 'androidx.viewpager:viewpager:1.0.0'
+    testImplementation "junit:junit:4.12"
+    androidTestImplementation "androidx.test.ext:junit:1.1.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0"
+    androidTestImplementation "androidx.test:rules:1.1.1"
+
+    implementation "androidx.legacy:legacy-support-v4:1.0.0"
     // Google play services
-    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+    implementation "com.google.android.gms:play-services-auth:15.0.1"
     // Google firebase
-    implementation 'com.google.firebase:firebase-core:16.0.1'
-    implementation 'com.google.firebase:firebase-auth:16.0.1'
-    implementation 'com.google.firebase:firebase-storage:16.0.1'
-    implementation 'com.google.firebase:firebase-database:16.0.1'
+    def firebaseVer  = "16.0.1"
+    implementation "com.google.firebase:firebase-core:$firebaseVer"
+    implementation "com.google.firebase:firebase-auth:$firebaseVer"
+    implementation "com.google.firebase:firebase-storage:$firebaseVer"
+    implementation "com.google.firebase:firebase-database:$firebaseVer"
     // Photoviewer
-    implementation 'com.github.chrisbanes:PhotoView:2.1.0'
-    // Picasso photo loader
-    implementation 'com.squareup.picasso:picasso:2.71828'
-    // Gson
-    implementation 'com.google.code.gson:gson:2.3.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
-    androidTestImplementation 'androidx.test:rules:1.1.1'
+    implementation "com.github.chrisbanes:PhotoView:2.1.0"
+    /* Picasso photo loader */
+    implementation "com.squareup.picasso:picasso:2.71828"
+    /* Gson */
+    implementation "com.google.code.gson:gson:2.3.1"
+    /* coroutines support for firebase operations */
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1"
+
+    // Circle Image View
+    implementation "com.mikhaellopez:circularimageview:4.2.0"
+
+    //Kodein Dependency Injection
+    def kodein_version = "6.2.1"
+    implementation "org.kodein.di:kodein-di-generic-jvm:$kodein_version"
+    implementation "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
+
+    /* Image Carousal */
+    implementation 'io.github.vejei.carouselview:carouselview:1.0.0-alpha'
 }

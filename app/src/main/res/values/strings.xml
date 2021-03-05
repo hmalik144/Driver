@@ -33,4 +33,26 @@
     <string name="failed_retrieve">Failed to retrieve data</string>
     <string name="failed_upload">Failed to upload data</string>
     <string name="unsuccessful">Unable To upload</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="reset_password_subtitle">Enter email address to receive a password reset link.</string>
+    <string name="promt_name">Name</string>
+    <string name="register_label">Register</string>
+    <string name="register_subtitle">Complete form to sign up</string>
+    <string name="Update_profile_label">Update profile</string>
+    <string name="update_profile_subtitle">Update profile and credentials</string>
+    <string name="update_email">Update Email</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="update_password">Update Password</string>
+    <string name="update_email_subtitle">Update your email by inserting your current credentials with a new email address</string>
+    <string name="prompt_new_email">New email</string>
+    <string name="update_password_subtitle">Update your password by inserting your current credentials with a new email password</string>
+    <string name="prompt_new_password">New password</string>
+    <string name="update_profile_section_subtitle">Select whether to upload a new profile photo or update name on profile.</string>
+    <string name="prompt_new_name">New name</string>
+    <string name="delete_profile">Delete Profile</string>
+    <string name="delete_profile_subtitle">Enter email address and password to delete your profile.</string>
+    <string name="welcome_title">Welcome to Choice Car</string>
+    <string name="welcome_subtitle">Manage your verified driver detail. Keep your data secure and control how you share it.</string>
+    <string name="profile_title">Driver profile</string>
+    <string name="driver_profile_subtitle">Add/update your driver details</string>
 </resources>

@@ -1,5 +1,9 @@
 package h_mal.appttude.com.driver.Objects
 
+import h_mal.appttude.com.driver.model.DriversLicenseObject
+import h_mal.appttude.com.driver.model.MotObject
+import h_mal.appttude.com.driver.model.PrivateHireObject
+import h_mal.appttude.com.driver.model.VehicleProfileObject
 import java.util.*
 
 class ArchiveObject {
@@ -27,6 +31,6 @@ class ArchiveObject {
         this.insurance_details = insurance_details
         this.mot_details = mot_details
         this.log_book = log_book
-        ph_car = private_hire_vehicle
+        this.ph_car = private_hire_vehicle
     }
 }

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,19 +14,17 @@
         android:paddingTop="12dp"
         android:paddingRight="12dp">
 
-        <include
-            android:id="@+id/image_pager"
-            layout="@layout/multi_image_selector"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/ins_view"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="12dp" />
+        <io.github.vejei.carouselview.CarouselView
+            android:id="@+id/carousel_view"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginBottom="12dp"
+            app:carouselMode="preview"
+            app:carouselPreviewSide="sides"
+            app:carouselPreviewOffset="30dp"
+            app:carouselPreviewSideBySideStyle="scale"
+            app:carouselMargin="10dp"
+            android:layout_marginTop="8dp"/>
 
         <TextView
             android:id="@+id/uploadInsurance"
@@ -42,7 +41,7 @@
             android:text="Upload Insurance Documents"
             android:textColorHighlight="#608d91" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -59,9 +58,9 @@
                 android:singleLine="true"
                 android:textColorHighlight="#608d91" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -78,7 +77,7 @@
                 android:singleLine="true"
                 android:textColorHighlight="#608d91" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
 
@@ -95,8 +94,5 @@
         android:text="@string/submit"
         android:textColor="@android:color/black"
         android:textStyle="bold" />
-
-
-
 
 </RelativeLayout>

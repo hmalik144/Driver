@@ -1,6 +1,10 @@
 package h_mal.appttude.com.driver.Objects.WholeObject
 
-import h_mal.appttude.com.driver.Objects.*
+import h_mal.appttude.com.driver.Objects.InsuranceObject
+import h_mal.appttude.com.driver.Objects.LogbookObject
+import h_mal.appttude.com.driver.Objects.PrivateHireVehicleObject
+import h_mal.appttude.com.driver.model.MotObject
+import h_mal.appttude.com.driver.model.VehicleProfileObject
 
 
 class VehicleProfile {

@@ -28,7 +28,7 @@ class MappedObject : Parcelable {
     }
 
     companion object {
-        val CREATOR: Parcelable.Creator<MappedObject> = object : Parcelable.Creator<MappedObject?> {
+        val CREATOR: Parcelable.Creator<MappedObject?> = object : Parcelable.Creator<MappedObject?> {
             override fun createFromParcel(`in`: Parcel): MappedObject? {
                 return MappedObject(`in`)
             }

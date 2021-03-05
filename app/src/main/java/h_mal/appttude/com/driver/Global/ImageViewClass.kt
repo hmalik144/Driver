@@ -13,8 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import h_mal.appttude.com.driver.MainActivity
 import h_mal.appttude.com.driver.R
+import h_mal.appttude.com.driver.utils.DateUtils
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -24,11 +24,12 @@ import java.io.IOException
 class ImageViewClass {
     fun open(bitmap: Bitmap?) {
         Companion.bitmap = bitmap
-        ExecuteFragment.executeFragment(ImageViewerFragment())
+//        executeFragment(ImageViewerFragment())
     }
 
     class ImageViewerFragment : Fragment() {
-        private var view: View? = null
+        private lateinit var viewer: View
+
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
         }
@@ -38,10 +39,10 @@ class ImageViewClass {
             savedInstanceState: Bundle?
         ): View? {
             // Inflate the layout for this fragment
-            view = inflater.inflate(R.layout.fragment_image_viewer, container, false)
-            val fab: FloatingActionButton = view.findViewById(R.id.download_pic)
+            viewer = inflater.inflate(R.layout.fragment_image_viewer, container, false)
+            val fab: FloatingActionButton = viewer.findViewById(R.id.download_pic)
             if (bitmap != null) {
-                val photoView: PhotoView = view.findViewById(R.id.photo_view)
+                val photoView: PhotoView = viewer.findViewById(R.id.photo_view)
                 photoView.setImageBitmap(bitmap)
                 fab.setOnClickListener(object : View.OnClickListener {
                     override fun onClick(v: View) {
@@ -53,26 +54,26 @@ class ImageViewClass {
                     }
                 })
             }
-            return view
+            return viewer
         }
 
         override fun onResume() {
             super.onResume()
             (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-            activity!!.window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
 
         override fun onStop() {
             super.onStop()
             (activity as AppCompatActivity?)!!.supportActionBar!!.show()
-            activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
 
         @Throws(FileNotFoundException::class)
         private fun downloadPic() {
             val f: File =
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-            val fname: String = "driver" + MainActivity.Companion.dateStamp + ".jpg"
+            val fname: String = "driver" + DateUtils.getDateTimeStamp() + ".jpg"
             val image: File = File(f, fname)
             val fileOutputStream: FileOutputStream = FileOutputStream(image)
             bitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
@@ -82,7 +83,7 @@ class ImageViewClass {
                 val mediaScanIntent: Intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
                 val contentUri: Uri = Uri.fromFile(image)
                 mediaScanIntent.data = contentUri
-                activity!!.sendBroadcast(mediaScanIntent)
+                requireActivity().sendBroadcast(mediaScanIntent)
             } catch (e: IOException) {
                 e.printStackTrace()
             }

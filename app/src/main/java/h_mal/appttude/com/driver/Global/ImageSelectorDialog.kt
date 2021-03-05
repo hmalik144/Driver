@@ -11,13 +11,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import h_mal.appttude.com.driver.MainActivity
 import h_mal.appttude.com.driver.R
 import java.io.File
 import java.util.*
@@ -55,49 +53,45 @@ class ImageSelectorDialog : Dialog {
         )
         val permissionCam: Int =
             ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
-        fragment = MainActivity.fragmentManager!!.fragments.get(0)
+//        fragment = MainActivity.mainFragmentManager.fragments[0]
         val upload: Button = findViewById(R.id.upload)
         val takePic: Button = findViewById(R.id.take_pic)
-        upload.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View) {
-                if (permissionPic == PackageManager.PERMISSION_GRANTED) {
-                    chooseImage()
-                } else {
-                    Toast.makeText(context, "Storage permissions required", Toast.LENGTH_SHORT)
-                        .show()
-                    ActivityCompat.requestPermissions(
-                        (fragment.getActivity())!!,
-                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                        STORAGE_PERMISSION_CODE
-                    )
-                }
-                dismiss()
+        upload.setOnClickListener {
+            if (permissionPic == PackageManager.PERMISSION_GRANTED) {
+                chooseImage()
+            } else {
+                Toast.makeText(context, "Storage permissions required", Toast.LENGTH_SHORT)
+                    .show()
+                ActivityCompat.requestPermissions(
+                    (fragment!!.requireActivity()),
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    STORAGE_PERMISSION_CODE
+                )
             }
-        })
-        takePic.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View) {
-                if (permissionCam == PackageManager.PERMISSION_GRANTED) {
-                    val cameraIntent: Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    val file: File = createFile()
-                    photoURI = Uri.fromFile(file)
-                    val imageUri: Uri = FileProvider.getUriForFile(
-                        context,
-                        "h_mal.appttude.com.driver",
-                        file
-                    )
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-                    fragment.startActivityForResult(cameraIntent, CAMERA_REQUEST)
-                } else {
-                    Toast.makeText(context, "Camera Permissions required", Toast.LENGTH_SHORT)
-                        .show()
-                    ActivityCompat.requestPermissions(
-                        (fragment.getActivity())!!, arrayOf(Manifest.permission.CAMERA),
-                        MY_CAMERA_PERMISSION_CODE
-                    )
-                }
-                dismiss()
+            dismiss()
+        }
+        takePic.setOnClickListener {
+            if (permissionCam == PackageManager.PERMISSION_GRANTED) {
+                val cameraIntent: Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                val file: File = createFile()
+                photoURI = Uri.fromFile(file)
+                val imageUri: Uri = FileProvider.getUriForFile(
+                    context,
+                    "h_mal.appttude.com.driver",
+                    file
+                )
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+                fragment!!.startActivityForResult(cameraIntent, CAMERA_REQUEST)
+            } else {
+                Toast.makeText(context, "Camera Permissions required", Toast.LENGTH_SHORT)
+                    .show()
+                ActivityCompat.requestPermissions(
+                    (fragment!!.requireActivity()), arrayOf(Manifest.permission.CAMERA),
+                    MY_CAMERA_PERMISSION_CODE
+                )
             }
-        })
+            dismiss()
+        }
     }
 
     fun setImageName(saveFileName: String) {

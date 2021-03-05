@@ -2,13 +2,8 @@ package h_mal.appttude.com.driver.SuperUser
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.view.View
 import androidx.cardview.widget.CardView
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import h_mal.appttude.com.driver.Global.FirebaseClass
-import h_mal.appttude.com.driver.MainActivity
 
 
 class DriverStatusClass : View.OnClickListener {
@@ -27,24 +22,20 @@ class DriverStatusClass : View.OnClickListener {
         }
         alertDialog.setSingleChoiceItems(
             choices,
-            selection,
-            object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface, which: Int) {}
-            })
+            selection
+        ) { dialog, which -> }
         alertDialog.create().show()
     }
 
     private fun SetStatus(status: Boolean) {
-        MainActivity.mDatabase!!.child(FirebaseClass.USER_FIREBASE)
-            .child((userId)!!).child(FirebaseClass.DRIVER_STATUS).setValue(status)
-            .addOnCompleteListener(object : OnCompleteListener<Void?> {
-                override fun onComplete(task: Task<Void?>) {
-                    if (task.isSuccessful) {
-                        cardView!!.setBackgroundColor(setStatusColour(status))
-                    } else {
-                    }
-                }
-            })
+//        MainActivity.mDatabase!!.child(FirebaseClass.USER_FIREBASE)
+//            .child((userId)!!).child(FirebaseClass.DRIVER_STATUS).setValue(status)
+//            .addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    cardView!!.setBackgroundColor(setStatusColour(status))
+//                } else {
+//                }
+//            }
     }
 
     private fun setStatusColour(b: Boolean): Int {
@@ -63,9 +54,9 @@ class DriverStatusClass : View.OnClickListener {
     //                    approvalsObject.private_hire_approval,
     //                    approvalsObject.vehicle_details_approval,
     //                    approvalsObject.insurance_details_approval,
-    //                    approvalsObject.getMot_details_approval(),
-    //                    approvalsObject.getLog_book_approval(),
-    //                    approvalsObject.getPh_car_approval()};
+    //                    approvalsObject.mot_details_approval,
+    //                    approvalsObject.log_book_approval,
+    //                    approvalsObject.ph_car_approval};
     //
     //
     //            return setImageResource(mode(ints));

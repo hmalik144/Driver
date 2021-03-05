@@ -8,26 +8,26 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import h_mal.appttude.com.driver.MainActivity
+import h_mal.appttude.com.driver.utils.DateUtils.getDateStamp
+import h_mal.appttude.com.driver.utils.DateUtils.getDateTimeStamp
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
 class ImageSelectorResults  //    public FilepathResponse delegate;
 {
-    var activity: Activity? = null
+    lateinit var activity: Activity
 
-    open interface FilepathResponse {
+    interface FilepathResponse {
         fun processFinish(output: Uri?)
     }
 
     fun Results(
-        activity: Activity?, requestCode: Int, resultCode: Int, data: Intent?, filePath: Uri?,
+        activity: Activity, requestCode: Int, resultCode: Int, data: Intent?, filePath: Uri?,
         imageView: ImageView?, delegate: FilepathResponse
     ) {
         var filePath: Uri? = filePath
@@ -35,11 +35,11 @@ class ImageSelectorResults  //    public FilepathResponse delegate;
         if ((requestCode == ImageSelectorDialog.PICK_IMAGE_REQUEST) && (resultCode == Activity.RESULT_OK
                     ) && (data != null) && (data.data != null)
         ) {
-            filePath = data.data
+            val uri = data.data
             var bitmap: Bitmap? = null
             try {
                 bitmap =
-                    MediaStore.Images.Media.getBitmap(activity!!.contentResolver, filePath)
+                    MediaStore.Images.Media.getBitmap(activity.contentResolver, uri)
                 if (imageView!!.visibility != View.VISIBLE) {
                     imageView.visibility = View.VISIBLE
                 }
@@ -48,8 +48,7 @@ class ImageSelectorResults  //    public FilepathResponse delegate;
                 e.printStackTrace()
             } finally {
                 if (bitmap != null) {
-                    delegate.processFinish(filePath)
-                    Log.i(javaClass.simpleName, "Results: " + filePath)
+                    delegate.processFinish(uri)
                 }
             }
         }
@@ -67,9 +66,9 @@ class ImageSelectorResults  //    public FilepathResponse delegate;
                 try {
                     val f: File =
                         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                    val fname: String = "driver" + MainActivity.dateStamp + ".jpg"
-                    val image: File = File(f, fname)
-                    val fileOutputStream: FileOutputStream = FileOutputStream(image)
+                    val fname: String = "driver" + getDateStamp() + ".jpg"
+                    val image = File(f, fname)
+                    val fileOutputStream = FileOutputStream(image)
                     filePath = ImageSelectorDialog.photoURI
                     val bitmap: Bitmap = MediaStore.Images.Media
                         .getBitmap(
@@ -86,12 +85,11 @@ class ImageSelectorResults  //    public FilepathResponse delegate;
                 }
             }
             delegate.processFinish(filePath)
-            Log.i(javaClass.simpleName, "Results: " + filePath)
         }
     }
 
     fun Results(
-        activity: Activity?,
+        activity: Activity,
         requestCode: Int,
         resultCode: Int,
         data: Intent?,
@@ -107,20 +105,19 @@ class ImageSelectorResults  //    public FilepathResponse delegate;
             var bitmap: Bitmap? = null
             try {
                 bitmap =
-                    MediaStore.Images.Media.getBitmap(activity!!.contentResolver, filePath)
+                    MediaStore.Images.Media.getBitmap(activity.contentResolver, filePath)
             } catch (e: IOException) {
                 e.printStackTrace()
             } finally {
                 if (bitmap != null) {
                     delegate.processFinish(filePath)
-                    Log.i(javaClass.simpleName, "Results: " + filePath)
                 }
             }
         }
         if (requestCode == ImageSelectorDialog.CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             //check if we have we have storage rights
             val permission: Int = ActivityCompat.checkSelfPermission(
-                (activity)!!,
+                (activity),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
             if (permission != PackageManager.PERMISSION_GRANTED) {
@@ -131,7 +128,7 @@ class ImageSelectorResults  //    public FilepathResponse delegate;
                 try {
                     val f: File =
                         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                    val fname: String = "driver" + MainActivity.dateStamp + ".jpg"
+                    val fname: String = "driver" + getDateTimeStamp() + ".jpg"
                     val image: File = File(f, fname)
                     val fileOutputStream: FileOutputStream = FileOutputStream(image)
                     filePath = ImageSelectorDialog.photoURI
@@ -149,7 +146,6 @@ class ImageSelectorResults  //    public FilepathResponse delegate;
                 }
             }
             delegate.processFinish(filePath)
-            Log.i(javaClass.simpleName, "Results: " + filePath)
         }
     }
 
@@ -158,6 +154,6 @@ class ImageSelectorResults  //    public FilepathResponse delegate;
         val f: File = File(ImageSelectorDialog.photoURI!!.path)
         val contentUri: Uri = Uri.fromFile(f)
         mediaScanIntent.data = contentUri
-        activity!!.sendBroadcast(mediaScanIntent)
+        activity.sendBroadcast(mediaScanIntent)
     }
 }

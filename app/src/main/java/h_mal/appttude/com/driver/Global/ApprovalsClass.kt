@@ -1,8 +1,5 @@
 package h_mal.appttude.com.driver.Global
 
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import h_mal.appttude.com.driver.MainActivity
 import h_mal.appttude.com.driver.Objects.ApprovalsObject
 import h_mal.appttude.com.driver.Objects.WholeDriverObject
 import h_mal.appttude.com.driver.R
@@ -11,16 +8,16 @@ import h_mal.appttude.com.driver.R
 class ApprovalsClass {
     fun getOverApprovalStatusCode(wholeDriverObject: WholeDriverObject?): Int {
         if (wholeDriverObject!!.approvalsObject != null) {
-            val approvalsObject: ApprovalsObject? = wholeDriverObject.approvalsObject
+            val approvalsObject: ApprovalsObject = wholeDriverObject!!.approvalsObject!!
             val ints: IntArray = intArrayOf(
-                approvalsObject.getDriver_details_approval(),
+                approvalsObject.driver_details_approval,
                 approvalsObject.driver_license_approval,
                 approvalsObject.private_hire_approval,
                 approvalsObject.vehicle_details_approval,
                 approvalsObject.insurance_details_approval,
-                approvalsObject.getMot_details_approval(),
-                approvalsObject.getLog_book_approval(),
-                approvalsObject.getPh_car_approval()
+                approvalsObject.mot_details_approval,
+                approvalsObject.log_book_approval,
+                approvalsObject.ph_car_approval
             )
             return setImageResource(mode(ints))
         }
@@ -28,18 +25,16 @@ class ApprovalsClass {
     }
 
     fun setStatusCode(userId: String?, approvalNameString: String, status: Int) {
-        if (!(approvalNameString == "")) {
-            MainActivity.mDatabase!!.child(FirebaseClass.USER_FIREBASE)
-                .child((userId)!!).child(FirebaseClass.USER_APPROVALS)
-                .child(approvalNameString)
-                .setValue(status).addOnCompleteListener(object : OnCompleteListener<Void?> {
-                    override fun onComplete(task: Task<Void?>) {
-                        if (task.isSuccessful) {
-                        } else {
-                        }
-                    }
-                })
-        }
+//        if (!(approvalNameString == "")) {
+//            MainActivity.mDatabase!!.child(FirebaseClass.USER_FIREBASE)
+//                .child((userId)!!).child(FirebaseClass.USER_APPROVALS)
+//                .child(approvalNameString)
+//                .setValue(status).addOnCompleteListener { task ->
+//                    if (task.isSuccessful) {
+//                    } else {
+//                    }
+//                }
+//        }
     }
 
     fun setImageResource(statusCode: Int): Int {
@@ -55,7 +50,6 @@ class ApprovalsClass {
 
     companion object {
         fun mode(array: IntArray): Int {
-            MainActivity.printObjectAsJson("modeArrays", array)
             var mode: Int = array.get(0)
             var maxCount: Int = 0
             if (matchedArray(array, 3)) {
