@@ -11,7 +11,7 @@ import android.widget.TextView
 import com.squareup.picasso.Picasso
 import h_mal.appttude.com.driver.Global.FirebaseClass
 import h_mal.appttude.com.driver.Global.ImageSwiperClass
-import h_mal.appttude.com.driver.MainActivity
+import h_mal.appttude.com.driver.ui.driver.MainActivity
 import h_mal.appttude.com.driver.Objects.ArchiveObject
 import h_mal.appttude.com.driver.Objects.InsuranceObject
 import h_mal.appttude.com.driver.Objects.LogbookObject
@@ -74,64 +74,64 @@ class ArchiveObjectListAdapter(
                 val fiewTwoLable: TextView = listItemView.findViewById(R.id.field_two)
                 val fieldTwoText: TextView = listItemView.findViewById(R.id.field_two_text)
                 when (archiveString) {
-                    FirebaseClass.PRIVATE_HIRE_FIREBASE -> {
-                        expiryHolder.visibility = View.VISIBLE
-                        fieldTwo.visibility = View.VISIBLE
-                        val privateHireObject: PrivateHireObject =
-                            getItem(position) as PrivateHireObject
-                        Picasso.get().load(privateHireObject.phImageString)
-                            .placeholder(R.drawable.choice_img)
-                            .into(imageView)
-                        dateString(position)
-                        expiryText.text = privateHireObject.phExpiry
-                        fiewTwoLable.text = "Private Hire License No.:"
-                        fieldTwoText.text = privateHireObject.phNumber
-                    }
-                    FirebaseClass.DRIVERS_LICENSE_FIREBASE -> {
-                        expiryHolder.visibility = View.VISIBLE
-                        fieldTwo.visibility = View.VISIBLE
-                        val driversLicenseObject: DriversLicenseObject =
-                            getItem(position) as DriversLicenseObject
-                        Picasso.get().load(driversLicenseObject.licenseImageString)
-                            .placeholder(R.drawable.choice_img)
-                            .into(imageView)
-                        dateString(position)
-                        expiryText.text = driversLicenseObject.licenseExpiry
-                        fiewTwoLable.text = "License No.:"
-                        fieldTwoText.text = driversLicenseObject.licenseNumber
-                    }
-                    FirebaseClass.MOT_FIREBASE -> {
-                        expiryHolder.visibility = View.VISIBLE
-                        fieldTwo.visibility = View.GONE
-                        val motObject: MotObject = getItem(position) as MotObject
-                        Picasso.get().load(motObject.motImageString)
-                            .placeholder(R.drawable.choice_img)
-                            .into(imageView)
-                        dateString(position)
-                        expiryText.text = motObject.motExpiry
-                    }
-                    FirebaseClass.LOG_BOOK_FIREBASE -> {
-                        expiryHolder.visibility = View.GONE
-                        fieldTwo.visibility = View.VISIBLE
-                        val logbookObject: LogbookObject = getItem(position) as LogbookObject
-                        Picasso.get().load(logbookObject.photoString)
-                            .into(MainActivity.loadImage(imageView))
-                        dateString(position)
-                        fiewTwoLable.text = "V5C No.:"
-                        fieldTwoText.text = logbookObject.v5cnumber
-                    }
-                    FirebaseClass.PRIVATE_HIRE_VEHICLE_LICENSE -> {
-                        expiryHolder.visibility = View.VISIBLE
-                        fieldTwo.visibility = View.VISIBLE
-                        val privateHireVehicleObject: PrivateHireVehicleObject =
-                            getItem(position) as PrivateHireVehicleObject
-                        Picasso.get().load(privateHireVehicleObject.phCarImageString)
-                            .into(MainActivity.loadImage(imageView))
-                        dateString(position)
-                        expiryText.text = privateHireVehicleObject.phCarExpiry
-                        fiewTwoLable.text = "Private Hire Vehicle License No.:"
-                        fieldTwoText.text = privateHireVehicleObject.phCarNumber
-                    }
+//                    FirebaseClass.PRIVATE_HIRE_FIREBASE -> {
+//                        expiryHolder.visibility = View.VISIBLE
+//                        fieldTwo.visibility = View.VISIBLE
+//                        val privateHireObject: PrivateHireObject =
+//                            getItem(position) as PrivateHireObject
+//                        Picasso.get().load(privateHireObject.phImageString)
+//                            .placeholder(R.drawable.choice_img)
+//                            .into(imageView)
+//                        dateString(position)
+//                        expiryText.text = privateHireObject.phExpiry
+//                        fiewTwoLable.text = "Private Hire License No.:"
+//                        fieldTwoText.text = privateHireObject.phNumber
+//                    }
+//                    FirebaseClass.DRIVERS_LICENSE_FIREBASE -> {
+//                        expiryHolder.visibility = View.VISIBLE
+//                        fieldTwo.visibility = View.VISIBLE
+//                        val driversLicenseObject: DriversLicenseObject =
+//                            getItem(position) as DriversLicenseObject
+//                        Picasso.get().load(driversLicenseObject.licenseImageString)
+//                            .placeholder(R.drawable.choice_img)
+//                            .into(imageView)
+//                        dateString(position)
+//                        expiryText.text = driversLicenseObject.licenseExpiry
+//                        fiewTwoLable.text = "License No.:"
+//                        fieldTwoText.text = driversLicenseObject.licenseNumber
+//                    }
+//                    FirebaseClass.MOT_FIREBASE -> {
+//                        expiryHolder.visibility = View.VISIBLE
+//                        fieldTwo.visibility = View.GONE
+//                        val motObject: MotObject = getItem(position) as MotObject
+//                        Picasso.get().load(motObject.motImageString)
+//                            .placeholder(R.drawable.choice_img)
+//                            .into(imageView)
+//                        dateString(position)
+//                        expiryText.text = motObject.motExpiry
+//                    }
+//                    FirebaseClass.LOG_BOOK_FIREBASE -> {
+//                        expiryHolder.visibility = View.GONE
+//                        fieldTwo.visibility = View.VISIBLE
+//                        val logbookObject: LogbookObject = getItem(position) as LogbookObject
+//                        Picasso.get().load(logbookObject.photoString)
+//                            .into(MainActivity.loadImage(imageView))
+//                        dateString(position)
+//                        fiewTwoLable.text = "V5C No.:"
+//                        fieldTwoText.text = logbookObject.v5cnumber
+//                    }
+//                    FirebaseClass.PRIVATE_HIRE_VEHICLE_LICENSE -> {
+//                        expiryHolder.visibility = View.VISIBLE
+//                        fieldTwo.visibility = View.VISIBLE
+//                        val privateHireVehicleObject: PrivateHireVehicleObject =
+//                            getItem(position) as PrivateHireVehicleObject
+//                        Picasso.get().load(privateHireVehicleObject.phCarImageString)
+//                            .into(MainActivity.loadImage(imageView))
+//                        dateString(position)
+//                        expiryText.text = privateHireVehicleObject.phCarExpiry
+//                        fiewTwoLable.text = "Private Hire Vehicle License No.:"
+//                        fieldTwoText.text = privateHireVehicleObject.phCarNumber
+//                    }
                 }
             } else if ((archiveString == FirebaseClass.INSURANCE_FIREBASE)) {
                 listItemView = LayoutInflater.from(context).inflate(

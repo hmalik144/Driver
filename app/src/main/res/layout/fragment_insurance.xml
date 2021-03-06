@@ -6,7 +6,6 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ins_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -14,17 +13,17 @@
         android:paddingTop="12dp"
         android:paddingRight="12dp">
 
-        <io.github.vejei.carouselview.CarouselView
-            android:id="@+id/carousel_view"
+        <com.synnapps.carouselview.CarouselView
+            android:id="@+id/carouselView"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="200dp"
             android:layout_marginBottom="12dp"
-            app:carouselMode="preview"
-            app:carouselPreviewSide="sides"
-            app:carouselPreviewOffset="30dp"
-            app:carouselPreviewSideBySideStyle="scale"
-            app:carouselMargin="10dp"
-            android:layout_marginTop="8dp"/>
+            app:fillColor="#FFFFFFFF"
+            app:pageColor="#00000000"
+            app:radius="6dp"
+            app:autoPlay="false"
+            app:strokeColor="#FF777777"
+            app:strokeWidth="1dp"/>
 
         <TextView
             android:id="@+id/uploadInsurance"

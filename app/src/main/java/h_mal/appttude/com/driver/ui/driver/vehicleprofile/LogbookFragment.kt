@@ -3,7 +3,6 @@ package h_mal.appttude.com.driver.ui.driver.vehicleprofile
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import h_mal.appttude.com.driver.DataFieldsInterface
 import h_mal.appttude.com.driver.Objects.LogbookObject
 import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
@@ -12,8 +11,7 @@ import h_mal.appttude.com.driver.viewmodels.LogbookViewModel
 import kotlinx.android.synthetic.main.fragment_logbook.*
 
 
-class LogbookFragment : DataSubmissionBaseFragment<LogbookViewModel, LogbookObject>(),
-    DataFieldsInterface {
+class LogbookFragment : DataSubmissionBaseFragment<LogbookViewModel, LogbookObject>() {
 
     private val viewmodel by getFragmentViewModel<LogbookViewModel>()
     override fun getViewModel(): LogbookViewModel = viewmodel
@@ -41,13 +39,13 @@ class LogbookFragment : DataSubmissionBaseFragment<LogbookViewModel, LogbookObje
         super.setFields(data)
 
         log_book_img.setPicassoImage(data.photoString)
-        v5c_no.setFieldFromDataFetch(data.v5cnumber)
+        v5c_no.setText(data.v5cnumber)
     }
 
     override fun onImageGalleryResult(imageUri: Uri?) {
         super.onImageGalleryResult(imageUri)
 
         picUri = imageUri
-        log_book_img.setImageURI(picUri)
+        log_book_img.setPicassoImage(picUri)
     }
 }

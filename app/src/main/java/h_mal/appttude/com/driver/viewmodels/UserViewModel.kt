@@ -3,7 +3,9 @@ package h_mal.appttude.com.driver.viewmodels
 import com.google.firebase.auth.AuthResult
 import h_mal.appttude.com.driver.base.BaseViewModel
 import h_mal.appttude.com.driver.data.FirebaseAuthentication
+import h_mal.appttude.com.driver.data.FirebaseCompletion
 import h_mal.appttude.com.driver.utils.Coroutines.io
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 
 class UserViewModel(
@@ -34,11 +36,12 @@ class UserViewModel(
         }
     }
 
-
-    fun getUser(): Boolean {
-        return auth.getUser()?.let {
+    fun splashscreenCheckUserIsLoggedIn() = io {
+        delay(1000)
+        auth.getUser()?.let {
             onSuccess(it)
-            true
-        } ?: false
+        }
+        onSuccess(FirebaseCompletion.Default)
     }
+
 }

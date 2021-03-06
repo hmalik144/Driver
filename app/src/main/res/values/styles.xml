@@ -48,33 +48,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="test_item_title" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">22sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="small_header_text" parent="TextAppearance.AppCompat">
-        <item name="android:gravity">center</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:layout_margin">4dp</item>
-    </style>
-
     <style name="button_inner_text" parent="TextAppearance.AppCompat">
         <item name="android:gravity">center</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_margin">8dp</item>
-    </style>
-
-    <style name="button" parent="CardView">
-        <item name="cardCornerRadius">8dp</item>
-    </style>
-
-    <style name="info_field_label" parent="TextAppearance.AppCompat">
-        <!--        <item name="android:textAppearance">@android:style/TextAppearance</item>-->
-        <item name="android:padding">?android:attr/listPreferredItemPaddingEnd</item>
-        <item name="android:minHeight">?android:attr/listPreferredItemHeightSmall</item>
     </style>
 
     <style name="constraint_container">

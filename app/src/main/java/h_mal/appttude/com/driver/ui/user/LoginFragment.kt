@@ -1,4 +1,4 @@
-package h_mal.appttude.com.driver.user
+package h_mal.appttude.com.driver.ui.user
 
 import android.os.Bundle
 import android.view.View

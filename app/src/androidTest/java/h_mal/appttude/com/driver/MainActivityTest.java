@@ -9,7 +9,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import h_mal.appttude.com.driver.ui.HomeFragment;
+import h_mal.appttude.com.driver.ui.driver.HomeFragment;
+import h_mal.appttude.com.driver.ui.driver.MainActivity;
 
 import static org.junit.Assert.assertNotNull;
 

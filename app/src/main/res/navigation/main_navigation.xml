@@ -2,12 +2,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_navigation"
     app:startDestination="@id/homeDriverFragment">
 
     <fragment
         android:id="@+id/homeDriverFragment"
-        android:name="h_mal.appttude.com.driver.ui.HomeFragment"
+        android:name="h_mal.appttude.com.driver.ui.driver.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home_driver" >
         <action
@@ -114,7 +113,7 @@
         tools:layout="@layout/fragment_vehicle_setup"/>
     <fragment
         android:id="@+id/insuranceFragment"
-        android:name="h_mal.appttude.com.driver.driver.InsuranceFragment"
+        android:name="h_mal.appttude.com.driver.ui.driver.vehicleprofile.InsuranceFragment"
         android:label="InsuranceFragment"
         tools:layout="@layout/fragment_insurance"/>
     <fragment

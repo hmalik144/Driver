@@ -1,11 +1,11 @@
-package h_mal.appttude.com.driver.user
+package h_mal.appttude.com.driver.ui.user
 
 
 import android.content.Intent
 import android.os.Bundle
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
-import h_mal.appttude.com.driver.MainActivity
+import h_mal.appttude.com.driver.ui.driver.MainActivity
 import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.base.BaseActivity
 import h_mal.appttude.com.driver.viewmodels.UserViewModel

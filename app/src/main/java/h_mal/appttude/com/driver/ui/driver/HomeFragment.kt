@@ -1,4 +1,4 @@
-package h_mal.appttude.com.driver.ui
+package h_mal.appttude.com.driver.ui.driver
 
 import android.os.Bundle
 import android.view.LayoutInflater

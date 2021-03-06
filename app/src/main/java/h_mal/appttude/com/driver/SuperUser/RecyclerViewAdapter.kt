@@ -12,7 +12,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import h_mal.appttude.com.driver.MainActivity
+import h_mal.appttude.com.driver.ui.driver.MainActivity
 import h_mal.appttude.com.driver.Objects.UserObject
 import h_mal.appttude.com.driver.Objects.WholeObject.MappedObject
 import h_mal.appttude.com.driver.R
@@ -67,9 +67,9 @@ class RecyclerViewAdapter constructor(var context: Context?, var objects: List<M
                 }.create()
                 .show()
         }
-        viewHolderCurrent.profileApprovalImage.setImageResource(
-            MainActivity.approvalsClass!!.getOverApprovalStatusCode(mappedObject.wholeDriverObject)
-        )
+//        viewHolderCurrent.profileApprovalImage.setImageResource(
+//            MainActivity.approvalsClass!!.getOverApprovalStatusCode(mappedObject.wholeDriverObject)
+//        )
         viewHolderCurrent.itemView.setOnClickListener {
             val bundle: Bundle = Bundle()
             bundle.putParcelable("mapped", mappedObject)

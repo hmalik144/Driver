@@ -12,11 +12,12 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
-import h_mal.appttude.com.driver.MainActivity
+import h_mal.appttude.com.driver.ui.driver.MainActivity
 import h_mal.appttude.com.driver.Objects.WholeDriverObject
 import h_mal.appttude.com.driver.Objects.WholeObject.MappedObject
 import h_mal.appttude.com.driver.R
 import kotlinx.android.synthetic.main.fragment_home_super_user.*
+import java.io.IOException
 import java.util.*
 
 
@@ -125,11 +126,12 @@ class homeSuperUserFragment : Fragment() {
                         }
                         return s1!!.compareTo((s2)!!)
                     }
-                    2 -> return MainActivity.approvalsClass.getOverApprovalStatusCode(o1.wholeDriverObject) -
-                            MainActivity.approvalsClass.getOverApprovalStatusCode(o2.wholeDriverObject)
-                    else -> return MainActivity.approvalsClass.getOverApprovalStatusCode(
-                        o1.wholeDriverObject
-                    ) - MainActivity.approvalsClass.getOverApprovalStatusCode(o2.wholeDriverObject)
+                    else -> { throw IOException("dfdfs") }
+//                    2 -> return MainActivity.approvalsClass.getOverApprovalStatusCode(o1.wholeDriverObject) -
+//                            MainActivity.approvalsClass.getOverApprovalStatusCode(o2.wholeDriverObject)
+//                    else -> return MainActivity.approvalsClass.getOverApprovalStatusCode(
+//                        o1.wholeDriverObject
+//                    ) - MainActivity.approvalsClass.getOverApprovalStatusCode(o2.wholeDriverObject)
                 }
             }
         }

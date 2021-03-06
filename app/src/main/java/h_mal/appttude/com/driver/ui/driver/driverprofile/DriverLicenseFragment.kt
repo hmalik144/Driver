@@ -3,15 +3,15 @@ package h_mal.appttude.com.driver.ui.driver.driverprofile
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import h_mal.appttude.com.driver.DataFieldsInterface
 import h_mal.appttude.com.driver.Global.DateDialog
 import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
 import h_mal.appttude.com.driver.model.DriversLicenseObject
+import h_mal.appttude.com.driver.utils.setPicassoImage
 import h_mal.appttude.com.driver.viewmodels.DriverLicenseViewModel
 import kotlinx.android.synthetic.main.fragment_driver_license.*
 
-class DriverLicenseFragment : DataSubmissionBaseFragment<DriverLicenseViewModel, DriversLicenseObject>(), DataFieldsInterface {
+class DriverLicenseFragment : DataSubmissionBaseFragment<DriverLicenseViewModel, DriversLicenseObject>() {
 
     private val viewmodel: DriverLicenseViewModel by getFragmentViewModel()
     override fun getViewModel(): DriverLicenseViewModel = viewmodel
@@ -26,7 +26,7 @@ class DriverLicenseFragment : DataSubmissionBaseFragment<DriverLicenseViewModel,
         lic_expiry.apply {
             setTextOnChange{ model.licenseExpiry = it }
             setOnClickListener {
-                DateDialog(requireContext(), this)
+                DateDialog(this)
             }
         }
         lic_no.setTextOnChange{ model.licenseNumber = it }
@@ -36,24 +36,22 @@ class DriverLicenseFragment : DataSubmissionBaseFragment<DriverLicenseViewModel,
     }
 
     override fun submit(){
-        validateEditTexts(lic_expiry,lic_no)
-            .takeIf { !it }
-            ?.let { return }
+        validateEditTexts(lic_expiry,lic_no).takeIf { !it }?.let { return }
 
         viewmodel.setDataInDatabase(model, imageUri)
     }
 
     override fun setFields(data: DriversLicenseObject) {
         super.setFields(data)
-        driversli_img.setFieldFromFetchData(data.licenseImageString)
-        lic_no.setFieldFromDataFetch(data.licenseNumber)
-        lic_expiry.setFieldFromDataFetch(data.licenseExpiry)
+        driversli_img.setPicassoImage(data.licenseImageString)
+        lic_no.setText(data.licenseNumber)
+        lic_expiry.setText(data.licenseExpiry)
     }
 
     override fun onImageGalleryResult(imageUri: Uri?) {
         super.onImageGalleryResult(imageUri)
         this.imageUri = imageUri
-        driversli_img.setImageURI(imageUri)
+        driversli_img.setPicassoImage(imageUri)
     }
 
 }

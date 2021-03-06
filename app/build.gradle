@@ -36,6 +36,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
 }
 
 dependencies {
@@ -87,5 +88,5 @@ dependencies {
     implementation "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
 
     /* Image Carousal */
-    implementation 'io.github.vejei.carouselview:carouselview:1.0.0-alpha'
+    implementation 'com.synnapps:carouselview:0.1.5'
 }

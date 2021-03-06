@@ -85,7 +85,7 @@ class UpdateProfileFragment : BaseFragment<UpdateUserViewModel>() {
     override fun onImageGalleryResult(imageUri: Uri?) {
         super.onImageGalleryResult(imageUri)
         this.imageUri = imageUri
-        profile_img.setImageURI(imageUri)
+        profile_img.setPicassoImage(imageUri)
         imageChangeListener = true
     }
 

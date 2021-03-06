@@ -3,7 +3,8 @@ package h_mal.appttude.com.driver.ui.driver.vehicleprofile
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import h_mal.appttude.com.driver.DataFieldsInterface
+
+import h_mal.appttude.com.driver.Global.DateDialog
 import h_mal.appttude.com.driver.Objects.PrivateHireVehicleObject
 import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
@@ -12,8 +13,7 @@ import h_mal.appttude.com.driver.viewmodels.PrivateHireVehicleViewModel
 import kotlinx.android.synthetic.main.fragment_private_hire_vehicle.*
 
 
-class PrivateHireVehicleFragment: DataSubmissionBaseFragment<PrivateHireVehicleViewModel, PrivateHireVehicleObject>(),
-    DataFieldsInterface {
+class PrivateHireVehicleFragment: DataSubmissionBaseFragment<PrivateHireVehicleViewModel, PrivateHireVehicleObject>(){
 
     private val viewmodel by getFragmentViewModel<PrivateHireVehicleViewModel>()
     override fun getViewModel(): PrivateHireVehicleViewModel = viewmodel
@@ -24,7 +24,12 @@ class PrivateHireVehicleFragment: DataSubmissionBaseFragment<PrivateHireVehicleV
         super.onViewCreated(view, savedInstanceState)
 
         ph_no.setTextOnChange{ model.phCarNumber = it }
-        ph_expiry.setTextOnChange{ model.phCarExpiry = it }
+        ph_expiry.apply {
+            setTextOnChange{ model.phCarExpiry = it }
+            setOnClickListener {
+                DateDialog(this)
+            }
+        }
 
         uploadphlic.setOnClickListener { openGalleryWithPermissionRequest() }
         submit.setOnClickListener { submit() }
@@ -32,21 +37,19 @@ class PrivateHireVehicleFragment: DataSubmissionBaseFragment<PrivateHireVehicleV
 
     override fun submit() {
         super.submit()
-        validateEditTexts(ph_no, ph_expiry)
-            .takeIf { !it }
-            ?.let { return }
+        validateEditTexts(ph_no, ph_expiry).takeIf { !it }?.let { return }
         viewmodel.setDataInDatabase(model, picUri)
     }
 
     override fun setFields(data: PrivateHireVehicleObject) {
         super.setFields(data)
         imageView2.setPicassoImage(data.phCarImageString)
-        ph_no.setFieldFromDataFetch(data.phCarNumber)
-        ph_expiry.setFieldFromDataFetch(data.phCarExpiry)
+        ph_no.setText(data.phCarNumber)
+        ph_expiry.setText(data.phCarExpiry)
     }
 
     override fun onImageGalleryResult(imageUri: Uri?) {
         super.onImageGalleryResult(imageUri)
-        imageView2.setImageURI(imageUri)
+        imageView2.setPicassoImage(imageUri)
     }
 }

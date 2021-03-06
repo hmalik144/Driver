@@ -86,8 +86,11 @@ abstract class BaseFragment<V : BaseViewModel> : Fragment(), KodeinAware {
         if (resultCode == Activity.RESULT_OK){
             when(requestCode){
                 IMAGE_SELECT_REQUEST_CODE -> {
-                    data?.clipData?.convertToList()?.let {
-                        onImageGalleryResult(it.subList(0, 9))
+                    data?.clipData?.convertToList()?.let { clip ->
+                        val list = clip.takeIf { it.size > 10 }?.let{
+                            clip.subList(0, 9)
+                        } ?: clip
+                        onImageGalleryResult(list)
                         return
                     }
                     onImageGalleryResult(data?.data)

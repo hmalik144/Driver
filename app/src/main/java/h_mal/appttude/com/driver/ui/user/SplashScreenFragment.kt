@@ -1,10 +1,12 @@
-package h_mal.appttude.com.driver.user
+package h_mal.appttude.com.driver.ui.user
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import com.google.firebase.auth.FirebaseUser
 import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.base.BaseFragment
+import h_mal.appttude.com.driver.data.FirebaseCompletion
 import h_mal.appttude.com.driver.utils.Coroutines.main
 import h_mal.appttude.com.driver.utils.navigateTo
 import h_mal.appttude.com.driver.viewmodels.UserViewModel
@@ -20,14 +22,14 @@ class SplashScreenFragment : BaseFragment<UserViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userViewModel.getUser()
-
-        goToLogin()
+        userViewModel.splashscreenCheckUserIsLoggedIn()
     }
 
-    private fun goToLogin() = main{
-            delay(1000)
-            view?.navigateTo(R.id.to_loginFragment)
+    override fun onSuccess(data: Any?) {
+        super.onSuccess(data)
+        when(data){
+            is FirebaseCompletion.Default -> view?.navigateTo(R.id.to_loginFragment)
+        }
     }
 
 }

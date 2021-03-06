@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams
+import android.view.ViewGroup.LayoutParams.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -24,17 +26,17 @@ import org.kodein.di.generic.instance
 abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), KodeinAware {
 
     private lateinit var loadingView: View
-    abstract fun getViewModel(): V?
 
+    abstract fun getViewModel(): V?
     abstract val layoutId: Int
 
     override val kodein by kodein()
     val factory by instance<ApplicationViewModelFactory>()
 
     inline fun <reified VM : ViewModel> createLazyViewModel(): Lazy<VM> = viewModels { factory }
-    inline fun <reified VM : ViewModel> createViewModel(): VM = ViewModelProvider(viewModelStore, factory).get(VM::class.java)
+    inline fun <reified VM : ViewModel> createViewModel(): VM =
+        ViewModelProvider(viewModelStore, factory).get(VM::class.java)
 
-    var mProgressDialog: View? = null
 
     private var loading: Boolean = false
 
@@ -44,20 +46,26 @@ abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), KodeinAwar
         setContentView(layoutId)
     }
 
-    override fun onStart() {
-        super.onStart()
-
+    /**
+     *  Creates a loading view which to be shown during async operations
+     *
+     *  #setOnClickListener(null) is an ugly work around to prevent under being clicked during
+     *  loading
+     */
+    private fun instantiateLoadingView(){
         loadingView = layoutInflater.inflate(R.layout.progress_layout, null)
         loadingView.setOnClickListener(null)
-        addContentView(loadingView, ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        ))
+        addContentView(loadingView, LayoutParams(MATCH_PARENT, MATCH_PARENT))
 
         loadingView.hide()
     }
 
-    fun <A : AppCompatActivity> startActivity(activity: Class<A>){
+    override fun onStart() {
+        super.onStart()
+        instantiateLoadingView()
+    }
+
+    fun <A : AppCompatActivity> startActivity(activity: Class<A>) {
         val intent = Intent(this, activity)
         startActivity(intent)
     }
@@ -89,7 +97,7 @@ abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), KodeinAwar
 
     private fun configureObserver() {
         getViewModel()?.uiState?.observe(this, Observer {
-            when(it){
+            when (it) {
                 is ViewState.HasStarted -> onStarted()
                 is ViewState.HasData<*> -> onSuccess(it.data.getContentIfNotHandled())
                 is ViewState.HasError -> onFailure(it.error.getContentIfNotHandled())
@@ -97,19 +105,16 @@ abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), KodeinAwar
         })
     }
 
-    private fun View.fadeIn() {
-        apply {
-            show()
-            triggerAnimation(R.anim.nav_default_enter_anim){}
-        }
+    private fun View.fadeIn() = apply {
+        show()
+        triggerAnimation(R.anim.nav_default_enter_anim) {}
     }
 
-    private fun View.fadeOut() {
-        apply {
-            hide()
-            triggerAnimation(R.anim.nav_default_exit_anim){}
-        }
+    private fun View.fadeOut() = apply {
+        hide()
+        triggerAnimation(R.anim.nav_default_exit_anim) {}
     }
+
 
     override fun onBackPressed() {
         if (!loading) super.onBackPressed()

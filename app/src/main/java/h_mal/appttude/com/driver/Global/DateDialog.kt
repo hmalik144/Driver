@@ -1,6 +1,7 @@
 package h_mal.appttude.com.driver.Global
 
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Context
@@ -11,12 +12,12 @@ import androidx.annotation.RequiresApi
 import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.utils.DateUtils
 
+
 private const val DATE_FORMAT = "dd/MM/yyyy"
 @RequiresApi(api = Build.VERSION_CODES.N)
 class DateDialog(
-    context: Context,
     private val editText: EditText
-) : DatePickerDialog(context) {
+) : DatePickerDialog(editText.context, AlertDialog.THEME_HOLO_LIGHT) {
 
     var dateSetListener: OnDateSetListener =
         OnDateSetListener { _, year, month, dayOfMonth ->

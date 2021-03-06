@@ -1,4 +1,4 @@
-package h_mal.appttude.com.driver
+package h_mal.appttude.com.driver.ui.driver
 
 import android.Manifest
 import android.graphics.Bitmap
@@ -21,9 +21,10 @@ import com.squareup.picasso.Target
 import h_mal.appttude.com.driver.Global.ApprovalsClass
 import h_mal.appttude.com.driver.Global.ArchiveClass
 import h_mal.appttude.com.driver.Global.ImageViewClass
+import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.base.BaseActivity
 import h_mal.appttude.com.driver.dialogs.ExitDialog.displayExitDialog
-import h_mal.appttude.com.driver.user.LoginActivity
+import h_mal.appttude.com.driver.ui.user.LoginActivity
 import h_mal.appttude.com.driver.utils.ActivityIntentBuilder.createIntent
 import h_mal.appttude.com.driver.utils.setPicassoImage
 import h_mal.appttude.com.driver.viewmodels.MainViewModel
@@ -44,10 +45,6 @@ class MainActivity : BaseActivity<MainViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        imageViewClass = ImageViewClass()
-        approvalsClass = ApprovalsClass()
-        archiveClass = ArchiveClass()
 
         setSupportActionBar(toolbar)
         navController = findNavController(R.id.container)
@@ -104,16 +101,6 @@ class MainActivity : BaseActivity<MainViewModel>(),
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        if (item.itemId == R.id.action_settings) {
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
@@ -121,34 +108,5 @@ class MainActivity : BaseActivity<MainViewModel>(),
         }
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
-    }
-
-    companion object {
-
-        lateinit var imageViewClass: ImageViewClass
-        lateinit var approvalsClass: ApprovalsClass
-        lateinit var archiveClass: ArchiveClass
-        private const val REQUEST_EXTERNAL_STORAGE: Int = 1
-        private val PERMISSIONS_STORAGE: Array<String> = arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-
-        fun loadImage(mainImage: ImageView?): Target {
-            val target: Target = object : Target {
-                override fun onBitmapLoaded(bitmap: Bitmap, from: LoadedFrom) {
-                    mainImage!!.setImageBitmap(bitmap)
-                    mainImage.setOnClickListener{ imageViewClass.open(bitmap) }
-                }
-
-                override fun onBitmapFailed(e: Exception, errorDrawable: Drawable) {}
-                override fun onPrepareLoad(placeHolderDrawable: Drawable) {
-                    mainImage!!.setImageResource(R.drawable.choice_img)
-                }
-            }
-            mainImage!!.tag = target
-            return target
-        }
-
     }
 }

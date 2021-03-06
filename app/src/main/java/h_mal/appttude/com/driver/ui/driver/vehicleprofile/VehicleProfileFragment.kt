@@ -2,7 +2,8 @@ package h_mal.appttude.com.driver.ui.driver.vehicleprofile
 
 import android.os.Bundle
 import android.view.View
-import h_mal.appttude.com.driver.DataFieldsInterface
+
+import h_mal.appttude.com.driver.Global.DateDialog
 import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
 import h_mal.appttude.com.driver.model.VehicleProfileObject
@@ -10,9 +11,7 @@ import h_mal.appttude.com.driver.viewmodels.VehicleProfileViewModel
 import kotlinx.android.synthetic.main.fragment_vehicle_setup.*
 
 
-class VehicleProfileFragment :
-    DataSubmissionBaseFragment<VehicleProfileViewModel, VehicleProfileObject>(),
-    DataFieldsInterface {
+class VehicleProfileFragment: DataSubmissionBaseFragment<VehicleProfileViewModel, VehicleProfileObject>(){
 
     private val viewmodel by getFragmentViewModel<VehicleProfileViewModel>()
     override fun getViewModel(): VehicleProfileViewModel = viewmodel
@@ -29,7 +28,12 @@ class VehicleProfileFragment :
         keeper_name.setTextOnChange { model.keeperName = it }
         address.setTextOnChange { model.keeperAddress = it }
         postcode.setTextOnChange { model.keeperPostCode = it }
-        start_date.setTextOnChange { model.startDate = it }
+        start_date.apply {
+            setTextOnChange{ model.startDate = it }
+            setOnClickListener {
+                DateDialog(this)
+            }
+        }
         seized_checkbox.setOnCheckedChangeListener { _, res -> model.isSeized = res}
 
         submit_vehicle.setOnClickListener { submit() }
@@ -45,14 +49,14 @@ class VehicleProfileFragment :
 
     override fun setFields(data: VehicleProfileObject) {
         super.setFields(data)
-        reg.setFieldFromDataFetch(data.reg)
-        make.setFieldFromDataFetch(data.make)
-        car_model.setFieldFromDataFetch(data.model)
-        colour.setFieldFromDataFetch(data.colour)
-        keeper_name.setFieldFromDataFetch(data.keeperName)
-        address.setFieldFromDataFetch(data.keeperAddress)
-        postcode.setFieldFromDataFetch(data.keeperPostCode)
-        start_date.setFieldFromDataFetch(data.startDate)
+        reg.setText(data.reg)
+        make.setText(data.make)
+        car_model.setText(data.model)
+        colour.setText(data.colour)
+        keeper_name.setText(data.keeperName)
+        address.setText(data.keeperAddress)
+        postcode.setText(data.keeperPostCode)
+        start_date.setText(data.startDate)
         seized_checkbox.isChecked = data.isSeized
     }
 }

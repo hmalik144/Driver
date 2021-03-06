@@ -50,7 +50,6 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/update_email_button_label"
             style="@style/button_inner_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,7 +73,6 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/update_password_button_label"
             style="@style/button_inner_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -98,7 +96,6 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/update_profile_button_label"
             style="@style/button_inner_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

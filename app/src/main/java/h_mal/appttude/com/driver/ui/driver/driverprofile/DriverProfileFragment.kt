@@ -3,8 +3,6 @@ package h_mal.appttude.com.driver.ui.driver.driverprofile
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
-import h_mal.appttude.com.driver.DataFieldsInterface
 import h_mal.appttude.com.driver.Global.DateDialog
 import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
@@ -14,7 +12,7 @@ import h_mal.appttude.com.driver.viewmodels.DriverProfileViewModel
 import kotlinx.android.synthetic.main.fragment_driver_profile.*
 
 
-class DriverProfileFragment: DataSubmissionBaseFragment<DriverProfileViewModel, DriverProfileObject>(), DataFieldsInterface {
+class DriverProfileFragment: DataSubmissionBaseFragment<DriverProfileViewModel, DriverProfileObject>() {
 
     var localUri: Uri? = null
 
@@ -29,12 +27,17 @@ class DriverProfileFragment: DataSubmissionBaseFragment<DriverProfileViewModel, 
         names_input.setTextOnChange{ model.forenames = it }
         address_input.setTextOnChange{ model.address = it }
         postcode_input.setTextOnChange{ model.postcode = it }
-        dob_input.setTextOnChange{ model.dob = it }
+        dob_input.apply {
+                setTextOnChange{ model.dob = it }
+                setOnClickListener {
+                    DateDialog(this)
+                }
+            }
         ni_number.setTextOnChange{ model.ni = it }
         date_first.apply {
             setTextOnChange{ model.dateFirst = it }
             setOnClickListener {
-                DateDialog(requireContext(), it as EditText)
+                DateDialog(this)
             }
         }
         add_driver_pic.setOnClickListener { openGalleryWithPermissionRequest() }
@@ -53,18 +56,18 @@ class DriverProfileFragment: DataSubmissionBaseFragment<DriverProfileViewModel, 
     override fun setFields(data: DriverProfileObject) {
         super.setFields(data)
         driver_pic.setPicassoImage(data.driverPic)
-        names_input.setFieldFromDataFetch(data.forenames)
-        address_input.setFieldFromDataFetch(data.address)
-        postcode_input.setFieldFromDataFetch(data.postcode)
-        dob_input.setFieldFromDataFetch(data.dob)
-        ni_number.setFieldFromDataFetch(data.ni)
-        date_first.setFieldFromDataFetch(data.dateFirst)
+        names_input.setText(data.forenames)
+        address_input.setText(data.address)
+        postcode_input.setText(data.postcode)
+        dob_input.setText(data.dob)
+        ni_number.setText(data.ni)
+        date_first.setText(data.dateFirst)
     }
 
     override fun onImageGalleryResult(imageUri: Uri?) {
         super.onImageGalleryResult(imageUri)
         localUri = imageUri
-        driver_pic.setImageURI(imageUri)
+        driver_pic.setPicassoImage(imageUri)
     }
 
 }

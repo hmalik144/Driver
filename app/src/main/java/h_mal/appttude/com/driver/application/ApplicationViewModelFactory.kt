@@ -8,26 +8,26 @@ import h_mal.appttude.com.driver.data.FirebaseStorageSource
 import h_mal.appttude.com.driver.viewmodels.*
 
 class ApplicationViewModelFactory(
-    private val firebaseAuthSource: FirebaseAuthSource,
-    private val firebaseDatabaseSource: FirebaseDatabaseSource,
-    private val firebaseStorageSource: FirebaseStorageSource
+    private val auth: FirebaseAuthSource,
+    private val database: FirebaseDatabaseSource,
+    private val storage: FirebaseStorageSource
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         with(modelClass){
             return when{
-                isAssignableFrom(UserViewModel::class.java) -> UserViewModel(firebaseAuthSource)
-                isAssignableFrom(MainViewModel::class.java) -> MainViewModel(firebaseAuthSource, firebaseDatabaseSource)
-                isAssignableFrom(UpdateUserViewModel::class.java) -> UpdateUserViewModel(firebaseAuthSource, firebaseStorageSource)
-                isAssignableFrom(DriverLicenseViewModel::class.java) -> DriverLicenseViewModel(firebaseAuthSource, firebaseDatabaseSource, firebaseStorageSource)
-                isAssignableFrom(DriverProfileViewModel::class.java) -> DriverProfileViewModel(firebaseAuthSource, firebaseDatabaseSource, firebaseStorageSource)
-                isAssignableFrom(PrivateHireLicenseViewModel::class.java) -> PrivateHireLicenseViewModel(firebaseAuthSource, firebaseDatabaseSource, firebaseStorageSource)
-                isAssignableFrom(VehicleProfileViewModel::class.java) -> VehicleProfileViewModel(firebaseAuthSource, firebaseDatabaseSource, firebaseStorageSource)
-                isAssignableFrom(InsuranceViewModel::class.java) -> InsuranceViewModel(firebaseAuthSource, firebaseDatabaseSource, firebaseStorageSource)
-                isAssignableFrom(MotViewModel::class.java) -> MotViewModel(firebaseAuthSource, firebaseDatabaseSource, firebaseStorageSource)
-                isAssignableFrom(LogbookViewModel::class.java) -> LogbookViewModel(firebaseAuthSource, firebaseDatabaseSource, firebaseStorageSource)
-                isAssignableFrom(PrivateHireVehicleViewModel::class.java) -> PrivateHireVehicleViewModel(firebaseAuthSource, firebaseDatabaseSource, firebaseStorageSource)
+                isAssignableFrom(UserViewModel::class.java) -> UserViewModel(auth)
+                isAssignableFrom(MainViewModel::class.java) -> MainViewModel(auth, database)
+                isAssignableFrom(UpdateUserViewModel::class.java) -> UpdateUserViewModel(auth, storage)
+                isAssignableFrom(DriverLicenseViewModel::class.java) -> DriverLicenseViewModel(auth, database, storage)
+                isAssignableFrom(DriverProfileViewModel::class.java) -> DriverProfileViewModel(auth, database, storage)
+                isAssignableFrom(PrivateHireLicenseViewModel::class.java) -> PrivateHireLicenseViewModel(auth, database, storage)
+                isAssignableFrom(VehicleProfileViewModel::class.java) -> VehicleProfileViewModel(auth, database, storage)
+                isAssignableFrom(InsuranceViewModel::class.java) -> InsuranceViewModel(auth, database, storage)
+                isAssignableFrom(MotViewModel::class.java) -> MotViewModel(auth, database, storage)
+                isAssignableFrom(LogbookViewModel::class.java) -> LogbookViewModel(auth, database, storage)
+                isAssignableFrom(PrivateHireVehicleViewModel::class.java) -> PrivateHireVehicleViewModel(auth, database, storage)
                 else -> throw IllegalArgumentException("Unknown ViewModel class")
             } as T
         }
