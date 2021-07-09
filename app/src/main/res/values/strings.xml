@@ -1,36 +1,40 @@
 <resources>
     <string name="app_name">Choice Minicabs</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Driver Name</string>
     <string name="nav_header_subtitle">driver@example.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Log in</string>
-    <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="no_match_password">Passwords do not match</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="error_fields_non_match">Passwords Do Not Match</string>
-    <string name="login_failed">Login Failed!</string>
     <string name="submit">Submit</string>
     <string name="take_pic">Open Camera</string>
     <string name="upload_pic">Upload from Storage</string>
     <string name="set_date">Select date</string>
-    <string name="image_required">Driver Photo Required</string>
-    <string name="no_role">No role detected</string>
     <string name="list_item_image">list item image</string>
-    <string name="failed_retrieve">Failed to retrieve data</string>
-    <string name="failed_upload">Failed to upload data</string>
-    <string name="unsuccessful">Unable To upload</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="reset_password_subtitle">Enter email address to receive a password reset link.</string>
+    <string name="promt_name">Name</string>
+    <string name="register_label">Register</string>
+    <string name="register_subtitle">Complete form to sign up</string>
+    <string name="Update_profile_label">Update profile</string>
+    <string name="update_profile_subtitle">Update profile and credentials</string>
+    <string name="update_email">Update Email</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="update_password">Update Password</string>
+    <string name="update_email_subtitle">Update your email by inserting your current credentials with a new email address</string>
+    <string name="prompt_new_email">New email</string>
+    <string name="update_password_subtitle">Update your password by inserting your current credentials with a new email password</string>
+    <string name="prompt_new_password">New password</string>
+    <string name="update_profile_section_subtitle">Select whether to upload a new profile photo or update name on profile.</string>
+    <string name="prompt_new_name">New name</string>
+    <string name="delete_profile">Delete Profile</string>
+    <string name="delete_profile_subtitle">Enter email address and password to delete your profile.</string>
+    <string name="welcome_title">Welcome to Choice Car</string>
+    <string name="welcome_subtitle">Manage your verified driver detail. Keep your data secure and control how you share it.</string>
+    <string name="profile_title">Driver profile</string>
+    <string name="driver_profile_subtitle">Add/update your driver details</string>
 </resources>

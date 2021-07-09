@@ -3,23 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="none"
-        android:id="@+id/menu_group">
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_person_black_24dp"
-            android:title="Driver profile" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_local_taxi_black_24dp"
-            android:title="Vehicle Profile" />
-
-    </group>
-
     <item android:title="User Profile">
         <menu>
             <item
-                android:id="@+id/nav_camera"
+                android:id="@+id/nav_user_settings"
                 android:icon="@drawable/ic_settings_black_24dp"
                 android:title="Update User Profile" />
         </menu>
