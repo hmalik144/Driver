@@ -37,4 +37,7 @@
     <string name="welcome_subtitle">Manage your verified driver detail. Keep your data secure and control how you share it.</string>
     <string name="profile_title">Driver profile</string>
     <string name="driver_profile_subtitle">Add/update your driver details</string>
+    <string name="vehicle_details_title">Vehicle Details</string>
+    <string name="vehicle_details_subtitle">Add/update your vehicle details to complete your profile</string>
+    <string name="prompt_insert_name">Update name</string>
 </resources>

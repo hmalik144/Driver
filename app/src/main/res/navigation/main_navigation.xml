@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/homeDriverFragment"
-        android:name="h_mal.appttude.com.driver.ui.driver.HomeFragment"
+        android:name="h_mal.appttude.com.ui.driver.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home_driver" >
         <action
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/driverOverallFragment"
-        android:name="h_mal.appttude.com.driver.ui.driver.DriverOverallFragment"
+        android:name="h_mal.appttude.com.ui.driver.DriverOverallFragment"
         android:label="DriverOverallFragment"
         tools:layout="@layout/fragment_driver_overall">
         <action
@@ -54,7 +54,7 @@
     </fragment>
     <fragment
         android:id="@+id/vehicleOverallFragment"
-        android:name="h_mal.appttude.com.driver.ui.driver.VehicleOverallFragment"
+        android:name="h_mal.appttude.com.ui.driver.VehicleOverallFragment"
         android:label="VehicleOverallFragment"
         tools:layout="@layout/fragment_vehicle_overall">
         <action
@@ -96,49 +96,49 @@
     </fragment>
     <fragment
         android:id="@+id/driverProfileFragment"
-        android:name="h_mal.appttude.com.driver.ui.driver.driverprofile.DriverProfileFragment"
+        android:name="h_mal.appttude.com.ui.driver.driverprofile.DriverProfileFragment"
         android:label="fragment_driver_profile"
         tools:layout="@layout/fragment_driver_profile" />
     <fragment
         android:id="@+id/driverLicenseFragment"
-        android:name="h_mal.appttude.com.driver.ui.driver.driverprofile.DriverLicenseFragment"
+        android:name="h_mal.appttude.com.ui.driver.driverprofile.DriverLicenseFragment"
         android:label="fragment_driver_license"
         tools:layout="@layout/fragment_driver_license" />
 
 
     <fragment
         android:id="@+id/vehicleSetupFragment"
-        android:name="h_mal.appttude.com.driver.ui.driver.vehicleprofile.VehicleProfileFragment"
+        android:name="h_mal.appttude.com.ui.driver.vehicleprofile.VehicleProfileFragment"
         android:label="VehicleSetupFragment"
         tools:layout="@layout/fragment_vehicle_setup"/>
     <fragment
         android:id="@+id/insuranceFragment"
-        android:name="h_mal.appttude.com.driver.ui.driver.vehicleprofile.InsuranceFragment"
+        android:name="h_mal.appttude.com.ui.driver.vehicleprofile.InsuranceFragment"
         android:label="InsuranceFragment"
         tools:layout="@layout/fragment_insurance"/>
     <fragment
         android:id="@+id/motFragment"
-        android:name="h_mal.appttude.com.driver.ui.driver.vehicleprofile.MotFragment"
+        android:name="h_mal.appttude.com.ui.driver.vehicleprofile.MotFragment"
         android:label="MotFragment"
         tools:layout="@layout/fragment_mot"/>
     <fragment
         android:id="@+id/logbookFragment"
-        android:name="h_mal.appttude.com.driver.ui.driver.vehicleprofile.LogbookFragment"
+        android:name="h_mal.appttude.com.ui.driver.vehicleprofile.LogbookFragment"
         android:label="fragment_logbook"
         tools:layout="@layout/fragment_logbook" />
     <activity
         android:id="@+id/nav_user_settings"
-        android:name="h_mal.appttude.com.driver.update.UpdateActivity"
+        android:name="h_mal.appttude.com.ui.update.UpdateActivity"
         android:label="fragment_profile"
         tools:layout="@layout/update_activity" />
     <fragment
         android:id="@+id/privateHireLicenseFragment2"
-        android:name="h_mal.appttude.com.driver.ui.driver.driverprofile.PrivateHireLicenseFragment"
+        android:name="h_mal.appttude.com.ui.driver.driverprofile.PrivateHireLicenseFragment"
         android:label="fragment_private_hire_license"
         tools:layout="@layout/fragment_private_hire_license" />
     <fragment
         android:id="@+id/privateHireVehicleFragment"
-        android:name="h_mal.appttude.com.driver.ui.driver.vehicleprofile.PrivateHireVehicleFragment"
+        android:name="h_mal.appttude.com.ui.driver.vehicleprofile.PrivateHireVehicleFragment"
         android:label="fragment_private_hire_vehicle"
         tools:layout="@layout/fragment_private_hire_vehicle" />
 </navigation>

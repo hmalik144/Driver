@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/cars"
-    tools:context=".update.UpdateActivity">
+    tools:context=".ui.update.UpdateActivity">
 
     <fragment
         android:id="@+id/container"

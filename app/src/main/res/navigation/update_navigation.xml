@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/updateOverviewFragment"
-        android:name="h_mal.appttude.com.driver.update.UpdateOverviewFragment"
+        android:name="h_mal.appttude.com.ui.update.UpdateOverviewFragment"
         android:label="UpdateOverviewFragment"
         tools:layout="@layout/update_overview_fragment">
         <action
@@ -40,22 +40,22 @@
     </fragment>
     <fragment
         android:id="@+id/updateEmailFragment"
-        android:name="h_mal.appttude.com.driver.update.UpdateEmailFragment"
+        android:name="h_mal.appttude.com.ui.update.UpdateEmailFragment"
         android:label="UpdateEmailFragment"
         tools:layout="@layout/fragment_update_email"/>
     <fragment
         android:id="@+id/updatePasswordFragment"
-        android:name="h_mal.appttude.com.driver.update.UpdatePasswordFragment"
+        android:name="h_mal.appttude.com.ui.update.UpdatePasswordFragment"
         android:label="UpdatePasswordFragment"
         tools:layout="@layout/fragment_update_password"/>
     <fragment
         android:id="@+id/updateProfileFragment"
-        android:name="h_mal.appttude.com.driver.update.UpdateProfileFragment"
+        android:name="h_mal.appttude.com.ui.update.UpdateProfileFragment"
         android:label="fragment_update_profile"
         tools:layout="@layout/fragment_update_profile" />
     <fragment
         android:id="@+id/deleteProfileFragment"
-        android:name="h_mal.appttude.com.driver.update.DeleteProfileFragment"
+        android:name="h_mal.appttude.com.ui.update.DeleteProfileFragment"
         android:label="fragment_delete_profile"
         tools:layout="@layout/fragment_delete_profile" />
 

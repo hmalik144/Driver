@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.driver.driverprofile.DriverLicenseFragment">
 
     <LinearLayout
@@ -18,38 +18,38 @@
         android:paddingRight="12dp">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="36dp"
             android:layout_marginBottom="12dp"
             app:cardCornerRadius="28dp"
             app:cardElevation="0dp">
 
             <ImageView
                 android:id="@+id/driversli_img"
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_alignParentLeft="true"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 tools:src="@drawable/choice_img_round" />
 
-        </androidx.cardview.widget.CardView>
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/search_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_baseline_photo_library_24"
+                android:scaleType="centerInside"
+                android:elevation="1dp"
+                app:civ_border_width="1dp"
+                app:civ_shadow_radius="0.5dp"
+                android:alpha="1"
+                app:civ_circle_color="@color/colour_one"
+                android:layout_margin="18dp"
+                android:layout_gravity="bottom|right" />
 
-        <TextView
-            android:id="@+id/upload_lic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/round_edit_text"
-            android:ems="10"
-            android:gravity="center"
-            android:padding="12dp"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:text="Upload Drivers License"
-            android:textColorHighlight="#608d91" />
+        </androidx.cardview.widget.CardView>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -85,24 +85,27 @@
                 android:maxLines="1" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
-
     </LinearLayout>
 
-
-    <Button
+    <TextView
         android:id="@+id/submit"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="12dp"
-        android:background="@drawable/cardviewoutline"
-        android:text="@string/submit"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="48dp"
+        android:background="@drawable/round_edit_text"
+        android:ems="10"
+        android:gravity="center"
+        android:padding="12dp"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:text="Submit"
         android:textColor="@android:color/black"
-        android:textStyle="bold"
-        style="?android:attr/borderlessButtonStyle" />
-
+        android:textColorHighlight="#608d91"
+        android:textStyle="bold" />
 
 </RelativeLayout>
