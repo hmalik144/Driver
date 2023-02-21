@@ -1,175 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/parent_constraint_layout"
     android:orientation="vertical"
-    tools:context=".ui.driver.driverprofile.DriverProfileFragment">
+    tools:context=".ui.driverprofile.DriverProfileFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="12dp">
+        android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="12dp"
-            app:cardCornerRadius="28dp"
-            app:cardElevation="0dp">
+            android:layout_gravity="center">
 
-            <ImageView
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/add_photo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:alpha="1"
+                android:elevation="1dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_baseline_photo_library_24"
+                app:civ_border_width="1dp"
+                app:civ_circle_color="@color/colour_one"
+                app:civ_shadow_radius="0.5dp"
+                app:layout_constraintBottom_toBottomOf="@id/driver_pic"
+                app:layout_constraintRight_toRightOf="@id/driver_pic" />
+
+            <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/driver_pic"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_alignParentLeft="true"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:src="@drawable/ic_baseline_photo_library_24"
+                app:civ_border_width="3dp"
+                app:civ_shadow_radius="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/choice_img_round" />
-        </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/add_driver_pic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/round_edit_text"
-            android:ems="10"
-            android:padding="12dp"
-            android:selectAllOnFocus="true"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="Add Driver photo"
-            android:textColorHighlight="#608d91" />
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout style="@style/text_input_layout">
 
             <EditText
                 android:id="@+id/names_input"
-                style="@style/edittexttheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/EditTextStyle"
                 android:layout_marginBottom="12dp"
                 android:ems="10"
-                android:hint="Forename(s)"
+                android:hint="@string/full_name"
                 android:inputType="textPersonName"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:autofillHints="name" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout style="@style/text_input_layout">
 
             <EditText
                 android:id="@+id/address_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/EditTextStyle"
                 android:layout_marginBottom="12dp"
                 android:ems="10"
-                android:gravity="top|left"
-                android:hint="Address"
-                android:inputType="textMultiLine"
+                android:gravity="top|start"
+                android:hint="@string/address"
+                android:inputType="textMultiLine|textPostalAddress"
                 android:lines="4"
                 android:maxLines="7"
                 android:minLines="4"
-                android:padding="12dp"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:textColorHighlight="#608d91" />
+                android:autofillHints="postalAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout style="@style/text_input_layout">
 
             <EditText
                 android:id="@+id/postcode_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/EditTextStyle"
                 android:layout_marginBottom="12dp"
-                android:ems="10"
-                android:hint="Postcode"
+                android:hint="@string/postcode"
                 android:inputType="none"
                 android:maxLines="1"
-                android:padding="12dp"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:textColorHighlight="#608d91" />
+                android:autofillHints="postalCode" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout style="@style/text_input_layout">
 
             <EditText
                 android:id="@+id/dob_input"
-                style="@style/edittexttheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/EditTextStyle.Date"
                 android:layout_marginBottom="12dp"
-                android:ems="10"
-                android:focusable="false"
-                android:hint="Date of birth"
-                android:inputType="textPersonName"
-                android:maxLines="1" />
+                android:hint="@string/date_of_birth"
+                android:autofillHints="date" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout style="@style/text_input_layout">
 
             <EditText
                 android:id="@+id/ni_number"
-                style="@style/edittexttheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/EditTextStyle"
                 android:layout_marginBottom="12dp"
-                android:ems="10"
-                android:hint="NI number"
-                android:maxLines="1" />
+                android:hint="@string/ni_number"
+                android:maxLines="1"
+                android:importantForAutofill="no"
+                android:inputType="none"
+                tools:ignore="TextFields" />
 
         </com.google.android.material.textfield.TextInputLayout>
-        
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputLayout style="@style/text_input_layout">
 
             <EditText
                 android:id="@+id/date_first"
-                style="@style/edittexttheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/EditTextStyle.Date"
                 android:layout_marginBottom="12dp"
-                android:ems="10"
-                android:focusable="false"
-                android:hint="Date first available"
-                android:maxLines="1" />
+                android:hint="@string/date_first_available"
+                android:autofillHints="date" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/submit_driver"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/cardviewoutline"
-            android:text="@string/submit"
-            android:textColor="#91ddff"
-            android:textStyle="bold" />
-
+            style="@style/TextButton"
+            android:text="@string/submit" />
     </LinearLayout>
 
 </ScrollView>

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="h_mal.appttude.com.driver.ui.user.LoginFragment"
+        android:name="h_mal.appttude.com.ui.user.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
@@ -27,17 +27,17 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="h_mal.appttude.com.driver.ui.user.RegisterFragment"
+        android:name="h_mal.appttude.com.ui.user.RegisterFragment"
         android:label="RegisterFragment"
         tools:layout="@layout/fragment_register"/>
     <fragment
         android:id="@+id/forgotPasswordFragment"
-        android:name="h_mal.appttude.com.driver.user.ForgotPasswordFragment"
+        android:name="h_mal.appttude.com.ui.user.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" />
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="h_mal.appttude.com.driver.ui.user.SplashScreenFragment"
+        android:name="h_mal.appttude.com.ui.user.SplashScreenFragment"
         android:label="fragment_splash_screen"
         tools:layout="@layout/fragment_splash_screen" >
         <action
