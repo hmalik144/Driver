@@ -1,97 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/constraint_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.synnapps.carouselview.CarouselView
+        android:id="@+id/carouselView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="12dp"
-        android:paddingTop="12dp"
-        android:paddingRight="12dp">
+        android:layout_height="200dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/uploadInsurance"
+        android:layout_marginBottom="12dp"
+        app:autoPlay="false"
+        app:fillColor="#FFFFFFFF"
+        app:pageColor="#00000000"
+        app:radius="6dp"
+        app:strokeColor="#FF777777"
+        app:strokeWidth="1dp" />
 
-        <com.synnapps.carouselview.CarouselView
-            android:id="@+id/carouselView"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginBottom="12dp"
-            app:fillColor="#FFFFFFFF"
-            app:pageColor="#00000000"
-            app:radius="6dp"
-            app:autoPlay="false"
-            app:strokeColor="#FF777777"
-            app:strokeWidth="1dp"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/uploadInsurance"
+        style="@style/TextButton"
+        android:text="@string/upload_insurance_documents"
+        app:layout_constraintBottom_toTopOf="@id/til_insurer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/uploadInsurance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/round_edit_text"
-            android:ems="10"
-            android:gravity="center"
-            android:padding="12dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_insurer"
+        style="@style/text_input_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/insurer"
+            style="@style/EditTextStyle"
+            android:hint="@string/insurer"
+            android:inputType="none"
+            android:maxLines="1"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:text="Upload Insurance Documents"
-            android:textColorHighlight="#608d91" />
+            android:importantForAutofill="no" />
 
-        <com.google.android.material.textfield.TextInputLayout
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_ins_exp"
+        style="@style/text_input_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_insurer">
+
+        <EditText
+            android:id="@+id/insurance_exp"
+            style="@style/EditTextStyle.Date"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:hint="@string/insurance_expiry"
+            android:importantForAutofill="no" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/insurer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:ems="10"
-                android:hint="Insurer:"
-                android:inputType="none"
-                android:maxLines="1"
-                android:selectAllOnFocus="true"
-                android:singleLine="true"
-                android:textColorHighlight="#608d91" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/insurance_exp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:focusable="false"
-                android:hint="Insurance expiry:"
-                android:inputType="date"
-                android:maxLines="1"
-                android:selectAllOnFocus="true"
-                android:singleLine="true"
-                android:textColorHighlight="#608d91" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-
-
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/submit_ins"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="12dp"
-        android:background="@drawable/cardviewoutline"
+        style="@style/TextButton.WithIcon"
         android:text="@string/submit"
-        android:textColor="@android:color/black"
-        android:textStyle="bold" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_ins_exp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,8 +13,13 @@ repositories {
     mavenCentral()
 }
 
+def relStorePassword = System.getenv("RELEASE_STORE_PASSWORD")
+def relKeyPassword = System.getenv("RELEASE_KEY_PASSWORD")
+def relKeyAlias = System.getenv("RELEASE_KEY_ALIAS")
+def relStoreFile = System.getenv("RELEASE_KEYSTORE")
+
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
         applicationId "h_mal.appttude.com"
         minSdkVersion 24
@@ -23,16 +28,23 @@ android {
         versionName "1.6"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
+
+    signingConfigs {
+        release {
+            storePassword relStorePassword
+            keyPassword relKeyPassword
+            keyAlias relKeyAlias
+            storeFile file(relStoreFile)
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -45,7 +57,7 @@ android {
             versionName "1.0.5"
         }
         admin {
-            applicationIdSuffix ".driver_admin"
+            applicationIdSuffix ".driverAdmin"
             versionCode 4
             versionName "0.0.5"
         }
@@ -66,34 +78,34 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "androidx.appcompat:appcompat:1.0.0"
-    implementation "com.google.android.material:material:1.0.0"
+    implementation "androidx.appcompat:appcompat:1.4.2"
+    implementation "com.google.android.material:material:1.6.0"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
-    implementation "androidx.exifinterface:exifinterface:1.0.0"
-    implementation "androidx.constraintlayout:constraintlayout:1.1.3"
-    implementation "androidx.fragment:fragment-ktx:1.2.5"
-    implementation "androidx.activity:activity-ktx:1.2.0"
-    implementation "androidx.recyclerview:recyclerview:1.1.0"
-    implementation "androidx.navigation:navigation-fragment-ktx:2.3.3"
-    implementation "androidx.navigation:navigation-ui-ktx:2.3.3"
+    implementation "androidx.exifinterface:exifinterface:1.3.6"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+    implementation "androidx.fragment:fragment-ktx:1.4.0"
+    implementation "androidx.activity:activity-ktx:1.4.0"
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
+    implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
     implementation "androidx.drawerlayout:drawerlayout:1.1.1"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
     implementation 'androidx.viewpager:viewpager:1.0.0'
-    testImplementation "junit:junit:4.12"
-    androidTestImplementation "androidx.test.ext:junit:1.1.1"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0"
-    androidTestImplementation "androidx.test:rules:1.1.1"
-    implementation 'androidx.test.espresso:espresso-idling-resource:3.1.1'
+    testImplementation "junit:junit:4.13.2"
+    androidTestImplementation "androidx.test.ext:junit:1.1.5"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    androidTestImplementation "androidx.test:rules:1.5.0"
+    implementation 'androidx.test.espresso:espresso-idling-resource:3.5.1'
 
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     // Google play services
-    implementation "com.google.android.gms:play-services-auth:15.0.1"
+    implementation "com.google.android.gms:play-services-auth:20.4.1"
     // Google firebase
-    def firebaseVer  = "16.0.1"
+    def firebaseVer  = "20.1.0"
     implementation "com.google.firebase:firebase-core:$firebaseVer"
-    implementation "com.google.firebase:firebase-auth:$firebaseVer"
+    implementation "com.google.firebase:firebase-auth:21.0.0"
     implementation "com.google.firebase:firebase-storage:$firebaseVer"
     implementation "com.google.firebase:firebase-database:$firebaseVer"
     // Photoviewer
@@ -101,9 +113,9 @@ dependencies {
     /* Picasso photo loader */
     implementation "com.squareup.picasso:picasso:2.71828"
     /* Gson */
-    implementation "com.google.code.gson:gson:2.3.1"
+    implementation "com.google.code.gson:gson:2.8.9"
     /* coroutines support for firebase operations */
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.1"
 
     // Circle Image View
     implementation "com.mikhaellopez:circularimageview:4.2.0"

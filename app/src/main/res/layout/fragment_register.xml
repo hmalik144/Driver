@@ -49,11 +49,12 @@
 
         <EditText
             android:id="@+id/name_register"
-            style="@style/edit_text_entry_style"
+            style="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/promt_name"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:autofillHints="name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -71,11 +72,12 @@
 
         <EditText
             android:id="@+id/email_register"
-            style="@style/edit_text_entry_style"
+            style="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/prompt_email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:autofillHints="emailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -93,11 +95,12 @@
 
         <EditText
             android:id="@+id/password_top"
-            style="@style/edit_text_entry_style"
+            style="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/prompt_password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:autofillHints="password" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -115,11 +118,12 @@
 
         <EditText
             android:id="@+id/password_bottom"
-            style="@style/edit_text_entry_style"
+            style="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/prompt_password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:autofillHints="password" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.cardview.widget.CardView

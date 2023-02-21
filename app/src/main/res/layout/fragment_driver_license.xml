@@ -1,39 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.driver.driverprofile.DriverLicenseFragment">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:orientation="vertical"
-        android:paddingLeft="12dp"
-        android:paddingTop="12dp"
-        android:paddingRight="12dp">
+    style="@style/parent_constraint_layout"
+    tools:context=".ui.driverprofile.DriverLicenseFragment">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="36dp"
             android:layout_marginBottom="12dp"
             app:cardCornerRadius="28dp"
-            app:cardElevation="0dp">
+            app:cardElevation="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/til_lic_no">
 
             <ImageView
                 android:id="@+id/driversli_img"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                tools:src="@drawable/choice_img_round" />
+                tools:src="@drawable/choice_img_round"
+                android:contentDescription="@string/image_description" />
 
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/search_image"
@@ -47,65 +38,52 @@
                 android:alpha="1"
                 app:civ_circle_color="@color/colour_one"
                 android:layout_margin="18dp"
-                android:layout_gravity="bottom|right" />
+                android:layout_gravity="bottom|end" />
 
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:id="@+id/til_lic_no"
+            style="@style/text_input_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <EditText
                 android:id="@+id/lic_no"
-                style="@style/edittexttheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:ems="10"
-                android:hint="Drivers License no."
+                style="@style/EditTextStyle.Date"
+                android:hint="@string/drivers_license_no"
                 android:inputType="none"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:importantForAutofill="no" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:id="@+id/til_submission"
+            style="@style/text_input_layout"
+            app:layout_constraintTop_toBottomOf="@id/til_lic_no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <EditText
+                android:hint="@string/license_expiry_date"
                 android:id="@+id/lic_expiry"
-                style="@style/edittexttheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:ems="10"
-                android:focusable="false"
-                android:hint="Drivers License Expiry"
-                android:inputType="date"
-                android:maxLines="1" />
+                style="@style/EditTextStyle.Date"
+                android:autofillHints="date" />
 
         </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
 
-    <TextView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/submit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginBottom="48dp"
-        android:background="@drawable/round_edit_text"
-        android:ems="10"
-        android:gravity="center"
-        android:padding="12dp"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:text="Submit"
-        android:textColor="@android:color/black"
-        android:textColorHighlight="#608d91"
-        android:textStyle="bold" />
+        style="@style/TextButton.WithIcon"
+        android:text="@string/submit"
+        app:layout_constraintTop_toBottomOf="@+id/til_submission"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8"/>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

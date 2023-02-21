@@ -1,16 +1,16 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="android:windowBackground">@drawable/bg</item>
-
-        <item name="android:textColorHint">@color/colour_five</item>
-        <item name="android:textColor">@color/colour_five</item>
+        <item name="android:windowBackground">@drawable/background_with_curve</item>
+        <item name="android:actionMenuTextColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -41,7 +41,7 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="cardview_theme" parent="CardView">
+    <style name="CardViewTheme" parent="CardView">
         <!--<item name="android:layout_width">match_parent</item>-->
         <!--<item name="android:layout_height">match_parent</item>-->
         <!--<item name="cardBackgroundColor">#00fffb</item>-->
@@ -79,12 +79,98 @@
         <item name="android:paddingBottom">@dimen/activity_vertical_margin</item>
     </style>
 
-    <style name="edit_text_entry_style">
-        <item name="android:backgroundTint">@android:color/white</item>
+    <style name="EditTextStyle">
+        <item name="android:backgroundTint">@color/colour_eight</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:maxLines">1</item>
         <item name="android:selectAllOnFocus">true</item>
         <item name="android:singleLine">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="EditTextStyle.Date" parent="EditTextStyle">
+        <item name="android:focusable">false</item>
+        <item name="android:inputType">date</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="TextButton" parent="Theme.MaterialComponents.DayNight">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:backgroundTint">@color/colour_eight</item>
+    </style>
+
+    <style name="TextButton.Rounded" parent="TextButton">
+        <item name="cornerRadius">28dp</item>
+    </style>
+
+    <style name="TextButton.WithIcon" parent="TextButton">
+        <item name="android:layoutDirection">rtl</item>
+        <item name="android:gravity">start|center</item>
+        <item name="android:paddingRight">40dp</item>
+        <item name="iconGravity">start</item>
+        <item name="icon">@drawable/ic_baseline_arrow_forward_24</item>
+        <item name="tint">@android:color/white</item>
+    </style>
+
+    <style name="TextButton.WithIcon.SubmitConstraints" parent="TextButton.WithIcon" >
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintLeft_toLeftOf">parent</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+        <item name="layout_constraintVertical_bias">0.8</item>
+    </style>
+
+    <style name="iconButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layoutDirection">rtl</item>
+        <item name="android:gravity">start</item>
+        <item name="android:paddingRight">40dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:backgroundTint">@color/colour_eight</item>
+        <item name="iconGravity">start</item>
+        <item name="icon">@drawable/ic_baseline_arrow_forward_24</item>
+    </style>
+
+    <style name="imageBackground">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">#000000</item>
+        <item name="android:contentDescription">background</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="headerStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="parent_constraint_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingTop">@dimen/activity_vertical_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingBottom">@dimen/activity_vertical_margin</item>
+    </style>
+
+    <style name="subheader">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="text_input_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColorHint">@android:color/white</item>
     </style>
 
 </resources>

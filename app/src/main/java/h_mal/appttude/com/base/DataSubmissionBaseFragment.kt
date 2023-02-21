@@ -8,9 +8,7 @@ import android.view.View
 import android.widget.EditText
 import androidx.annotation.LayoutRes
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.Observer
 import h_mal.appttude.com.data.UserAuthState
-import h_mal.appttude.com.ui.driver.MainActivity
 import h_mal.appttude.com.ui.user.LoginActivity
 import h_mal.appttude.com.utils.PermissionsUtils.askForPermissions
 import h_mal.appttude.com.utils.TextValidationUtils.validateEditText
@@ -26,14 +24,14 @@ abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, T:
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getViewModel().stateLiveData.observe(viewLifecycleOwner, Observer {
-            if (it is UserAuthState.LoggedOut){
+        getViewModel().stateLiveData.observe(viewLifecycleOwner) {
+            if (it is UserAuthState.LoggedOut) {
                 val intent = Intent(requireContext(), LoginActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 requireActivity().finish()
             }
-        })
+        }
         getViewModel().getDataFromDatabase()
     }
 

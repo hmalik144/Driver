@@ -16,7 +16,7 @@ object IdlingResourceClass {
     }
 
     fun decrement() {
-        if (!countingIdlingResource.isIdleNow) {
+        if (countingIdlingResource.isIdleNow) {
             countingIdlingResource.decrement()
         }
     }

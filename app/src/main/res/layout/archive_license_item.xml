@@ -1,109 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp">
+    android:background="@color/colour_nine">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/image_archive"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:civ_border_width="3dp"
+        app:civ_shadow_radius="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/choice_img_round" />
+
+    <TextView
+        android:id="@+id/date_archived"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="6dp"
-        android:background="@color/colour_siz">
+        android:layout_marginEnd="24dp"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/image_archive"
+        tools:text="12/12/2019" />
 
-        <FrameLayout
-            android:id="@+id/frame_lay"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:adjustViewBounds="true"
-            android:layout_alignParentLeft="true">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:cardCornerRadius="28dp"
-                app:cardElevation="0dp">
-
-                <ImageView
-                    android:id="@+id/image_archive"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:scaleType="centerCrop"
-                    android:adjustViewBounds="true"
-                    tools:src="@drawable/choice_img_round" />
-
-            </androidx.cardview.widget.CardView>
-
-        </FrameLayout>
-
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="24dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/image_archive"
+        app:layout_constraintLeft_toRightOf="@id/image_archive"
+        app:layout_constraintRight_toLeftOf="@id/date_archived"
+        app:layout_constraintTop_toTopOf="@id/image_archive">
 
         <TextView
-            android:id="@+id/date_archived"
+            android:id="@+id/exp_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/colour_two"
-            tools:text="12/12/2019" />
+            tools:text="Haider Malik" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/field_two_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
-            android:layout_toEndOf="@+id/frame_lay"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/expiry_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Expiry"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colour_four"/>
-
-                <TextView
-                    android:id="@+id/exp_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="12/12/2019" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/field_two_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/field_two"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colour_four"
-                    android:text="License No.: " />
-
-                <TextView
-                    android:id="@+id/field_two_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="DALEH574263JD8JE" />
-            </LinearLayout>
+            android:textColor="@android:color/white"
+            android:textSize="11sp"
+            tools:text="DALEH574263JD8JE" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-        </LinearLayout>
-    </RelativeLayout>
-
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

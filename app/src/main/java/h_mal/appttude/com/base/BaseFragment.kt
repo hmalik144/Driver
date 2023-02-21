@@ -8,25 +8,25 @@ import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import h_mal.appttude.com.application.ApplicationViewModelFactory
 import h_mal.appttude.com.data.ViewState
 import h_mal.appttude.com.utils.PermissionsUtils
-import kotlinx.android.synthetic.main.fragment_driver_profile.view.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 
 const val IMAGE_SELECT_REQUEST_CODE = 401
-abstract class BaseFragment<V : BaseViewModel>(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId), KodeinAware {
+
+abstract class BaseFragment<V : BaseViewModel>(@LayoutRes contentLayoutId: Int) :
+    Fragment(contentLayoutId), KodeinAware {
 
     var mActivity: BaseActivity<V>? = null
     abstract fun getViewModel(): V
 
     private var multipleImage: Boolean = false
 
-    fun setImageSelectionAsMultiple(){
+    fun setImageSelectionAsMultiple() {
         multipleImage = true
     }
 
@@ -64,22 +64,22 @@ abstract class BaseFragment<V : BaseViewModel>(@LayoutRes contentLayoutId: Int) 
     }
 
     private fun configureObserver() {
-        getViewModel().uiState.observe(viewLifecycleOwner, Observer {
+        getViewModel().uiState.observe(viewLifecycleOwner) {
             when (it) {
                 is ViewState.HasStarted -> onStarted()
                 is ViewState.HasData<*> -> onSuccess(it.data.getContentIfNotHandled())
                 is ViewState.HasError -> onFailure(it.error.getContentIfNotHandled())
             }
-        })
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK){
-            when(requestCode){
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
                 IMAGE_SELECT_REQUEST_CODE -> {
                     data?.clipData?.convertToList()?.let { clip ->
-                        val list = clip.takeIf { it.size > 10 }?.let{
+                        val list = clip.takeIf { it.size > 10 }?.let {
                             clip.subList(0, 9)
                         } ?: clip
                         onImageGalleryResult(list)
@@ -105,7 +105,7 @@ abstract class BaseFragment<V : BaseViewModel>(@LayoutRes contentLayoutId: Int) 
     fun onPermissionRequest(
         requestCode: Int, ourRequestCode: Int, grantResults: IntArray,
         permissionGranted: () -> Unit
-    ){
+    ) {
         when (requestCode) {
             ourRequestCode -> {
                 if (PermissionsUtils.isGranted(grantResults)) {
@@ -119,16 +119,17 @@ abstract class BaseFragment<V : BaseViewModel>(@LayoutRes contentLayoutId: Int) 
     /**
      *  Called on the result of image selection
      */
-    open fun onImageGalleryResult(imageUri: Uri?){ }
+    open fun onImageGalleryResult(imageUri: Uri?) {}
+
     /**
      *  Called on the result of multiple image selection
      */
-    open fun onImageGalleryResult(imageUris: List<Uri>?){ }
+    open fun onImageGalleryResult(imageUris: List<Uri>?) {}
 
     fun openGalleryForImage() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, multipleImage);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, multipleImage)
         startActivityForResult(intent, IMAGE_SELECT_REQUEST_CODE)
     }
 
