@@ -5,7 +5,7 @@
     android:id="@+id/container"
     style="@style/constraint_container"
     android:background="#73000000"
-    tools:context=".user.ForgotPasswordFragment">
+    tools:context="ui.user.ForgotPasswordFragment">
 
     <TextView
         android:id="@+id/login_title_tv"
@@ -49,14 +49,12 @@
 
         <EditText
             android:id="@+id/name_register"
+            style="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="@android:color/white"
             android:hint="@string/promt_name"
             android:inputType="textPersonName"
-            android:maxLines="1"
-            android:selectAllOnFocus="true"
-            android:singleLine="true" />
+            android:autofillHints="name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -74,14 +72,12 @@
 
         <EditText
             android:id="@+id/email_register"
+            style="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="@android:color/white"
             android:hint="@string/prompt_email"
             android:inputType="textEmailAddress"
-            android:maxLines="1"
-            android:selectAllOnFocus="true"
-            android:singleLine="true" />
+            android:autofillHints="emailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -99,14 +95,12 @@
 
         <EditText
             android:id="@+id/password_top"
+            style="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="@android:color/white"
             android:hint="@string/prompt_password"
             android:inputType="textPassword"
-            android:maxLines="1"
-            android:selectAllOnFocus="true"
-            android:singleLine="true" />
+            android:autofillHints="password" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -124,14 +118,12 @@
 
         <EditText
             android:id="@+id/password_bottom"
+            style="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="@android:color/white"
             android:hint="@string/prompt_password"
             android:inputType="textPassword"
-            android:maxLines="1"
-            android:selectAllOnFocus="true"
-            android:singleLine="true" />
+            android:autofillHints="password" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.cardview.widget.CardView

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    tools:context=".ui.driver.vehicleprofile.VehicleProfileFragment">
+    tools:context=".ui.vehicleprofile.VehicleProfileFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,76 +13,62 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/text_input_layout">
 
             <EditText
                 android:id="@+id/reg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:ems="10"
-                android:hint="Car reg"
+                android:hint="@string/car_reg"
                 android:inputType="textCapCharacters"
-                android:maxLines="1"
-                style="@style/edittexttheme" />
+                style="@style/EditTextStyle"
+                android:autofillHints="none" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/text_input_layout">
 
             <EditText
                 android:id="@+id/make"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:ems="10"
-                android:hint="Make"
+                android:hint="@string/car_make"
                 android:inputType="none"
                 android:maxLines="1"
-                style="@style/edittexttheme" />
+                style="@style/EditTextStyle"
+                android:importantForAutofill="no" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/text_input_layout">
 
             <EditText
                 android:id="@+id/car_model"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:ems="10"
-                android:hint="Model"
+                android:hint="@string/car_model"
                 android:inputType="none"
                 android:maxLines="1"
-                style="@style/edittexttheme" />
+                style="@style/EditTextStyle"
+                android:importantForAutofill="no" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/text_input_layout">
 
             <EditText
                 android:id="@+id/colour"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:ems="10"
-                android:hint="Colour"
+                android:hint="@string/car_colour"
                 android:inputType="none"
                 android:maxLines="1"
-                style="@style/edittexttheme" />
+                style="@style/EditTextStyle"
+                android:autofillHints="color" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/text_input_layout">
 
             <EditText
                 android:id="@+id/keeper_name"
@@ -90,71 +76,61 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:ems="10"
-                android:hint="Name of keeper"
+                android:hint="@string/name_of_keeper"
                 android:inputType="textPersonName"
                 android:maxLines="1"
-                style="@style/edittexttheme" />
+                style="@style/EditTextStyle"
+                android:autofillHints="name" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/text_input_layout">
 
             <EditText
                 android:id="@+id/address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:ems="10"
-                android:gravity="top|left"
-                android:hint="Address of Keeper"
+                android:gravity="top|start"
+                android:hint="@string/address_of_keeper"
                 android:inputType="textMultiLine"
                 android:lines="4"
                 android:maxLines="7"
                 android:minLines="4"
-                android:padding="12dp"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:textColorHighlight="#608d91" />
+                style="@style/EditTextStyle"
+                android:autofillHints="postalAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/text_input_layout">
 
             <EditText
                 android:id="@+id/postcode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:ems="10"
-                android:hint="Postcode of Keeper"
+                android:hint="@string/postcode_of_keeper"
                 android:inputType="none|textCapCharacters"
                 android:maxLines="1"
-                android:padding="12dp"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:textColorHighlight="#608d91" />
+                style="@style/EditTextStyle"
+                android:autofillHints="postalCode" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/text_input_layout">
 
             <EditText
                 android:id="@+id/start_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:ems="10"
-                android:hint="Start date"
-                android:focusable="false"
-                android:inputType="date"
-                android:maxLines="1"
-                style="@style/edittexttheme" />
+                android:hint="@string/car_start_date"
+                style="@style/EditTextStyle.Date"
+                android:autofillHints="date" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -163,22 +139,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="Vehicle Siezed"
+            android:hint="@string/vehicle_seized"
+            android:buttonTint="@color/colour_eight"
             android:padding="12dp"
             android:textSize="18sp"/>
 
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/submit_vehicle"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="22dp"
-            android:layout_gravity="right"
-            android:background="@drawable/cardviewoutline"
+            style="@style/TextButton.WithIcon"
             android:text="@string/submit"
-            android:textColor="#91ddff"
-            android:textStyle="bold" />
+            android:layout_marginBottom="48dp"
+            android:layout_gravity="end" />
     </LinearLayout>
 
 </ScrollView>
