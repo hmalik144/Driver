@@ -13,10 +13,10 @@ repositories {
     mavenCentral()
 }
 
-def relStorePassword = System.getenv("RELEASE_STORE_PASSWORD")
-def relKeyPassword = System.getenv("RELEASE_KEY_PASSWORD")
-def relKeyAlias = System.getenv("RELEASE_KEY_ALIAS")
 // TODO: reenable once we are deploying to prod
+//def relStorePassword = System.getenv("RELEASE_STORE_PASSWORD")
+//def relKeyPassword = System.getenv("RELEASE_KEY_PASSWORD")
+//def relKeyAlias = System.getenv("RELEASE_KEY_ALIAS")
 //def relStoreFile = System.getenv("RELEASE_KEYSTORE")
 
 android {
@@ -30,18 +30,18 @@ android {
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
-    signingConfigs {
-        release {
-            storePassword relStorePassword
-            keyPassword relKeyPassword
-            keyAlias relKeyAlias
+//    signingConfigs {
+//        release {
+//            storePassword relStorePassword
+//            keyPassword relKeyPassword
+//            keyAlias relKeyAlias
 //            storeFile file(relStoreFile)
-        }
-    }
+//        }
+//    }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
