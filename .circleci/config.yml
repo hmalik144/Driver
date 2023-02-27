@@ -12,17 +12,6 @@ orbs:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  android-setup:
-    # These next lines define the Android machine image executor.
-    # See: https://circleci.com/docs/2.0/executor-types/
-    executor:
-      name: android/android-machine
-    steps:
-      - run:
-          name: Setup variables for
-          command: |
-            echo "$GOOGLE_SERVICES_KEY" > "app/google-services.json"
-#            echo "$RELEASE_KEYSTORE_BASE64" | base64 --decode > "android/app/release_keystore.jks"
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   build-and-test:
     # These next lines define the Android machine image executor.
@@ -35,7 +24,12 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-
+      # Setup files for build.
+      - run:
+          name: Setup variables for build
+          command: |
+            echo "$GOOGLE_SERVICES_KEY" > "app/google-services.json"
+      #            echo "$RELEASE_KEYSTORE_BASE64" | base64 --decode > "android/app/release_keystore.jks"
       - run:
           name: Grant execute permission for gradlew
           command: |
@@ -61,5 +55,4 @@ workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - android-setup
       - build-and-test
