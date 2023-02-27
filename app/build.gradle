@@ -16,14 +16,15 @@ repositories {
 def relStorePassword = System.getenv("RELEASE_STORE_PASSWORD")
 def relKeyPassword = System.getenv("RELEASE_KEY_PASSWORD")
 def relKeyAlias = System.getenv("RELEASE_KEY_ALIAS")
-def relStoreFile = System.getenv("RELEASE_KEYSTORE")
+// TODO: reenable once we are deploying to prod
+//def relStoreFile = System.getenv("RELEASE_KEYSTORE")
 
 android {
     compileSdkVersion 31
     defaultConfig {
         applicationId "h_mal.appttude.com"
         minSdkVersion 24
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 6
         versionName "1.6"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -34,7 +35,7 @@ android {
             storePassword relStorePassword
             keyPassword relKeyPassword
             keyAlias relKeyAlias
-            storeFile file(relStoreFile)
+//            storeFile file(relStoreFile)
         }
     }
 
