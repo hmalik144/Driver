@@ -34,7 +34,6 @@ android {
             storePassword relStorePassword
             keyPassword relKeyPassword
             keyAlias relKeyAlias
-            // TODO: re-enable once we are deploying to prod
 //            storeFile file(relStoreFile)
         }
     }
