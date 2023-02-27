@@ -39,10 +39,10 @@ jobs:
 #           system-image: system-images;android-25;google_apis;x86
 
       # And finally run the release build
-      - run:
-          name: Assemble release build
-          command: |
-            ./gradlew assembleDriverRelease
+#      - run:
+#          name: Assemble release build
+#          command: |
+#            ./gradlew assembleDriverRelease
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
