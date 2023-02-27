@@ -13,11 +13,10 @@ repositories {
     mavenCentral()
 }
 
-// TODO: reenable once we are deploying to prod
-//def relStorePassword = System.getenv("RELEASE_STORE_PASSWORD")
-//def relKeyPassword = System.getenv("RELEASE_KEY_PASSWORD")
-//def relKeyAlias = System.getenv("RELEASE_KEY_ALIAS")
-//def relStoreFile = System.getenv("RELEASE_KEYSTORE")
+def relStorePassword = System.getenv("RELEASE_STORE_PASSWORD")
+def relKeyPassword = System.getenv("RELEASE_KEY_PASSWORD")
+def relKeyAlias = System.getenv("RELEASE_KEY_ALIAS")
+def relStoreFile = System.getenv("RELEASE_KEYSTORE")
 
 android {
     compileSdkVersion 31
@@ -30,14 +29,15 @@ android {
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
-//    signingConfigs {
-//        release {
-//            storePassword relStorePassword
-//            keyPassword relKeyPassword
-//            keyAlias relKeyAlias
+    signingConfigs {
+        release {
+            storePassword relStorePassword
+            keyPassword relKeyPassword
+            keyAlias relKeyAlias
+            // TODO: re-enable once we are deploying to prod
 //            storeFile file(relStoreFile)
-//        }
-//    }
+        }
+    }
 
     buildTypes {
         release {
