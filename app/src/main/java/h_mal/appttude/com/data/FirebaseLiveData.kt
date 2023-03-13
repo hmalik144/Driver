@@ -2,7 +2,6 @@ package h_mal.appttude.com.data
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 
 class FirebaseLiveData(
     private val firebaseAuth: FirebaseAuth

@@ -1,10 +1,12 @@
 package h_mal.appttude.com.base
 
 import android.net.Uri
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.StorageReference
-import h_mal.appttude.com.data.*
+import h_mal.appttude.com.data.FirebaseAuthentication
+import h_mal.appttude.com.data.FirebaseCompletion
+import h_mal.appttude.com.data.FirebaseDatabaseSource
+import h_mal.appttude.com.data.FirebaseStorageSource
 import h_mal.appttude.com.utils.Coroutines.io
 import h_mal.appttude.com.utils.DateUtils.getDateTimeStamp
 import h_mal.appttude.com.utils.getDataFromDatabaseRef

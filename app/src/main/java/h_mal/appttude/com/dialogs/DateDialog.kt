@@ -5,16 +5,13 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.icu.util.Calendar
-import android.os.Build
-import android.view.View
 import android.widget.EditText
-import androidx.annotation.RequiresApi
 import h_mal.appttude.com.R
 import h_mal.appttude.com.utils.DateUtils
 
 
 private const val DATE_FORMAT = "dd/MM/yyyy"
-@RequiresApi(api = Build.VERSION_CODES.N)
+@Suppress("DEPRECATION")
 class DateDialog(
     private val editText: EditText,
     dateSelected:(String?) -> Unit

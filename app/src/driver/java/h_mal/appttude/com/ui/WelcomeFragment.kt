@@ -1,8 +1,8 @@
 package h_mal.appttude.com.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
 import h_mal.appttude.com.R
 import h_mal.appttude.com.utils.navigateTo
 import kotlinx.android.synthetic.driver.fragment_welcome.*

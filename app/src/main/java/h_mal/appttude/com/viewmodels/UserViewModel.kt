@@ -7,8 +7,6 @@ import h_mal.appttude.com.data.FirebaseCompletion
 import h_mal.appttude.com.utils.Coroutines.io
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
-import java.io.IOException
-import java.lang.Exception
 
 class UserViewModel(
     val auth: FirebaseAuthentication

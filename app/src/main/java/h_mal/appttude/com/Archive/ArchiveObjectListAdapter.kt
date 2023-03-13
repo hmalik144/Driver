@@ -1,19 +1,13 @@
 package h_mal.appttude.com.Archive
 
-import android.content.Context
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 //import h_mal.appttude.com.Global.FirebaseClass
 //import h_mal.appttude.com.Global.ImageSwiperClass
 //import h_mal.appttude.com.Objects.ArchiveObject
-import h_mal.appttude.com.model.InsuranceObject
-import h_mal.appttude.com.R
-import h_mal.appttude.com.model.VehicleProfileObject
+import android.content.Context
+import android.view.View
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import android.widget.TextView
 import h_mal.appttude.com.utils.DateUtils.convertDateStringDatePattern
 import java.text.ParseException
 

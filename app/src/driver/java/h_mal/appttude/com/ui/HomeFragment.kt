@@ -10,10 +10,8 @@ import h_mal.appttude.com.utils.navigateTo
 import h_mal.appttude.com.utils.show
 import h_mal.appttude.com.viewmodels.RoleViewModel
 import kotlinx.android.synthetic.main.driver_profile_request.*
-
 import kotlinx.android.synthetic.main.fragment_home_driver.*
 import kotlinx.android.synthetic.main.home_buttons_container.*
-import kotlinx.android.synthetic.main.home_buttons_container.driver
 
 
 class HomeFragment : DataSubmissionBaseFragment<RoleViewModel, String>(R.layout.fragment_home_driver) {

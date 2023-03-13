@@ -2,10 +2,9 @@ package h_mal.appttude.com.ui.vehicleprofile
 
 import android.os.Bundle
 import android.view.View
-
-import h_mal.appttude.com.dialogs.DateDialog
 import h_mal.appttude.com.R
 import h_mal.appttude.com.base.DataSubmissionBaseFragment
+import h_mal.appttude.com.dialogs.DateDialog
 import h_mal.appttude.com.model.VehicleProfileObject
 import h_mal.appttude.com.viewmodels.VehicleProfileViewModel
 import kotlinx.android.synthetic.main.fragment_vehicle_setup.*

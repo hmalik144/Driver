@@ -3,9 +3,9 @@ package h_mal.appttude.com.ui.vehicleprofile
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import h_mal.appttude.com.model.LogbookObject
 import h_mal.appttude.com.R
 import h_mal.appttude.com.base.DataSubmissionBaseFragment
+import h_mal.appttude.com.model.LogbookObject
 import h_mal.appttude.com.utils.setGlideImage
 import h_mal.appttude.com.viewmodels.LogbookViewModel
 import kotlinx.android.synthetic.main.fragment_logbook.*

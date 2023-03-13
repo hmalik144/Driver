@@ -37,11 +37,16 @@ jobs:
       # The next step will run the unit tests
       - android/run-tests:
           test-command: ./gradlew testDriverDebugUnitTest --continue
-
-#       Then start the emulator and run the Instrumentation tests!
-#       - android/start-emulator-and-run-tests:
-#           test-command: ./gradlew connectedDebugAndroidTest
-#           system-image: system-images;android-25;google_apis;x86
+      # Then start the firebase emulators for the Instrumentation tests!
+      - run:
+          name: Setup Firebase Emulators
+          command: |
+            curl -sL firebase.tools | bash
+            firebase emulators:start
+      # Then start the emulator and run the Instrumentation tests!
+      - android/start-emulator-and-run-tests:
+          test-command: ./gradlew connectedDebugAndroidTest
+          system-image: system-images;android-25;google_apis;x86
 
       # And finally run the release build
 #      - run:

@@ -3,9 +3,9 @@ package h_mal.appttude.com.ui.driverprofile
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import h_mal.appttude.com.dialogs.DateDialog
 import h_mal.appttude.com.R
 import h_mal.appttude.com.base.DataSubmissionBaseFragment
+import h_mal.appttude.com.dialogs.DateDialog
 import h_mal.appttude.com.model.PrivateHireObject
 import h_mal.appttude.com.utils.setGlideImage
 import h_mal.appttude.com.viewmodels.PrivateHireLicenseViewModel

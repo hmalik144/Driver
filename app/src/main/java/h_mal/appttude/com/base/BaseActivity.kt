@@ -4,27 +4,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.LayoutParams
-import android.view.ViewGroup.LayoutParams.*
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.activity.viewModels
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import h_mal.appttude.com.application.ApplicationViewModelFactory
+import androidx.test.espresso.IdlingResource
 import h_mal.appttude.com.R
+import h_mal.appttude.com.application.ApplicationViewModelFactory
 import h_mal.appttude.com.data.ViewState
-import h_mal.appttude.com.espresso.IdlingResourceClass
-import h_mal.appttude.com.utils.displayToast
-import h_mal.appttude.com.utils.hide
-import h_mal.appttude.com.utils.show
-import h_mal.appttude.com.utils.triggerAnimation
+import h_mal.appttude.com.utils.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
 
 
 abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), KodeinAware {
-
+    // The Idling Resource which will be null in production.
+    private var mIdlingResource: BasicIdlingResource? = null
     private lateinit var loadingView: View
 
     abstract fun getViewModel(): V?
@@ -32,7 +30,6 @@ abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), KodeinAwar
 
     override val kodein by kodein()
     val factory by instance<ApplicationViewModelFactory>()
-    private val idlingResource by instance<IdlingResourceClass>()
 
     inline fun <reified VM : ViewModel> createLazyViewModel(): Lazy<VM> = viewModels { factory }
     inline fun <reified VM : ViewModel> createViewModel(): VM =
@@ -54,6 +51,7 @@ abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), KodeinAwar
      *  loading
      */
     private fun instantiateLoadingView(){
+//        loadingView = View.inflate(this, R.layout.progress_layout, null)
         loadingView = layoutInflater.inflate(R.layout.progress_layout, null)
         loadingView.setOnClickListener(null)
         addContentView(loadingView, LayoutParams(MATCH_PARENT, MATCH_PARENT))
@@ -76,7 +74,7 @@ abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), KodeinAwar
     open fun onStarted() {
         loadingView.fadeIn()
         loading = true
-        IdlingResourceClass.increment()
+        mIdlingResource?.setIdleState(false)
     }
 
     /**
@@ -85,7 +83,7 @@ abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), KodeinAwar
     open fun onSuccess(data: Any?) {
         loadingView.fadeOut()
         loading = false
-        IdlingResourceClass.decrement()
+        mIdlingResource?.setIdleState(true)
     }
 
     /**
@@ -95,17 +93,17 @@ abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), KodeinAwar
         error?.let { displayToast(it) }
         loadingView.fadeOut()
         loading = false
-        IdlingResourceClass.decrement()
+        mIdlingResource?.setIdleState(true)
     }
 
     private fun configureObserver() {
-        getViewModel()?.uiState?.observe(this, Observer {
+        getViewModel()?.uiState?.observe(this) {
             when (it) {
                 is ViewState.HasStarted -> onStarted()
                 is ViewState.HasData<*> -> onSuccess(it.data.getContentIfNotHandled())
                 is ViewState.HasError -> onFailure(it.error.getContentIfNotHandled())
             }
-        })
+        }
     }
 
     private fun View.fadeIn() = apply {
@@ -123,4 +121,14 @@ abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), KodeinAwar
         if (!loading) super.onBackPressed()
     }
 
+    /**
+     * Only called from test, creates and returns a new [BasicIdlingResource].
+     */
+    @VisibleForTesting
+    fun getIdlingResource(): IdlingResource? {
+        if (mIdlingResource == null) {
+            mIdlingResource = BasicIdlingResource()
+        }
+        return mIdlingResource
+    }
 }
