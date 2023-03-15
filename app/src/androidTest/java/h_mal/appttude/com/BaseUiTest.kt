@@ -49,7 +49,7 @@ open class BaseUiTest<T : BaseActivity<*>>(
     fun waitFor(delay: Long) {
         onView(isRoot()).perform(object : ViewAction {
             override fun getConstraints(): Matcher<View> = isRoot()
-            override fun getDescription(): String = "wait for $delay milliseconds"
+            override fun getDescription(): String? = "wait for $delay milliseconds"
             override fun perform(uiController: UiController, v: View?) {
                 uiController.loopMainThreadForAtLeast(delay)
             }

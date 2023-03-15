@@ -113,7 +113,7 @@ dependencies {
     / * Android Espresso */
     def testJunitVersion = "1.1.5"
     def testRunnerVersion = "1.5.2"
-    def espressoVersion = "3.5.0"
+    def espressoVersion = "3.4.0"
     androidTestImplementation "androidx.test.ext:junit:$testJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$espressoVersion"
