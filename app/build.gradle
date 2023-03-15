@@ -27,6 +27,9 @@ android {
         versionCode 6
         versionName "1.6"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        boolean state = project.rootProject.file('local.properties').canRead()
+        buildConfigField "boolean", "LocalState", "$state"
     }
 
     android {

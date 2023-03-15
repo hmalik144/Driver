@@ -27,9 +27,11 @@ open class FirebaseTest<T : BaseActivity<*>>(
         @JvmStatic
         @BeforeClass
         fun setupFirebase() {
-            FirebaseAuth.getInstance().useEmulator("10.0.2.2", 9099)
-            FirebaseDatabase.getInstance().useEmulator("10.0.2.2", 9000)
-            FirebaseStorage.getInstance().useEmulator("10.0.2.2", 9199)
+            val localHost = if (BuildConfig.LocalState)  "10.0.2.2" else "127.0.0.1"
+
+            FirebaseAuth.getInstance().useEmulator(localHost, 9099)
+            FirebaseDatabase.getInstance().useEmulator(localHost, 9000)
+            FirebaseStorage.getInstance().useEmulator(localHost, 9199)
         }
     }
 
