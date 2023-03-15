@@ -46,7 +46,7 @@ open class FirebaseTest<T : BaseActivity<*>>(
 
     @After
     fun tearDownFirebase() = runBlocking {
-        removeUser()
+//        removeUser()
         firebaseAuthSource.logOut()
     }
 
