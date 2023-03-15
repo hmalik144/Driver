@@ -18,15 +18,10 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class RegisteredUserAuthenticationActivityTest : FirebaseTest<LoginActivity>(LoginActivity::class.java, registered = true, signedIn = false) {
 
-    @Before
-    fun waitForSplashScreen() {
-        waitFor(100)
-    }
-
     @Test
     fun verifyUserLogin_validUsernameAndPassword_loggedIn() {
         login {
-            println("lets get the email = ${getEmail()}")
+            waitFor(100)
             setEmail(getEmail())
             setPassword(USER_PASSWORD)
             clickLogin()
