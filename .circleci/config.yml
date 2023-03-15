@@ -53,6 +53,8 @@ jobs:
           post-emulator-launch-assemble-command: ./gradlew assembleDriverDebugAndroidTest
           test-command: ./gradlew connectedDriverDebugAndroidTest
           system-image: system-images;android-25;google_apis;x86
+          run-logcat: true
+          no-snapshot: false
       # And finally run the release build
 #      - run:
 #          name: Assemble release build

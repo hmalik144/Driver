@@ -27,7 +27,8 @@ open class FirebaseTest<T : BaseActivity<*>>(
         @JvmStatic
         @BeforeClass
         fun setupFirebase() {
-            val localHost = if (BuildConfig.LocalState)  "10.0.2.2" else "127.0.0.53"
+//            val localHost = if (BuildConfig.LocalState)  "10.0.2.2" else "127.0.0.53"
+            val localHost = "127.0.0.53"
 
             FirebaseAuth.getInstance().useEmulator(localHost, 9099)
             FirebaseDatabase.getInstance().useEmulator(localHost, 9000)
