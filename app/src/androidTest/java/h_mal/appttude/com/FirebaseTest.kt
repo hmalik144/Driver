@@ -61,11 +61,16 @@ open class FirebaseTest<T : BaseActivity<*>>(
 
     // remove the user we created for testing
     suspend fun removeUser() {
-        getEmail()?.let {
-            if (firebaseAuthSource.getUser() == null) firebaseAuthSource.signIn(email = it, password = USER_PASSWORD).await()
-            firebaseAuthSource.reauthenticate(it, USER_PASSWORD).await()
-            firebaseAuthSource.deleteProfile().await()
+        try {
+            getEmail()?.let {
+                if (firebaseAuthSource.getUser() == null) firebaseAuthSource.signIn(email = it, password = USER_PASSWORD).await()
+                firebaseAuthSource.reauthenticate(it, USER_PASSWORD).await()
+                firebaseAuthSource.deleteProfile().await()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+
     }
 
     fun generateEmailAddress(): String {
