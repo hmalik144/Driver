@@ -60,7 +60,7 @@ open class FirebaseTest<T : BaseActivity<*>>(
 
     // remove the user we created for testing
     suspend fun removeUser() {
-        getEmail()?.let {
+        firebaseAuthSource.getUser()?.email?.let {
             firebaseAuthSource.reauthenticate(it, USER_PASSWORD).await()
             firebaseAuthSource.deleteProfile().await()
         }
