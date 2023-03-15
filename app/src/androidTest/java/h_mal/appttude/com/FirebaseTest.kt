@@ -60,7 +60,8 @@ open class FirebaseTest<T : BaseActivity<*>>(
 
     // remove the user we created for testing
     suspend fun removeUser() {
-        firebaseAuthSource.getUser()?.email?.let {
+        getEmail()?.let {
+            if (firebaseAuthSource.getUser() == null) firebaseAuthSource.signIn(email = it, password = USER_PASSWORD).await()
             firebaseAuthSource.reauthenticate(it, USER_PASSWORD).await()
             firebaseAuthSource.deleteProfile().await()
         }
@@ -68,7 +69,8 @@ open class FirebaseTest<T : BaseActivity<*>>(
 
     fun generateEmailAddress(): String {
         val suffix = (1000..50000).random()
-        return "test-${suffix}@test-account.com"
+        email ="test-${suffix}@test-account.com"
+        return email!!
     }
 
     fun getEmail(): String? {

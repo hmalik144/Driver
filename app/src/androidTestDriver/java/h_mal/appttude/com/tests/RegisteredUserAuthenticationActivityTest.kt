@@ -16,7 +16,7 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class UserAuthenticationActivityTest : FirebaseTest<LoginActivity>(LoginActivity::class.java) {
+class RegisteredUserAuthenticationActivityTest : FirebaseTest<LoginActivity>(LoginActivity::class.java, registered = true, signedIn = false) {
 
     @Before
     fun waitForSplashScreen() {
@@ -24,20 +24,15 @@ class UserAuthenticationActivityTest : FirebaseTest<LoginActivity>(LoginActivity
     }
 
     @Test
-    fun verifyUserRegistration_validUsernameAndPassword_loggedIn() {
+    fun verifyUserLogin_validUsernameAndPassword_loggedIn() {
         login {
-            clickRegister()
-        }
-        register {
-            setName("Test User")
-            setEmail(generateEmailAddress())
+            println("lets get the email = ${getEmail()}")
+            setEmail(getEmail())
             setPassword(USER_PASSWORD)
-            setPasswordConfirm(USER_PASSWORD)
             clickLogin()
         }
         home {
             checkTitleExists(getResourceString(R.string.welcome_title))
         }
     }
-
 }
