@@ -27,7 +27,7 @@ open class FirebaseTest<T : BaseActivity<*>>(
         @JvmStatic
         @BeforeClass
         fun setupFirebase() {
-            val localHost = if (BuildConfig.LocalState)  "10.0.2.2" else "127.0.0.1"
+            val localHost = "10.0.2.2"
 
             FirebaseAuth.getInstance().useEmulator(localHost, 9099)
             FirebaseDatabase.getInstance().useEmulator(localHost, 9000)
@@ -46,8 +46,8 @@ open class FirebaseTest<T : BaseActivity<*>>(
 
     @After
     fun tearDownFirebase() = runBlocking {
-//        removeUser()
         firebaseAuthSource.logOut()
+        removeUser()
     }
 
     suspend fun setupUser(
