@@ -21,7 +21,7 @@ class UserAuthenticationActivityTest : FirebaseTest<LoginActivity>(LoginActivity
     @Test
     fun verifyUserRegistration_validUsernameAndPassword_loggedIn() {
         login {
-            waitFor(100)
+            waitFor(1100)
             clickRegister()
         }
         register {
