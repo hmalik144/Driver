@@ -5,9 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
-import h_mal.appttude.com.ui.MainActivity
 import h_mal.appttude.com.R
 import h_mal.appttude.com.base.BaseActivity
+import h_mal.appttude.com.ui.MainActivity
 import h_mal.appttude.com.viewmodels.UserViewModel
 
 

@@ -8,10 +8,4 @@ class HomeRobot: BaseTestRobot() {
 
     fun checkTitleExists(title: String) = matchText(R.id.prova_title_tv, title)
 
-    fun clickLogin() = clickButton(R.id.email_sign_in_button)
-
-    fun clickRegister() = clickButton(R.id.register_button)
-
-    fun clickForgotPassword() = clickButton(R.id.forgot)
-
 }

@@ -4,7 +4,6 @@ import android.app.Application
 import h_mal.appttude.com.data.FirebaseAuthSource
 import h_mal.appttude.com.data.FirebaseDatabaseSource
 import h_mal.appttude.com.data.FirebaseStorageSource
-import h_mal.appttude.com.espresso.IdlingResourceClass
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule

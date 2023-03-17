@@ -27,6 +27,20 @@ android {
         versionCode 6
         versionName "1.6"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        boolean state = project.rootProject.file('local.properties').canRead()
+        buildConfigField "boolean", "LocalState", "$state"
+    }
+
+    android {
+        sourceSets {
+            test {
+                resources.srcDirs += ['src/test/resources']
+            }
+            androidTest {
+                resources.srcDirs += ['src/androidTest/resources']
+            }
+        }
     }
 
     signingConfigs {
@@ -94,42 +108,47 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
     implementation 'androidx.viewpager:viewpager:1.0.0'
-    testImplementation "junit:junit:4.13.2"
-    androidTestImplementation "androidx.test.ext:junit:1.1.5"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
-    androidTestImplementation "androidx.test:rules:1.5.0"
-    implementation 'androidx.test.espresso:espresso-idling-resource:3.5.1'
-
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
-    // Google play services
+    testImplementation "junit:junit:4.13.2"
+    / * Android Espresso */
+    def testJunitVersion = "1.1.5"
+    def testRunnerVersion = "1.5.2"
+    def espressoVersion = "3.5.1"
+    androidTestImplementation "androidx.test.ext:junit:$testJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$espressoVersion"
+    implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
+    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
+    / * Google play services */
     implementation "com.google.android.gms:play-services-auth:20.4.1"
-    // Google firebase
-    def firebaseVer  = "20.1.0"
-    implementation "com.google.firebase:firebase-core:$firebaseVer"
-    implementation "com.google.firebase:firebase-auth:21.0.0"
-    implementation "com.google.firebase:firebase-storage:$firebaseVer"
-    implementation "com.google.firebase:firebase-database:$firebaseVer"
-    // Photoviewer
+    / * Google firebase */
+    def firebaseCore = "21.1.1"
+    def firebaseAuth = "20.0.0"
+    def firebaseStorage = "20.0.0"
+    def firebaseDatabase = "19.4.0"
+    implementation "com.google.firebase:firebase-core:$firebaseCore"
+    implementation "com.google.firebase:firebase-auth:$firebaseAuth"
+    implementation "com.google.firebase:firebase-storage:$firebaseStorage"
+    implementation "com.google.firebase:firebase-database:$firebaseDatabase"
+    / * Photoviewer */
     implementation "com.github.chrisbanes:PhotoView:2.1.0"
-    /* Picasso photo loader */
+    / * Picasso photo loader */
     implementation "com.squareup.picasso:picasso:2.71828"
-    /* Gson */
+    / * Gson */
     implementation "com.google.code.gson:gson:2.8.9"
-    /* coroutines support for firebase operations */
+    / * coroutines support for firebase operations */
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.1"
-
-    // Circle Image View
+    / * Circle Image View */
     implementation "com.mikhaellopez:circularimageview:4.2.0"
-
-    //Kodein Dependency Injection
+    / * Kodein Dependency Injection */
     def kodein_version = "6.2.1"
     implementation "org.kodein.di:kodein-di-generic-jvm:$kodein_version"
     implementation "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
-
-    /* Image Carousal */
+    / * Image Carousal */
     implementation 'com.synnapps:carouselview:0.1.5'
-
     / * Glide */
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    / * OKHttp */
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
 }

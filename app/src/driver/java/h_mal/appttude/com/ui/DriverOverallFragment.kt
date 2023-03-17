@@ -4,10 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import h_mal.appttude.com.R
-import h_mal.appttude.com.base.BaseFragment
 import h_mal.appttude.com.utils.navigateTo
-import h_mal.appttude.com.viewmodels.DriverLicenseViewModel
-
 import kotlinx.android.synthetic.main.fragment_driver_overall.*
 
 class DriverOverallFragment : Fragment(R.layout.fragment_driver_overall) {

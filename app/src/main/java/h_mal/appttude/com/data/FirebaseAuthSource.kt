@@ -28,7 +28,7 @@ class FirebaseAuthSource: FirebaseAuthentication{
     ): Task<Void> {
         val profileUpdates = UserProfileChangeRequest.Builder().apply {
             name?.let { setDisplayName(it) }
-            profilePic?.let { setPhotoUri(it) }
+            profilePic?.let { photoUri = it }
         }.build()
         return getCurrentUser().updateProfile(profileUpdates)
     }
