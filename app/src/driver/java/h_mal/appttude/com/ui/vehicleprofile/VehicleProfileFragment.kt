@@ -1,62 +1,63 @@
 package h_mal.appttude.com.ui.vehicleprofile
 
-import android.os.Bundle
-import android.view.View
-import h_mal.appttude.com.R
 import h_mal.appttude.com.base.DataSubmissionBaseFragment
+import h_mal.appttude.com.databinding.FragmentVehicleSetupBinding
 import h_mal.appttude.com.dialogs.DateDialog
-import h_mal.appttude.com.model.VehicleProfileObject
+import h_mal.appttude.com.model.VehicleProfile
+import h_mal.appttude.com.utils.isTrue
 import h_mal.appttude.com.viewmodels.VehicleProfileViewModel
-import kotlinx.android.synthetic.main.fragment_vehicle_setup.*
 
 
-class VehicleProfileFragment: DataSubmissionBaseFragment
-<VehicleProfileViewModel, VehicleProfileObject>(R.layout.fragment_vehicle_setup){
+class VehicleProfileFragment : DataSubmissionBaseFragment
+<VehicleProfileViewModel, FragmentVehicleSetupBinding, VehicleProfile>() {
 
-    private val viewmodel by getFragmentViewModel<VehicleProfileViewModel>()
-    override fun getViewModel(): VehicleProfileViewModel = viewmodel
-    override var model = VehicleProfileObject()
+    override var model = VehicleProfile()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun setupView(binding: FragmentVehicleSetupBinding) = binding.run {
         reg.setTextOnChange { model.reg = it }
         make.setTextOnChange { model.make = it }
-        car_model.setTextOnChange { model.model = it }
+        carModel.setTextOnChange { model.model = it }
         colour.setTextOnChange { model.colour = it }
-        keeper_name.setTextOnChange { model.keeperName = it }
+        keeperName.setTextOnChange { model.keeperName = it }
         address.setTextOnChange { model.keeperAddress = it }
         postcode.setTextOnChange { model.keeperPostCode = it }
-        start_date.apply {
+        startDate.apply {
             setOnClickListener {
-                DateDialog(this){ date ->
+                DateDialog(this) { date ->
                     model.startDate = date
                 }
             }
         }
-        seized_checkbox.setOnCheckedChangeListener { _, res -> model.isSeized = res}
+        seizedCheckbox.setOnCheckedChangeListener { _, res -> model.isSeized = res }
 
-        submit_vehicle.setOnClickListener { submit() }
+        submitVehicle.setOnClickListener {
+            validateEditTexts(
+                reg,
+                make,
+                carModel,
+                colour,
+                keeperName,
+                address,
+                postcode,
+                startDate
+            ).isTrue {
+                viewModel.setDataInDatabase(model)
+            }
+        }
     }
 
-    override fun submit() {
-        validateEditTexts(reg, make, car_model, colour, keeper_name, address, postcode, start_date)
-            .takeIf { !it }
-            ?.let { return }
-
-        viewmodel.setDataInDatabase(model)
-    }
-
-    override fun setFields(data: VehicleProfileObject) {
+    override fun setFields(data: VehicleProfile) {
         super.setFields(data)
-        reg.setText(data.reg)
-        make.setText(data.make)
-        car_model.setText(data.model)
-        colour.setText(data.colour)
-        keeper_name.setText(data.keeperName)
-        address.setText(data.keeperAddress)
-        postcode.setText(data.keeperPostCode)
-        start_date.setText(data.startDate)
-        seized_checkbox.isChecked = data.isSeized
+        applyBinding {
+            reg.setText(data.reg)
+            make.setText(data.make)
+            carModel.setText(data.model)
+            colour.setText(data.colour)
+            keeperName.setText(data.keeperName)
+            address.setText(data.keeperAddress)
+            postcode.setText(data.keeperPostCode)
+            startDate.setText(data.startDate)
+            seizedCheckbox.isChecked = data.isSeized
+        }
     }
 }

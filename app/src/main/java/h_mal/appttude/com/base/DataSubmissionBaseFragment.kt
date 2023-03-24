@@ -6,25 +6,25 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-import androidx.annotation.LayoutRes
 import androidx.core.widget.doAfterTextChanged
+import androidx.viewbinding.ViewBinding
 import h_mal.appttude.com.data.UserAuthState
 import h_mal.appttude.com.ui.user.LoginActivity
 import h_mal.appttude.com.utils.PermissionsUtils.askForPermissions
 import h_mal.appttude.com.utils.TextValidationUtils.validateEditText
 
 private const val IMAGE_PERMISSION_RESULT = 402
-abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, T: Any>
-    (@LayoutRes contentLayoutId: Int) : BaseFragment<BaseViewModel>(contentLayoutId){
+
+abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, VB : ViewBinding, T : Any> :
+    BaseFragment<V, VB>() {
 
     var picUri: Uri? = null
 
-    abstract override fun getViewModel(): V
     abstract var model: T
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getViewModel().stateLiveData.observe(viewLifecycleOwner) {
+        viewModel.stateLiveData.observe(viewLifecycleOwner) {
             if (it is UserAuthState.LoggedOut) {
                 val intent = Intent(requireContext(), LoginActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -32,7 +32,7 @@ abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, T:
                 requireActivity().finish()
             }
         }
-        getViewModel().getDataFromDatabase()
+        viewModel.getDataFromDatabase()
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -41,17 +41,17 @@ abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, T:
 
         data?.let {
             if (it::class.java == model::class.java)
-            setFields(data as T)
+                setFields(data as T)
         }
     }
 
-    open fun setFields(data: T){
+    open fun setFields(data: T) {
         model = data
     }
 
-    open fun submit(){}
+    open fun submit() {}
 
-    fun openGalleryWithPermissionRequest(){
+    fun openGalleryWithPermissionRequest() {
         if (askForPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, IMAGE_PERMISSION_RESULT)) {
             openGalleryForImage()
         }
@@ -65,9 +65,9 @@ abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, T:
         openGalleryForImage()
     }
 
-    fun validateEditTexts(vararg editTexts: EditText): Boolean{
+    fun validateEditTexts(vararg editTexts: EditText): Boolean {
         editTexts.forEach {
-            if (it.text.isNullOrBlank()){
+            if (it.text.isNullOrBlank()) {
                 it.validateEditText()
                 return false
             }
@@ -75,13 +75,13 @@ abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, T:
         return true
     }
 
-    fun EditText.setTextOnChange(output: (m: String) -> Unit){
+    fun EditText.setTextOnChange(output: (m: String) -> Unit) {
         doAfterTextChanged {
             output(text.toString())
         }
     }
 
-    override fun onImageGalleryResult(imageUri: Uri?){
+    override fun onImageGalleryResult(imageUri: Uri?) {
         super.onImageGalleryResult(imageUri)
         picUri = imageUri
     }

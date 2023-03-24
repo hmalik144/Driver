@@ -9,25 +9,25 @@ import h_mal.appttude.com.utils.getDataFromDatabaseRef
 class MainViewModel(
     private val firebaseAuth: FirebaseAuthentication,
     private val firebaseDatabase: FirebaseDatabaseSource
-) : BaseViewModel(){
+) : BaseViewModel() {
 
     fun getRole() = io {
-            doTryOperation("failed to retrieve data") {
-                val uid = firebaseAuth.getUid() ?: return@doTryOperation
-                val ref = firebaseDatabase.getUserRoleRef(uid)
-                val role = ref.getDataFromDatabaseRef<String>()
-                role?.apply { onSuccess(this) } ?: onError("No role found")
-            }
+        doTryOperation("failed to retrieve data") {
+            val uid = firebaseAuth.getUid() ?: return@doTryOperation
+            val ref = firebaseDatabase.getUserRoleRef(uid)
+            val role = ref.getDataFromDatabaseRef<String>()
+            role?.apply { onSuccess(this) } ?: onError("No role found")
         }
+    }
 
 
-    fun getUserDetails(){
+    fun getUserDetails() {
         firebaseAuth.getUser()?.let {
             onSuccess(it)
         }
     }
 
-    fun logOut(){
+    fun logOut() {
         firebaseAuth.logOut()
     }
 }

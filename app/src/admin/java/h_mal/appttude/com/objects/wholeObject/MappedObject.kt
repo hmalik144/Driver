@@ -29,14 +29,15 @@ class MappedObject : Parcelable {
 
     companion object {
         @JvmField
-        val CREATOR: Parcelable.Creator<MappedObject?> = object : Parcelable.Creator<MappedObject?> {
-            override fun createFromParcel(`in`: Parcel): MappedObject? {
-                return MappedObject(`in`)
-            }
+        val CREATOR: Parcelable.Creator<MappedObject?> =
+            object : Parcelable.Creator<MappedObject?> {
+                override fun createFromParcel(`in`: Parcel): MappedObject? {
+                    return MappedObject(`in`)
+                }
 
-            override fun newArray(size: Int): Array<MappedObject?> {
-                return arrayOfNulls(size)
+                override fun newArray(size: Int): Array<MappedObject?> {
+                    return arrayOfNulls(size)
+                }
             }
-        }
     }
 }

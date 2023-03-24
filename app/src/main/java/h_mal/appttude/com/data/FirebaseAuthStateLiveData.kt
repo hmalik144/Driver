@@ -3,9 +3,12 @@ package h_mal.appttude.com.data
 import androidx.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseAuth
 
-class FirebaseLiveData(
+/**
+ * Creates #LiveDate out of {UserAuthState} for firebase user state
+ */
+class FirebaseAuthStateLiveData(
     private val firebaseAuth: FirebaseAuth
-): LiveData<UserAuthState>(){
+) : LiveData<UserAuthState>() {
 
     override fun onActive() {
         super.onActive()

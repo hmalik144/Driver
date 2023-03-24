@@ -1,79 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/parent_constraint_layout"
     tools:context=".ui.driverprofile.DriverLicenseFragment">
 
-        <androidx.cardview.widget.CardView
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/til_lic_no">
+
+        <ImageView
+            android:id="@+id/driversli_img"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardCornerRadius="28dp"
-            app:cardElevation="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/til_lic_no">
+            android:layout_height="200dp"
+            android:layout_alignParentStart="true"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/choice_img_round"
+            android:contentDescription="@string/image_description" />
 
-            <ImageView
-                android:id="@+id/driversli_img"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_alignParentStart="true"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                tools:src="@drawable/choice_img_round"
-                android:contentDescription="@string/image_description" />
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/search_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_baseline_photo_library_24"
+            android:scaleType="centerInside"
+            android:elevation="1dp"
+            app:civ_border_width="1dp"
+            app:civ_shadow_radius="0.5dp"
+            android:alpha="1"
+            app:civ_circle_color="@color/colour_one"
+            android:layout_margin="18dp"
+            android:layout_gravity="bottom|end" />
 
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/search_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_baseline_photo_library_24"
-                android:scaleType="centerInside"
-                android:elevation="1dp"
-                app:civ_border_width="1dp"
-                app:civ_shadow_radius="0.5dp"
-                android:alpha="1"
-                app:civ_circle_color="@color/colour_one"
-                android:layout_margin="18dp"
-                android:layout_gravity="bottom|end" />
+    </androidx.cardview.widget.CardView>
 
-        </androidx.cardview.widget.CardView>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_lic_no"
+        style="@style/text_input_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_lic_no"
-            style="@style/text_input_layout"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <EditText
+            android:id="@+id/lic_no"
+            style="@style/EditTextStyle.Date"
+            android:hint="@string/drivers_license_no"
+            android:inputType="none"
+            android:maxLines="1"
+            android:importantForAutofill="no" />
 
-            <EditText
-                android:id="@+id/lic_no"
-                style="@style/EditTextStyle.Date"
-                android:hint="@string/drivers_license_no"
-                android:inputType="none"
-                android:maxLines="1"
-                android:importantForAutofill="no" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_submission"
+        style="@style/text_input_layout"
+        app:layout_constraintTop_toBottomOf="@id/til_lic_no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_submission"
-            style="@style/text_input_layout"
-            app:layout_constraintTop_toBottomOf="@id/til_lic_no"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+        <EditText
+            android:hint="@string/license_expiry_date"
+            android:id="@+id/lic_expiry"
+            style="@style/EditTextStyle.Date"
+            android:autofillHints="date" />
 
-            <EditText
-                android:hint="@string/license_expiry_date"
-                android:id="@+id/lic_expiry"
-                style="@style/EditTextStyle.Date"
-                android:autofillHints="date" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/submit"
@@ -84,6 +83,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8"/>
+        app:layout_constraintVertical_bias="0.8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

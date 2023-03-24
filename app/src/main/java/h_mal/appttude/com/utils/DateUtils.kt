@@ -11,7 +11,7 @@ object DateUtils {
         return sdf.format(Date())
     }
 
-    fun getDateTimeStamp(): String{
+    fun getDateTimeStamp(): String {
         val sdf: SimpleDateFormat = getSimpleDateFormat("yyyyMMdd_HHmmss")
         return sdf.format(Date())
     }
@@ -23,7 +23,7 @@ object DateUtils {
             val sdfOut = getSimpleDateFormat(formatOut)
             val newDate: Date = sdfIn.parse(this)
             sdfOut.format(newDate)
-        }catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             this
         }

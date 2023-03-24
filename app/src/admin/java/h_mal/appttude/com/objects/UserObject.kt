@@ -1,7 +1,6 @@
 package h_mal.appttude.com.objects
 
 
-
 class UserObject {
     var profileName: String? = null
     var profileEmail: String? = null

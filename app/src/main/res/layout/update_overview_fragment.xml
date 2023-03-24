@@ -32,7 +32,7 @@
         app:layout_constraintBottom_toTopOf="@id/update_password_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/update_email"/>
+        android:text="@string/update_email" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/TextButton.WithIcon"
@@ -41,7 +41,7 @@
         app:layout_constraintBottom_toTopOf="@id/update_profile_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/update_password"/>
+        android:text="@string/update_password" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/TextButton.WithIcon"
@@ -50,7 +50,7 @@
         app:layout_constraintBottom_toTopOf="@id/delete_profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/update_profile"/>
+        android:text="@string/update_profile" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/TextButton.WithIcon"
@@ -60,6 +60,6 @@
         android:backgroundTint="@color/colour_nine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

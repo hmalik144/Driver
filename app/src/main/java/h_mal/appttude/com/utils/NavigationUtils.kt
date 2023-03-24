@@ -19,7 +19,7 @@ fun navigateToActivity(context: Context, navigationActivity: Navigations) {
     }
 }
 
-fun View.navigateTo(@IdRes navId: Int){
+fun View.navigateTo(@IdRes navId: Int) {
     Navigation
         .findNavController(this)
         .navigate(navId)

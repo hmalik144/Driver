@@ -1,7 +1,6 @@
 package h_mal.appttude.com.objects
 
 
-
 class ApprovalsObject {
     var driver_details_approval: Int = 0
     var driver_license_approval: Int = 0

@@ -30,7 +30,7 @@ abstract class DataSubmissionBaseViewModel<T : Any>(
     abstract fun getDataFromDatabase(): Job
     open fun setDataInDatabase(data: T, localImageUri: Uri?): Job = Job()
     open fun setDataInDatabase(data: T, localImageUris: List<Uri?>?): Job = Job()
-    open fun setDataInDatabase(data: T) {  }
+    open fun setDataInDatabase(data: T) {}
 
     inline fun <reified T : Any> getDataClass() = io {
         doTryOperation("Failed to retrieve $objectName") {
@@ -60,7 +60,7 @@ abstract class DataSubmissionBaseViewModel<T : Any>(
     }
 
     suspend fun getImageUrl(localImageUri: Uri?, imageUrl: String?): String {
-        if (localImageUri == null && imageUrl.isNullOrBlank()){
+        if (localImageUri == null && imageUrl.isNullOrBlank()) {
             throw IOException("No image is selected")
         }
 
@@ -68,7 +68,7 @@ abstract class DataSubmissionBaseViewModel<T : Any>(
     }
 
     suspend fun getImageUrls(localImageUris: List<Uri?>?): List<String?> {
-        if (localImageUris.isNullOrEmpty()){
+        if (localImageUris.isNullOrEmpty()) {
             throw IOException("No images is selected")
         }
         val listOfUrls = mutableListOf<String>()
@@ -81,10 +81,19 @@ abstract class DataSubmissionBaseViewModel<T : Any>(
         return listOfUrls
     }
 
-    suspend fun <T, R> Iterable<T>.mapSuspend(transform: suspend (T) -> R): List<R>  =
-        coroutineScope { map { t: T ->  async { transform(t) } }.map { it.await() } }
+    suspend fun <T, R> Iterable<T>.mapSuspend(transform: suspend (T) -> R): List<R> =
+        coroutineScope { map { t: T -> async { transform(t) } }.map { it.await() } }
 
 
     suspend fun <T, R> Iterable<T>.mapIndexSuspend(transform: suspend (index: Int, T) -> R) =
-        coroutineScope { mapIndexed { index: Int, t: T ->  async { transform(index, t) } }.map { it.await() } }
+        coroutineScope {
+            mapIndexed { index: Int, t: T ->
+                async {
+                    transform(
+                        index,
+                        t
+                    )
+                }
+            }.map { it.await() }
+        }
 }

@@ -12,6 +12,6 @@
         android:numColumns="2"
         android:rowCount="4"
         android:stretchMode="columnWidth"
-        tools:listitem="@layout/approval_list_grid_item"/>
+        tools:listitem="@layout/approval_list_grid_item" />
 
 </RelativeLayout>

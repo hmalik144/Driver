@@ -103,6 +103,7 @@ fun ImageView.setPicassoImage(
                     context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
                 }
             }
+
             override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {}
             override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
         })

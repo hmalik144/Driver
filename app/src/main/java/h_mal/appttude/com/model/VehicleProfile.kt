@@ -1,8 +1,7 @@
 package h_mal.appttude.com.model
 
 
-
-data class VehicleProfileObject(
+data class VehicleProfile(
     var reg: String? = null,
     var make: String? = null,
     var model: String? = null,

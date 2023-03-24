@@ -5,7 +5,7 @@ import h_mal.appttude.com.R
 
 
 fun login(func: LoginRobot.() -> Unit) = LoginRobot().apply { func() }
-class LoginRobot: BaseTestRobot() {
+class LoginRobot : BaseTestRobot() {
 
     fun setEmail(email: String?) = fillEditText(R.id.email, email)
 

@@ -2,15 +2,16 @@ package h_mal.appttude.com.base
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import androidx.activity.viewModels
+import android.view.ViewGroup.inflate
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelLazy
 import androidx.test.espresso.IdlingResource
+import androidx.viewbinding.ViewBinding
 import h_mal.appttude.com.R
 import h_mal.appttude.com.application.ApplicationViewModelFactory
 import h_mal.appttude.com.data.ViewState
@@ -18,30 +19,65 @@ import h_mal.appttude.com.utils.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
+import java.lang.reflect.ParameterizedType
+import kotlin.reflect.KClass
 
 
-abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), KodeinAware {
+abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActivity(), KodeinAware {
     // The Idling Resource which will be null in production.
     private var mIdlingResource: BasicIdlingResource? = null
     private lateinit var loadingView: View
 
-    abstract fun getViewModel(): V?
-    abstract val layoutId: Int
+    private var _binding: VB? = null
+    private val binding: VB
+        get() = _binding ?: error("Must only access binding while fragment is attached.")
+
+
+    val viewModel: V by createLazyViewModel()
 
     override val kodein by kodein()
     val factory by instance<ApplicationViewModelFactory>()
 
-    inline fun <reified VM : ViewModel> createLazyViewModel(): Lazy<VM> = viewModels { factory }
-    inline fun <reified VM : ViewModel> createViewModel(): VM =
-        ViewModelProvider(viewModelStore, factory).get(VM::class.java)
+    fun createLazyViewModel(): Lazy<V> = ViewModelLazy(
+        getGenericClassAt(0),
+        { viewModelStore },
+        { factory },
+        { defaultViewModelCreationExtras }
+    )
 
+    @Suppress("UNCHECKED_CAST")
+    fun <CLASS : Any> Any.getGenericClassAt(position: Int): KClass<CLASS> =
+        ((javaClass.genericSuperclass as? ParameterizedType)
+            ?.actualTypeArguments?.getOrNull(position) as? Class<CLASS>)
+            ?.kotlin
+            ?: throw IllegalStateException("Can not find class from generic argument")
+
+    fun inflateBindingByType(
+        genericClassAt: KClass<VB>
+    ): VB = try {
+        @Suppress("UNCHECKED_CAST")
+        genericClassAt.java.methods.first { viewBinding ->
+            viewBinding.parameterTypes.size == 1
+                    && viewBinding.parameterTypes.getOrNull(0) == LayoutInflater::class.java
+        }.invoke(null, layoutInflater) as VB
+    } catch (exception: Exception) {
+        throw IllegalStateException("Can not inflate binding from generic")
+    }
 
     private var loading: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         configureObserver()
-        setContentView(layoutId)
+        _binding = inflateBindingByType(getGenericClassAt(1))
+        setContentView(requireNotNull(_binding).root)
+        setupView(binding)
+    }
+
+    open fun setupView(binding: VB) {}
+
+    fun applyBinding(block: VB.() -> Unit) {
+        block(binding)
     }
 
     /**
@@ -50,9 +86,8 @@ abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), KodeinAwar
      *  #setOnClickListener(null) is an ugly work around to prevent under being clicked during
      *  loading
      */
-    private fun instantiateLoadingView(){
-//        loadingView = View.inflate(this, R.layout.progress_layout, null)
-        loadingView = layoutInflater.inflate(R.layout.progress_layout, null)
+    private fun instantiateLoadingView() {
+        loadingView = inflate(this, R.layout.progress_layout, null)
         loadingView.setOnClickListener(null)
         addContentView(loadingView, LayoutParams(MATCH_PARENT, MATCH_PARENT))
         loadingView.hide()
@@ -97,7 +132,7 @@ abstract class BaseActivity<V : BaseViewModel> : AppCompatActivity(), KodeinAwar
     }
 
     private fun configureObserver() {
-        getViewModel()?.uiState?.observe(this) {
+        viewModel.uiState.observe(this) {
             when (it) {
                 is ViewState.HasStarted -> onStarted()
                 is ViewState.HasData<*> -> onSuccess(it.data.getContentIfNotHandled())

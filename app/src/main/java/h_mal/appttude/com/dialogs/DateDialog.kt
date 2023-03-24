@@ -1,7 +1,6 @@
 package h_mal.appttude.com.dialogs
 
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.icu.util.Calendar
@@ -11,11 +10,12 @@ import h_mal.appttude.com.utils.DateUtils
 
 
 private const val DATE_FORMAT = "dd/MM/yyyy"
+
 @Suppress("DEPRECATION")
 class DateDialog(
     private val editText: EditText,
-    dateSelected:(String?) -> Unit
-) : DatePickerDialog(editText.context, AlertDialog.THEME_HOLO_LIGHT) {
+    dateSelected: (String?) -> Unit
+) : DatePickerDialog(editText.context) {
 
     private val dateSetListener: OnDateSetListener =
         OnDateSetListener { _, year, month, dayOfMonth ->
@@ -29,11 +29,15 @@ class DateDialog(
         }
 
     init {
+        datePicker.apply {
+            spinnersShown = true
+            calendarViewShown = false
+        }
         val dateString = editText.text?.toString()
-        val date = if (dateString.isNullOrBlank()){
+        val date = if (dateString.isNullOrBlank()) {
             // Set time to now
             Calendar.getInstance()
-        }else{
+        } else {
             // Parse current edit text string and set value
             DateUtils.parseDateStringIntoCalender(dateString, DATE_FORMAT)
                 ?: Calendar.getInstance()
@@ -44,13 +48,12 @@ class DateDialog(
         show()
     }
 
-    private fun setDateFromCalender(calendar: Calendar){
+    private fun setDateFromCalender(calendar: Calendar) {
         val mYear = calendar.get(Calendar.YEAR)
         val mMonth = calendar.get(Calendar.MONTH)
         val mDay = calendar.get(Calendar.DAY_OF_MONTH)
 
         updateDate(mYear, mMonth, mDay)
     }
-
 
 }

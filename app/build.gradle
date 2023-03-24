@@ -1,16 +1,9 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-
-apply plugin: 'com.google.gms.google-services'
-
-// kotlin kapt
-apply plugin: 'kotlin-kapt'
-// Android navigation
-apply plugin: 'androidx.navigation.safeargs'
-
-repositories {
-    mavenCentral()
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs'
 }
 
 def relStorePassword = System.getenv("RELEASE_STORE_PASSWORD")
@@ -59,9 +52,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    buildFeatures {
+        viewBinding true
     }
 
     flavorDimensions "Default"
@@ -139,7 +138,7 @@ dependencies {
     / * coroutines support for firebase operations */
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.1"
     / * Circle Image View */
-    implementation "com.mikhaellopez:circularimageview:4.2.0"
+    implementation "com.mikhaellopez:circularimageview:4.3.0"
     / * Kodein Dependency Injection */
     def kodein_version = "6.2.1"
     implementation "org.kodein.di:kodein-di-generic-jvm:$kodein_version"
@@ -151,4 +150,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     / * OKHttp */
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    / * Kotlin Reflect */
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.8.10"
 }

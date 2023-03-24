@@ -1,42 +1,37 @@
 package h_mal.appttude.com.ui.user
 
-import android.os.Bundle
-import android.view.View
-import androidx.fragment.app.activityViewModels
 import h_mal.appttude.com.R
 import h_mal.appttude.com.base.BaseFragment
+import h_mal.appttude.com.databinding.FragmentRegisterBinding
 import h_mal.appttude.com.utils.TextValidationUtils.validateEmailEditText
 import h_mal.appttude.com.utils.TextValidationUtils.validatePasswordEditText
 import h_mal.appttude.com.utils.setEnterPressedListener
 import h_mal.appttude.com.viewmodels.UserViewModel
-import kotlinx.android.synthetic.main.fragment_register.*
 
-class RegisterFragment : BaseFragment<UserViewModel>(R.layout.fragment_register) {
+class RegisterFragment :
+    BaseFragment<UserViewModel, FragmentRegisterBinding>() {
 
-    override fun getViewModel(): UserViewModel {
-        val userViewModel: UserViewModel by activityViewModels()
-        return userViewModel
+    override fun setupView(binding: FragmentRegisterBinding) = binding.run {
+        passwordBottom.setEnterPressedListener { registerUser() }
+        emailSignUp.setOnClickListener { registerUser() }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun registerUser() {
+        applyBinding {
+            val nameString = nameRegister.validatePasswordEditText() ?: return@applyBinding
+            val emailText = emailRegister.validateEmailEditText() ?: return@applyBinding
+            val passwordText = passwordTop.validatePasswordEditText() ?: return@applyBinding
+            val passwordTextBottom =
+                passwordBottom.validatePasswordEditText() ?: return@applyBinding
 
-        password_bottom.setEnterPressedListener { registerUser() }
-        email_sign_up.setOnClickListener { registerUser() }
-    }
+            if ((passwordText != passwordTextBottom)) {
+                passwordBottom.error = getString(R.string.no_match_password)
+                passwordBottom.requestFocus()
+                return@applyBinding
+            }
 
-    private fun registerUser(){
-        val nameString = name_register.validatePasswordEditText() ?: return
-        val emailText = email_register.validateEmailEditText() ?: return
-        val passwordText = password_top.validatePasswordEditText() ?: return
-        val passwordTextBottom = password_bottom.validatePasswordEditText() ?: return
-
-        if ((passwordText != passwordTextBottom)) {
-            password_bottom.error = getString(R.string.no_match_password)
-            password_bottom.requestFocus()
-            return
+            viewModel.registerUser(nameString, emailText, passwordText)
         }
 
-        getViewModel().registerUser(nameString, emailText, passwordText)
     }
 }

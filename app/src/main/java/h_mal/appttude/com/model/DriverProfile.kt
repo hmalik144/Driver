@@ -1,8 +1,6 @@
 package h_mal.appttude.com.model
 
-
-
-data class DriverProfileObject(
+data class DriverProfile(
     var driverPic: String? = null,
     var forenames: String? = null,
     var address: String? = null,

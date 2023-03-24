@@ -70,7 +70,7 @@ class MainActivity : BaseActivity<MainViewModel>(),
 
     override fun onSuccess(data: Any?) {
         super.onSuccess(data)
-        when(data){
+        when (data) {
             is FirebaseUser -> {
                 setupDrawer(data)
             }
@@ -84,7 +84,7 @@ class MainActivity : BaseActivity<MainViewModel>(),
         header.profileImage.setGlideImage(user.photoUrl)
     }
 
-    private fun setupLogoutInDrawer(){
+    private fun setupLogoutInDrawer() {
         logout.setOnClickListener {
             getViewModel().logOut()
         }
@@ -93,7 +93,7 @@ class MainActivity : BaseActivity<MainViewModel>(),
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_user_settings -> { }
+            R.id.nav_user_settings -> {}
         }
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
