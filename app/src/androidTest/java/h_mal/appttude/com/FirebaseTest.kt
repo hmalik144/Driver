@@ -10,7 +10,7 @@ import kotlinx.coroutines.tasks.await
 import org.junit.After
 import org.junit.BeforeClass
 
-open class FirebaseTest<T : BaseActivity<*>>(
+open class FirebaseTest<T : BaseActivity<*,*>>(
     activity: Class<T>,
     private val registered: Boolean = false,
     private val signedIn: Boolean = false
@@ -62,7 +62,10 @@ open class FirebaseTest<T : BaseActivity<*>>(
     suspend fun removeUser() {
         try {
             getEmail()?.let {
-                if (firebaseAuthSource.getUser() == null) firebaseAuthSource.signIn(email = it, password = USER_PASSWORD).await()
+                if (firebaseAuthSource.getUser() == null) firebaseAuthSource.signIn(
+                    email = it,
+                    password = USER_PASSWORD
+                ).await()
                 firebaseAuthSource.reauthenticate(it, USER_PASSWORD).await()
                 firebaseAuthSource.deleteProfile().await()
             }
@@ -74,7 +77,7 @@ open class FirebaseTest<T : BaseActivity<*>>(
 
     fun generateEmailAddress(): String {
         val suffix = (1000..50000).random()
-        email ="test-${suffix}@test-account.com"
+        email = "test-${suffix}@test-account.com"
         return email!!
     }
 

@@ -13,6 +13,7 @@ const val LOG_BOOK_SREF = "log_book"
 const val MOT_SREF = "mot_Details"
 const val PRIVATE_HIRE_SREF = "private_hire"
 const val PRIVATE_HIRE_VEHICLE_SREF = "private_hire_vehicle"
+
 class FirebaseStorageSource {
     private val storage = FirebaseStorage.getInstance()
     private val storageRef: StorageReference by lazy { storage.reference }
@@ -26,10 +27,13 @@ class FirebaseStorageSource {
 
     private fun usersImagesStorageRef(uid: String) = storageRef.child(IMAGE_CONST).child(uid)
     fun profileImageStorageRef(uid: String) = usersImagesStorageRef(uid).child(PROFILE_SREF)
-    fun driversLicenseStorageRef(uid: String) = usersImagesStorageRef(uid).child(DRIVERS_LICENSE_SREF)
+    fun driversLicenseStorageRef(uid: String) =
+        usersImagesStorageRef(uid).child(DRIVERS_LICENSE_SREF)
+
     fun insuranceStorageRef(uid: String) = usersImagesStorageRef(uid).child(INSURANCE_SREF)
     fun logBookStorageRef(uid: String) = usersImagesStorageRef(uid).child(LOG_BOOK_SREF)
     fun motStorageRef(uid: String) = usersImagesStorageRef(uid).child(MOT_SREF)
     fun privateHireStorageRef(uid: String) = usersImagesStorageRef(uid).child(PRIVATE_HIRE_SREF)
-    fun privateHireVehicleStorageRef(uid: String) = usersImagesStorageRef(uid).child(PRIVATE_HIRE_VEHICLE_SREF)
+    fun privateHireVehicleStorageRef(uid: String) =
+        usersImagesStorageRef(uid).child(PRIVATE_HIRE_VEHICLE_SREF)
 }

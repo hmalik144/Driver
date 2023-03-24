@@ -8,7 +8,6 @@ import h_mal.appttude.com.R
 import h_mal.appttude.com.USER_PASSWORD
 import h_mal.appttude.com.robots.home
 import h_mal.appttude.com.robots.login
-import h_mal.appttude.com.robots.register
 import h_mal.appttude.com.ui.user.LoginActivity
 import org.junit.*
 import org.junit.runner.RunWith
@@ -16,7 +15,8 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class RegisteredUserAuthenticationActivityTest : FirebaseTest<LoginActivity>(LoginActivity::class.java, registered = true, signedIn = false) {
+class RegisteredUserAuthenticationActivityTest :
+    FirebaseTest<LoginActivity>(LoginActivity::class.java, registered = true, signedIn = false) {
 
     @Test
     fun verifyUserLogin_validUsernameAndPassword_loggedIn() {

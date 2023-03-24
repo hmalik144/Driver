@@ -89,4 +89,10 @@
     <string name="insurance_expiry">Insurance expiry</string>
     <string name="logout">Logout</string>
     <string name="forgot_password">Forgot password?</string>
+    <string name="leave_header">Leave?</string>
+    <string name="leave_message">Are you sure you want to exit?</string>
+    <string name="not_a_driver_message">You are not a driver, request a driver profile to use this app</string>
+    <string name="request_driver_profile">Request driver profile</string>
+    <string name="or">OR</string>
+    <string name="floating_action_button">Floating action button</string>
 </resources>

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import h_mal.appttude.com.data.ViewState
 import h_mal.appttude.com.utils.Event
 
-abstract class BaseViewModel: ViewModel(){
+abstract class BaseViewModel : ViewModel() {
     open val uiState: MutableLiveData<ViewState> = MutableLiveData()
 
     fun onStart() {
@@ -23,11 +23,11 @@ abstract class BaseViewModel: ViewModel(){
     suspend fun doTryOperation(
         defaultErrorMessage: String?,
         operation: suspend () -> Unit
-    ){
+    ) {
         try {
             onStart()
             operation()
-        }catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             e.message?.let {
                 onError(it)

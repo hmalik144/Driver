@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <application android:icon="@mipmap/ic_launcher"
+    <application
+        android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round">
         <activity
             android:name="h_mal.appttude.com.ui.user.LoginActivity"
@@ -23,6 +24,7 @@
         <activity
             android:name="h_mal.appttude.com.ui.update.UpdateActivity"
             android:theme="@style/AppTheme.NoActionBar.Update" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="h_mal.appttude.com.driver"

@@ -15,9 +15,13 @@ import org.hamcrest.CoreMatchers.anything
 open class BaseTestRobot {
 
     fun fillEditText(resId: Int, text: String?): ViewInteraction =
-        onView(withId(resId)).perform(ViewActions.replaceText(text), ViewActions.closeSoftKeyboard())
+        onView(withId(resId)).perform(
+            ViewActions.replaceText(text),
+            ViewActions.closeSoftKeyboard()
+        )
 
-    fun clickButton(resId: Int): ViewInteraction = onView((withId(resId))).perform(ViewActions.click())
+    fun clickButton(resId: Int): ViewInteraction =
+        onView((withId(resId))).perform(ViewActions.click())
 
     fun textView(resId: Int): ViewInteraction = onView(withId(resId))
 
@@ -35,6 +39,7 @@ open class BaseTestRobot {
     fun checkErrorOnTextEntry(resId: Int, errorMessage: String): ViewInteraction =
         onView(withId(resId)).check(matches(checkErrorMessage(errorMessage)))
 
-    fun getStringFromResource(@StringRes resId: Int): String = Resources.getSystem().getString(resId)
+    fun getStringFromResource(@StringRes resId: Int): String =
+        Resources.getSystem().getString(resId)
 
 }

@@ -12,7 +12,7 @@ import h_mal.appttude.com.R
 class ApprovalListAdapter(
     private val activity: Activity,
     objects: Array<MappedObject?>
-): ArrayAdapter<MappedObject?>(activity, 0, objects) {
+) : ArrayAdapter<MappedObject?>(activity, 0, objects) {
 
     var mappedObject: MappedObject? = objects[0]
 

@@ -8,10 +8,14 @@ import h_mal.appttude.com.data.EventResponse
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-
-
+/**
+ * Read database reference once {@link #DatabaseReference.addListenerForSingleValueEvent}
+ *
+ *
+ * @return EventResponse
+ */
 suspend fun DatabaseReference.singleValueEvent(): EventResponse = suspendCoroutine { continuation ->
-    val valueEventListener = object: ValueEventListener {
+    val valueEventListener = object : ValueEventListener {
         override fun onCancelled(error: DatabaseError) {
             continuation.resume(EventResponse.Cancelled(error))
         }
@@ -23,7 +27,13 @@ suspend fun DatabaseReference.singleValueEvent(): EventResponse = suspendCorouti
     addListenerForSingleValueEvent(valueEventListener)
 }
 
-suspend inline fun <reified T: Any> DatabaseReference.getDataFromDatabaseRef(): T?{
+/**
+ * Read database reference once {@link #DatabaseReference.addListenerForSingleValueEvent}
+ *
+ *
+ * @return T
+ */
+suspend inline fun <reified T : Any> DatabaseReference.getDataFromDatabaseRef(): T? {
     return when (val response: EventResponse = singleValueEvent()) {
         is EventResponse.Changed -> {
             response.snapshot.getValue(T::class.java)

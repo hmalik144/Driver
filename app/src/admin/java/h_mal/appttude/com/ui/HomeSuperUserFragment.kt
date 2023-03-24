@@ -125,7 +125,9 @@ class HomeSuperUserFragment : Fragment() {
                         }
                         return s1!!.compareTo((s2)!!)
                     }
-                    else -> { throw IOException("dfdfs") }
+                    else -> {
+                        throw IOException("dfdfs")
+                    }
 //                    2 -> return MainActivity.approvalsClass.getOverApprovalStatusCode(o1.wholeDriverObject) -
 //                            MainActivity.approvalsClass.getOverApprovalStatusCode(o2.wholeDriverObject)
 //                    else -> return MainActivity.approvalsClass.getOverApprovalStatusCode(

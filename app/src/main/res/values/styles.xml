@@ -35,7 +35,7 @@
         <!--<item name="android:autofilledHighlight">@android:color/transparent</item>-->
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
 
     </style>
 
@@ -115,7 +115,7 @@
         <item name="tint">@android:color/white</item>
     </style>
 
-    <style name="TextButton.WithIcon.SubmitConstraints" parent="TextButton.WithIcon" >
+    <style name="TextButton.WithIcon.SubmitConstraints" parent="TextButton.WithIcon">
         <item name="layout_constraintTop_toTopOf">parent</item>
         <item name="layout_constraintBottom_toBottomOf">parent</item>
         <item name="layout_constraintLeft_toLeftOf">parent</item>

@@ -1,23 +1,30 @@
 package h_mal.appttude.com.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import h_mal.appttude.com.R
+import h_mal.appttude.com.databinding.FragmentVehicleOverallBinding
 import h_mal.appttude.com.utils.navigateTo
-import kotlinx.android.synthetic.main.fragment_vehicle_overall.*
 
 
-class VehicleOverallFragment : Fragment(R.layout.fragment_vehicle_overall) {
+class VehicleOverallFragment : Fragment() {
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        vehicle_prof.setOnClickListener { it.navigateTo(R.id.to_vehicleSetupFragment) }
-        insurance.setOnClickListener { it.navigateTo(R.id.to_insuranceFragment) }
-        mot.setOnClickListener { it.navigateTo(R.id.to_motFragment) }
-        logbook.setOnClickListener { it.navigateTo(R.id.to_logbookFragment) }
-        private_hire_vehicle_license.setOnClickListener { it.navigateTo(R.id.to_privateHireVehicleFragment) }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return FragmentVehicleOverallBinding.inflate(inflater, container, false).apply {
+            vehicleProf.setOnClickListener {
+                it.navigateTo(R.id.to_vehicleSetupFragment)
+            }
+            insurance.setOnClickListener { it.navigateTo(R.id.to_insuranceFragment) }
+            mot.setOnClickListener { it.navigateTo(R.id.to_motFragment) }
+            logbook.setOnClickListener { it.navigateTo(R.id.to_logbookFragment) }
+            privateHireVehicleLicense.setOnClickListener { it.navigateTo(R.id.to_privateHireVehicleFragment) }
+        }.root
     }
 }

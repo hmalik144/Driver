@@ -10,31 +10,10 @@ import com.google.firebase.database.DatabaseReference
 import h_mal.appttude.com.R
 
 class ArchiveFragment : Fragment() {
-//    var archive: ArchiveObject? = null
+    //    var archive: ArchiveObject? = null
     private var reference: DatabaseReference? = null
     private var listView: ListView? = null
     var archiveString: String? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        reference =
-//            MainActivity.mDatabase!!.child(FirebaseClass.USER_FIREBASE).child(
-//                requireArguments().getString("user_id")
-//            )
-//                .child(FirebaseClass.ARCHIVE_FIREBASE)
-
-//        archiveString = requireArguments().getString("archive")
-//        var s: String = ""
-//        when (archiveString) {
-//            FirebaseClass.PRIVATE_HIRE_FIREBASE -> s = "Private Hire"
-//            FirebaseClass.DRIVERS_LICENSE_FIREBASE -> s = "License"
-//            FirebaseClass.VEHICLE_DETAILS_FIREBASE -> s = "Vehicle"
-//            FirebaseClass.MOT_FIREBASE -> s = "M.O.T"
-//            FirebaseClass.INSURANCE_FIREBASE -> s = "Insurance"
-//            FirebaseClass.LOG_BOOK_FIREBASE -> s = "Logbook"
-//            FirebaseClass.PRIVATE_HIRE_VEHICLE_LICENSE -> s = "Private Hire Vehicle"
-//        }
-//        requireActivity().title = s + " Archive"
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

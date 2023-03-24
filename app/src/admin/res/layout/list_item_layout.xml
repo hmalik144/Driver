@@ -21,6 +21,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/choice_img_round" />
+
     <ImageView
         android:id="@+id/approval_iv"
         android:layout_width="10dp"

@@ -12,7 +12,7 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
-class DriverApplication : Application(), KodeinAware{
+class DriverApplication : Application(), KodeinAware {
 
     // Kodein aware to initialise the classes used for DI
     override val kodein = Kodein.lazy {

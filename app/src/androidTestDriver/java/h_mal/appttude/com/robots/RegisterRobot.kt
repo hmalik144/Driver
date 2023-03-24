@@ -4,7 +4,7 @@ import h_mal.appttude.com.BaseTestRobot
 import h_mal.appttude.com.R
 
 fun register(func: RegisterRobot.() -> Unit) = RegisterRobot().apply { func() }
-class RegisterRobot: BaseTestRobot() {
+class RegisterRobot : BaseTestRobot() {
 
     fun setName(name: String) = fillEditText(R.id.name_register, name)
 

@@ -5,7 +5,7 @@ import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
 
 const val USER_CONST = "user"
-const val PROFILE_ROLE ="role"
+const val PROFILE_ROLE = "role"
 const val DRIVER_NUMBER = "driver_number"
 const val USER_DETAILS = "user_details"
 const val VEHICLE_PROFILE = "vehicle_profile"
@@ -20,10 +20,17 @@ const val MOT = "mot_details"
 const val PRIVATE_HIRE_VEHICLE = "private_hire_vehicle"
 const val VEHICLE_DETAILS = "vehicle_details"
 const val ARCHIVE = "archive"
+
 class FirebaseDatabaseSource {
     private val database = FirebaseDatabase.getInstance()
 
-    suspend fun <T: Any> postToDatabaseRed(ref: DatabaseReference, data: T) : T{
+    /**
+     * Post object to the databse on reference
+     *
+     * @param ref - Database reference
+     * @return T returns data posted
+     */
+    suspend fun <T : Any> postToDatabaseRed(ref: DatabaseReference, data: T): T {
         ref.setValue(data).await()
         return data
     }
@@ -52,6 +59,8 @@ class FirebaseDatabaseSource {
     fun getArchiveLogbookRef(uid: String) = getArchiveRef(uid).child(LOG_BOOK)
     fun getArchiveMotDetailsRef(uid: String) = getArchiveRef(uid).child(MOT)
     fun getArchivePrivateHireLicenseRef(uid: String) = getArchiveRef(uid).child(PRIVATE_HIRE)
-    fun getArchivePrivateHireVehicleRef(uid: String) = getArchiveRef(uid).child(PRIVATE_HIRE_VEHICLE)
+    fun getArchivePrivateHireVehicleRef(uid: String) =
+        getArchiveRef(uid).child(PRIVATE_HIRE_VEHICLE)
+
     fun getArchiveVehicleDetailsRef(uid: String) = getArchiveRef(uid).child(VEHICLE_DETAILS)
 }

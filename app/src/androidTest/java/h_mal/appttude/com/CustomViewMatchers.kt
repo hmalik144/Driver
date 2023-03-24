@@ -23,6 +23,7 @@ fun checkErrorMessage(expectedErrorText: String): Matcher<View?>? {
             val error = view.error ?: return false
             return expectedErrorText == error.toString()
         }
+
         override fun describeTo(d: Description?) {}
     }
 }

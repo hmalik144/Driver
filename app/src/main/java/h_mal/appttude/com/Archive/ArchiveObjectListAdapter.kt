@@ -174,7 +174,8 @@ class ArchiveObjectListAdapter(
     private fun dateString(position: Int) {
         var success: Boolean = true
         try {
-            dateArchivedText!!.text = mKeys[position].convertDateStringDatePattern("yyyyMMdd_HHmmss", "dd/MM/yyyy")
+            dateArchivedText!!.text =
+                mKeys[position].convertDateStringDatePattern("yyyyMMdd_HHmmss", "dd/MM/yyyy")
         } catch (e: ParseException) {
             e.printStackTrace()
             success = false
@@ -206,9 +207,9 @@ class ArchiveObjectListAdapter(
 //
 //    }
 
-    private fun setUp(map: HashMap<String,*>?){
+    private fun setUp(map: HashMap<String, *>?) {
         size = map?.size ?: 0
-        map?.keys?.toTypedArray()?.let{
+        map?.keys?.toTypedArray()?.let {
             mKeys = it
         }
     }
