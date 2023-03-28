@@ -96,12 +96,12 @@
     </fragment>
     <fragment
         android:id="@+id/driverProfileFragment"
-        android:name="h_mal.appttude.com.driver.ui.driver.profile.DriverProfileFragment"
+        android:name="h_mal.appttude.com.driver.ui.driverprofile.DriverProfileFragment"
         android:label="fragment_driver_profile"
         tools:layout="@layout/fragment_driver_profile" />
     <fragment
         android:id="@+id/driverLicenseFragment"
-        android:name="h_mal.appttude.com.driver.ui.driver.profile.DriverLicenseFragment"
+        android:name="h_mal.appttude.com.driver.ui.driverprofile.DriverLicenseFragment"
         android:label="fragment_driver_license"
         tools:layout="@layout/fragment_driver_license" />
 
