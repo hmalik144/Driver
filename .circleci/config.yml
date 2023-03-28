@@ -97,16 +97,7 @@ jobs:
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   version: 2
-  all-branch:
-    jobs:
-      - build-and-test:
-          flavour: Driver
-          filters:
-            branches:
-              ignore:
-                - main_driver
-                - main_admin
-  release-driver:
+  build-release-driver:
     jobs:
       - build-and-test:
           flavour: Driver
@@ -114,10 +105,11 @@ workflows:
           flavour: "Driver"
           filters:
             branches:
-              only: main_driver
+              only:
+                - main_driver
           requires:
             - build-and-test
-  release-admin:
+  build-release-admin:
     jobs:
       - build-and-test:
           flavour: Admin
