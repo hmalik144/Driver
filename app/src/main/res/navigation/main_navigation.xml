@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/homeDriverFragment"
-        android:name="h_mal.appttude.com.ui.HomeFragment"
+        android:name="h_mal.appttude.com.driver.ui.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home_driver">
         <action
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/driverOverallFragment"
-        android:name="h_mal.appttude.com.ui.DriverOverallFragment"
+        android:name="h_mal.appttude.com.driver.ui.DriverOverallFragment"
         android:label="DriverOverallFragment"
         tools:layout="@layout/fragment_driver_overall">
         <action
@@ -54,7 +54,7 @@
     </fragment>
     <fragment
         android:id="@+id/vehicleOverallFragment"
-        android:name="h_mal.appttude.com.ui.VehicleOverallFragment"
+        android:name="h_mal.appttude.com.driver.ui.VehicleOverallFragment"
         android:label="VehicleOverallFragment"
         tools:layout="@layout/fragment_vehicle_overall">
         <action
@@ -96,49 +96,49 @@
     </fragment>
     <fragment
         android:id="@+id/driverProfileFragment"
-        android:name="h_mal.appttude.com.ui.driverprofile.DriverProfileFragment"
+        android:name="h_mal.appttude.com.driver.ui.driver.profile.DriverProfileFragment"
         android:label="fragment_driver_profile"
         tools:layout="@layout/fragment_driver_profile" />
     <fragment
         android:id="@+id/driverLicenseFragment"
-        android:name="h_mal.appttude.com.ui.driverprofile.DriverLicenseFragment"
+        android:name="h_mal.appttude.com.driver.ui.driver.profile.DriverLicenseFragment"
         android:label="fragment_driver_license"
         tools:layout="@layout/fragment_driver_license" />
 
 
     <fragment
         android:id="@+id/vehicleSetupFragment"
-        android:name="h_mal.appttude.com.ui.vehicleprofile.VehicleProfileFragment"
+        android:name="h_mal.appttude.com.driver.ui.vehicleprofile.VehicleProfileFragment"
         android:label="VehicleSetupFragment"
         tools:layout="@layout/fragment_vehicle_setup" />
     <fragment
         android:id="@+id/insuranceFragment"
-        android:name="h_mal.appttude.com.ui.vehicleprofile.InsuranceFragment"
+        android:name="h_mal.appttude.com.driver.ui.vehicleprofile.InsuranceFragment"
         android:label="InsuranceFragment"
         tools:layout="@layout/fragment_insurance" />
     <fragment
         android:id="@+id/motFragment"
-        android:name="h_mal.appttude.com.ui.vehicleprofile.MotFragment"
+        android:name="h_mal.appttude.com.driver.ui.vehicleprofile.MotFragment"
         android:label="MotFragment"
         tools:layout="@layout/fragment_mot" />
     <fragment
         android:id="@+id/logbookFragment"
-        android:name="h_mal.appttude.com.ui.vehicleprofile.LogbookFragment"
+        android:name="h_mal.appttude.com.driver.ui.vehicleprofile.LogbookFragment"
         android:label="fragment_logbook"
         tools:layout="@layout/fragment_logbook" />
     <activity
         android:id="@+id/nav_user_settings"
-        android:name="h_mal.appttude.com.ui.update.UpdateActivity"
+        android:name="h_mal.appttude.com.driver.ui.update.UpdateActivity"
         android:label="fragment_profile"
         tools:layout="@layout/update_activity" />
     <fragment
         android:id="@+id/privateHireLicenseFragment2"
-        android:name="h_mal.appttude.com.ui.driverprofile.PrivateHireLicenseFragment"
+        android:name="h_mal.appttude.com.driver.ui.driverprofile.PrivateHireLicenseFragment"
         android:label="fragment_private_hire_license"
         tools:layout="@layout/fragment_private_hire_license" />
     <fragment
         android:id="@+id/privateHireVehicleFragment"
-        android:name="h_mal.appttude.com.ui.vehicleprofile.PrivateHireVehicleFragment"
+        android:name="h_mal.appttude.com.driver.ui.vehicleprofile.PrivateHireVehicleFragment"
         android:label="fragment_private_hire_vehicle"
         tools:layout="@layout/fragment_private_hire_vehicle" />
 </navigation>
