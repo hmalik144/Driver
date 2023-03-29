@@ -1,18 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="h_mal.appttude.com">
+    package="h_mal.appttude.com.driver">
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name="h_mal.appttude.com.application.DriverApplication"
+        android:name="h_mal.appttude.com.driver.application.DriverApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name="h_mal.appttude.com.driver.ui.user.LoginActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar.User"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="h_mal.appttude.com.driver.ui.MainActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="h_mal.appttude.com.driver.ui.update.UpdateActivity"
+            android:theme="@style/AppTheme.NoActionBar.Update" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="h_mal.appttude.com.driver"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

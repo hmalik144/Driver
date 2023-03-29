@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_with_curve"
-    tools:context="h_mal.appttude.com.ui.user.LoginActivity">
+    tools:context="h_mal.appttude.com.driver.ui.user.LoginActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"
