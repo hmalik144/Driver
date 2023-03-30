@@ -17,8 +17,8 @@ android {
         applicationId "h_mal.appttude.com.driver"
         minSdkVersion 24
         targetSdkVersion 31
-        versionCode 6
-        versionName "1.6"
+        versionCode 7
+        versionName "2.0.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
         boolean state = project.rootProject.file('local.properties').canRead()
@@ -41,7 +41,7 @@ android {
             storePassword relStorePassword
             keyPassword relKeyPassword
             keyAlias relKeyAlias
-//            storeFile file(relStoreFile)
+            storeFile file(relStoreFile)
         }
     }
 
@@ -66,8 +66,8 @@ android {
     flavorDimensions "Default"
     productFlavors {
         driver {
-            versionCode 6
-            versionName "1.0.5"
+            versionCode 7
+            versionName "2.0.0"
         }
         admin {
             applicationIdSuffix ".admin"

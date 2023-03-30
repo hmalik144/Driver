@@ -15,3 +15,7 @@
 .externalNativeBuild
 *.log
 local
+/.circleci/local_config.yml
+/.circleci/run_local.bash
+/Gemfile.lock
+/playstore.json
