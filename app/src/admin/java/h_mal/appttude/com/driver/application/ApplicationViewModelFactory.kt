@@ -5,12 +5,14 @@ import androidx.lifecycle.ViewModelProvider
 import h_mal.appttude.com.driver.data.FirebaseAuthSource
 import h_mal.appttude.com.driver.data.FirebaseDatabaseSource
 import h_mal.appttude.com.driver.data.FirebaseStorageSource
+import h_mal.appttude.com.driver.data.prefs.PreferenceProvider
 import h_mal.appttude.com.driver.viewmodels.*
 
 class ApplicationViewModelFactory(
     private val auth: FirebaseAuthSource,
     private val database: FirebaseDatabaseSource,
-    private val storage: FirebaseStorageSource
+    private val storage: FirebaseStorageSource,
+    private val preferences: PreferenceProvider
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
@@ -23,46 +25,37 @@ class ApplicationViewModelFactory(
                     auth,
                     storage
                 )
-                isAssignableFrom(DriverLicenseViewModel::class.java) -> DriverLicenseViewModel(
-                    auth,
-                    database,
-                    storage
-                )
-                isAssignableFrom(DriverProfileViewModel::class.java) -> DriverProfileViewModel(
-                    auth,
-                    database,
-                    storage
-                )
-                isAssignableFrom(PrivateHireLicenseViewModel::class.java) -> PrivateHireLicenseViewModel(
-                    auth,
-                    database,
-                    storage
-                )
-                isAssignableFrom(VehicleProfileViewModel::class.java) -> VehicleProfileViewModel(
-                    auth,
-                    database,
-                    storage
-                )
-                isAssignableFrom(InsuranceViewModel::class.java) -> InsuranceViewModel(
-                    auth,
-                    database,
-                    storage
-                )
-                isAssignableFrom(MotViewModel::class.java) -> MotViewModel(auth, database, storage)
-                isAssignableFrom(LogbookViewModel::class.java) -> LogbookViewModel(
-                    auth,
-                    database,
-                    storage
-                )
-                isAssignableFrom(PrivateHireVehicleViewModel::class.java) -> PrivateHireVehicleViewModel(
-                    auth,
-                    database,
-                    storage
-                )
                 isAssignableFrom(RoleViewModel::class.java) -> RoleViewModel(
                     auth,
                     database,
                     storage
+                )
+
+                isAssignableFrom(DriverLicenseViewModel::class.java) -> DriverLicenseViewModel(
+                    database
+                )
+                isAssignableFrom(DriverProfileViewModel::class.java) -> DriverProfileViewModel(
+                    database
+                )
+                isAssignableFrom(PrivateHireLicenseViewModel::class.java) -> PrivateHireLicenseViewModel(
+                    database
+                )
+                isAssignableFrom(VehicleProfileViewModel::class.java) -> VehicleProfileViewModel(
+                    database
+                )
+                isAssignableFrom(InsuranceViewModel::class.java) -> InsuranceViewModel(database)
+                isAssignableFrom(MotViewModel::class.java) -> MotViewModel(database)
+                isAssignableFrom(LogbookViewModel::class.java) -> LogbookViewModel(database)
+                isAssignableFrom(PrivateHireVehicleViewModel::class.java) -> PrivateHireVehicleViewModel(
+                    database
+                )
+                isAssignableFrom(DriverOverviewViewModel::class.java) -> DriverOverviewViewModel(
+                    auth,
+                    database
+                )
+                isAssignableFrom(SuperUserViewModel::class.java) -> SuperUserViewModel(
+                    database,
+                    preferences
                 )
                 else -> throw IllegalArgumentException("Unknown ViewModel class")
             } as T

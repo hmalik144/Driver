@@ -29,14 +29,11 @@ abstract class BaseViewModel : ViewModel() {
             operation()
         } catch (e: Exception) {
             e.printStackTrace()
-            e.message?.let {
-                onError(it)
-                return
-            }
             defaultErrorMessage?.let {
                 onError(it)
                 return
             }
+            onError((e.message ?: "Operation failed!!"))
         }
     }
 }

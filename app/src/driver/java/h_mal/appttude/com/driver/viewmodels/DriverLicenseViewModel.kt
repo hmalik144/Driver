@@ -7,25 +7,25 @@ import h_mal.appttude.com.driver.base.DataSubmissionBaseViewModel
 import h_mal.appttude.com.driver.data.FirebaseAuthentication
 import h_mal.appttude.com.driver.data.FirebaseDatabaseSource
 import h_mal.appttude.com.driver.data.FirebaseStorageSource
-import h_mal.appttude.com.driver.model.Logbook
+import h_mal.appttude.com.driver.model.DriversLicense
 import h_mal.appttude.com.driver.utils.Coroutines.io
 
-class LogbookViewModel(
+class DriverLicenseViewModel(
     auth: FirebaseAuthentication,
     database: FirebaseDatabaseSource,
     storage: FirebaseStorageSource
-) : DataSubmissionBaseViewModel<Logbook>(auth, database, storage) {
+) : DataSubmissionBaseViewModel<DriversLicense>(auth, database, storage) {
 
-    override val databaseRef: DatabaseReference = database.getLogbookRef(uid)
-    override val storageRef: StorageReference = storage.logBookStorageRef(uid)
-    override val objectName: String = "Log book"
+    override val databaseRef: DatabaseReference = database.getDriverLicenseRef(uid)
+    override val storageRef: StorageReference = storage.driversLicenseStorageRef(uid)
+    override val objectName: String = "drivers license"
 
-    override fun getDataFromDatabase() = getDataClass<Logbook>()
+    override fun getDataFromDatabase() = retrieveDataFromDatabase<DriversLicense>()
 
-    override fun setDataInDatabase(data: Logbook, localImageUri: Uri?) = io {
+    override fun setDataInDatabase(data: DriversLicense, localImageUri: Uri?) = io {
         doTryOperation("Failed to upload $objectName") {
-            val imageUrl = getImageUrl(localImageUri, data.photoString)
-            data.photoString = imageUrl
+            val imageUrl = getImageUrl(localImageUri, data.licenseImageString)
+            data.licenseImageString = imageUrl
             postDataToDatabase(data)
         }
     }

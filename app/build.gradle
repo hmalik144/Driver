@@ -66,22 +66,25 @@ android {
     flavorDimensions "Default"
     productFlavors {
         driver {
+            applicationId "h_mal.appttude.com.driver"
             versionCode 7
             versionName "2.0.0"
         }
         admin {
-            applicationIdSuffix ".admin"
+            applicationId "h_mal.appttude.com.driver.admin"
             versionCode 4
             versionName "0.0.5"
         }
     }
     sourceSets {
         driver {
+            java.srcDirs += 'src/driver/java'
             manifest {
                 srcFile 'src/driver/AndroidManifest.xml'
             }
         }
         admin {
+            java.srcDirs += 'src/admin/java'
             manifest {
                 srcFile 'src/admin/AndroidManifest.xml'
             }
@@ -108,6 +111,7 @@ dependencies {
     implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     testImplementation "junit:junit:4.13.2"
+    implementation "androidx.preference:preference-ktx:1.2.0"
     / * Android Espresso */
     def testJunitVersion = "1.1.5"
     def testRunnerVersion = "1.5.2"
@@ -128,6 +132,7 @@ dependencies {
     implementation "com.google.firebase:firebase-auth:$firebaseAuth"
     implementation "com.google.firebase:firebase-storage:$firebaseStorage"
     implementation "com.google.firebase:firebase-database:$firebaseDatabase"
+    implementation 'com.firebaseui:firebase-ui-database:8.0.2'
     / * Photoviewer */
     implementation "com.github.chrisbanes:PhotoView:2.1.0"
     / * Picasso photo loader */

@@ -20,7 +20,7 @@ class InsuranceViewModel(
     override val storageRef: StorageReference = storage.insuranceStorageRef(uid)
     override val objectName: String = "insurance"
 
-    override fun getDataFromDatabase() = getDataClass<Insurance>()
+    override fun getDataFromDatabase() = retrieveDataFromDatabase<Insurance>()
 
     override fun setDataInDatabase(data: Insurance, localImageUris: List<Uri?>?) = io {
         doTryOperation("Failed to upload $objectName") {

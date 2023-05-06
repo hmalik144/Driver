@@ -43,3 +43,14 @@ suspend inline fun <reified T : Any> DatabaseReference.getDataFromDatabaseRef():
         }
     }
 }
+
+suspend fun <T: Any> DatabaseReference.getDataFromDatabaseRef(clazz : Class<T>): T? {
+    return when (val response: EventResponse = singleValueEvent()) {
+        is EventResponse.Changed -> {
+            response.snapshot.getValue(clazz)
+        }
+        is EventResponse.Cancelled -> {
+            throw response.error.toException()
+        }
+    }
+}

@@ -4,6 +4,7 @@ import android.app.Application
 import h_mal.appttude.com.driver.data.FirebaseAuthSource
 import h_mal.appttude.com.driver.data.FirebaseDatabaseSource
 import h_mal.appttude.com.driver.data.FirebaseStorageSource
+import h_mal.appttude.com.driver.data.prefs.PreferenceProvider
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -20,6 +21,7 @@ class DriverApplication : Application(), KodeinAware {
         bind() from singleton { FirebaseAuthSource() }
         bind() from singleton { FirebaseDatabaseSource() }
         bind() from singleton { FirebaseStorageSource() }
-        bind() from provider { ApplicationViewModelFactory(instance(), instance(), instance()) }
+        bind() from singleton { PreferenceProvider(this@DriverApplication) }
+        bind() from provider { ApplicationViewModelFactory(instance(), instance(), instance(), instance()) }
     }
 }

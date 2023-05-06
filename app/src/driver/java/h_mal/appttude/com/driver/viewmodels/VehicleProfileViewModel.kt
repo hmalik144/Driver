@@ -19,7 +19,7 @@ class VehicleProfileViewModel(
     override val storageRef: StorageReference? = null
     override val objectName: String = "vehicle profile"
 
-    override fun getDataFromDatabase() = getDataClass<VehicleProfile>()
+    override fun getDataFromDatabase() = retrieveDataFromDatabase<VehicleProfile>()
 
     override fun setDataInDatabase(data: VehicleProfile) {
         io {

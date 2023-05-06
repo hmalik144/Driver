@@ -19,8 +19,7 @@ class DriverProfileViewModel(
     override val databaseRef: DatabaseReference = database.getDriverDetailsRef(uid)
     override val storageRef: StorageReference = storage.profileImageStorageRef(uid)
     override val objectName: String = "drivers profile"
-
-    override fun getDataFromDatabase() = getDataClass<DriverProfile>()
+    override fun getDataFromDatabase() = retrieveDataFromDatabase<DriverProfile>()
 
     override fun setDataInDatabase(data: DriverProfile, localImageUri: Uri?) = io {
         doTryOperation("Failed to upload $objectName") {

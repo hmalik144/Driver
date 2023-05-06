@@ -20,7 +20,7 @@ class MotViewModel(
     override val storageRef: StorageReference? = storage.motStorageRef(uid)
     override val objectName: String = "vehicle profile"
 
-    override fun getDataFromDatabase() = getDataClass<Mot>()
+    override fun getDataFromDatabase() = retrieveDataFromDatabase<Mot>()
 
     override fun setDataInDatabase(data: Mot, localImageUri: Uri?) = io {
         doTryOperation("Failed to upload $objectName") {

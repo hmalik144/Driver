@@ -20,7 +20,7 @@ class PrivateHireVehicleViewModel(
     override val storageRef: StorageReference = storage.privateHireVehicleStorageRef(uid)
     override val objectName: String = "private hire vehicle license"
 
-    override fun getDataFromDatabase() = getDataClass<PrivateHireVehicle>()
+    override fun getDataFromDatabase() = retrieveDataFromDatabase<PrivateHireVehicle>()
 
     override fun setDataInDatabase(data: PrivateHireVehicle, localImageUri: Uri?) = io {
         doTryOperation("Failed to upload $objectName") {

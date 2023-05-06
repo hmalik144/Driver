@@ -1,153 +1,158 @@
 package h_mal.appttude.com.driver.ui
 
 import android.app.AlertDialog
-import android.content.DialogInterface
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
-import h_mal.appttude.com.driver.admin.objects.WholeDriverObject
-import h_mal.appttude.com.driver.admin.objects.wholeObject.MappedObject
+import android.widget.EditText
+import android.widget.LinearLayout
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
+import com.firebase.ui.database.FirebaseRecyclerAdapter
+import com.firebase.ui.database.FirebaseRecyclerOptions
 import h_mal.appttude.com.driver.R
-import java.io.IOException
+import h_mal.appttude.com.driver.base.BaseFirebaseAdapter
+import h_mal.appttude.com.driver.base.BaseFragment
+import h_mal.appttude.com.driver.base.CustomViewHolder
+import h_mal.appttude.com.driver.data.USER_CONST
+import h_mal.appttude.com.driver.databinding.FragmentHomeSuperUserBinding
+import h_mal.appttude.com.driver.databinding.ListItemLayoutBinding
+import h_mal.appttude.com.driver.model.SortOption
+import h_mal.appttude.com.driver.objects.UserObject
+import h_mal.appttude.com.driver.objects.WholeDriverObject
+import h_mal.appttude.com.driver.utils.*
+import h_mal.appttude.com.driver.viewmodels.SuperUserViewModel
 import java.util.*
 
 
-class HomeSuperUserFragment : Fragment() {
-    var users: DatabaseReference? = null
-    var mappedObjectList: MutableList<MappedObject>? = null
-    private var sharedPreferences: SharedPreferences? = null
-    private var sortOrder: Int = 0
-    private val sortDesc: Boolean = false
-    private var recyclerViewAdapter: RecyclerViewAdapter? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-        mappedObjectList = ArrayList()
-        users!!.addValueEventListener(valueEventListener)
-        sharedPreferences = requireActivity().getSharedPreferences("PREFS", 0)
+class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuperUserBinding>(), MenuProvider {
+    private lateinit var adapter: FirebaseRecyclerAdapter<WholeDriverObject, CustomViewHolder<ListItemLayoutBinding>>
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        viewModel.retrieveDefaultFirebaseOptions()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view: View = inflater.inflate(R.layout.fragment_home_super_user, container, false)
-
-        view.findViewById<RecyclerView>(R.id.recycler_view).apply {
-            layoutManager = LinearLayoutManager(context)
-            recyclerViewAdapter = RecyclerViewAdapter(context, mappedObjectList)
-            adapter = recyclerViewAdapter
+    override fun onSuccess(data: Any?) {
+        super.onSuccess(data)
+        when (data) {
+            is FirebaseRecyclerOptions<*> -> setAdapterToRecyclerView(data)
         }
-
-        return view
     }
 
-    var valueEventListener: ValueEventListener = object : ValueEventListener {
-        override fun onDataChange(snapshot: DataSnapshot) {
-            mappedObjectList!!.clear()
-            Log.i("Count ", "" + snapshot.childrenCount)
-            for (postSnapshot: DataSnapshot in snapshot.children) {
-                if ((postSnapshot.child("role").value.toString() == "driver")) {
-                    mappedObjectList!!.add(
-                        MappedObject(
-                            postSnapshot.key, postSnapshot.getValue(
-                                WholeDriverObject::class.java
-                            )
+    @Suppress("UNCHECKED_CAST")
+    private fun setAdapterToRecyclerView(options: FirebaseRecyclerOptions<*>) {
+        applyBinding {
+            progressCircular.show()
+            if (recyclerView.adapter == null) {
+                // create an adapter for the first time
+                adapter = createAdapter(options = options as FirebaseRecyclerOptions<WholeDriverObject>)
+                recyclerView.adapter = adapter
+                recyclerView.setHasFixedSize(true)
+                adapter.startListening()
+            } else {
+                adapter.updateOptions(options as FirebaseRecyclerOptions<WholeDriverObject>)
+            }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adapter.stopListening()
+    }
+
+    private fun createAdapter(options: FirebaseRecyclerOptions<WholeDriverObject>): BaseFirebaseAdapter<WholeDriverObject, ListItemLayoutBinding> {
+        return object : BaseFirebaseAdapter<WholeDriverObject, ListItemLayoutBinding>(options, layoutInflater) {
+
+            override fun onBindViewHolder(
+                holder: CustomViewHolder<ListItemLayoutBinding>,
+                position: Int,
+                model: WholeDriverObject
+            ) {
+                val userDetails: UserObject? = model.user_details
+                holder.viewBinding.apply {
+                    driverPic.setGlideImage(userDetails?.profilePicString)
+                    usernameText.text = userDetails?.profileName
+                    emailaddressText.text = userDetails?.profileEmail
+                    driverNo.run {
+                        val number = model.driver_number ?: "0"
+                        text = number
+                        setOnClickListener {
+                            val uid = getKeyAtPosition(position)
+                            if (uid != null) {
+                                showChangeNumberDialog(uid, number)
+                            }
+                        }
+                    }
+                    root.setOnClickListener {
+                        it.navigateTo(
+                            R.id.action_homeAdminFragment_to_userMainFragment,
+                            snapshots.getSnapshot(position).key?.toBundle(USER_CONST)
                         )
-                    )
+                    }
                 }
             }
-            sortDate(sortOrder, sortDesc)
 
-        }
-
-        override fun onCancelled(databaseError: DatabaseError) {
-
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_calls_fragment, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.archive) {
-            val grpname: Array<String> = arrayOf("Driver Name", "Driver Number", "Approval")
-            sortOrder = sharedPreferences!!.getInt(SORT, 0)
-            val checkedItem: Int = sortOrder
-            var compareInt = 0
-            val click = DialogInterface.OnClickListener { dialog, _ ->
-                sortDate(compareInt, false)
-                dialog.dismiss()
-            }
-            val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-            builder.setTitle("Sort by:")
-                .setSingleChoiceItems(
-                    grpname,
-                    checkedItem
-                ) { _, pos -> compareInt = pos }
-                .setPositiveButton("Ascending", click)
-                .setNegativeButton("Descending", click)
-                .create().show()
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun sortDate(compareInt: Int, reversed: Boolean) {
-        val comparator: Comparator<MappedObject> = object : Comparator<MappedObject> {
-            override fun compare(o1: MappedObject, o2: MappedObject): Int {
-                when (compareInt) {
-                    0 -> return o1.wholeDriverObject?.user_details?.profileName!!.compareTo(
-                        o2.wholeDriverObject?.user_details?.profileName!!
-                    )
-                    1 -> {
-                        var s1: String? = o1.wholeDriverObject?.driver_number
-                        var s2: String? = o2.wholeDriverObject?.driver_number
-                        if (o1.wholeDriverObject?.driver_number == null || (o1.wholeDriverObject!!
-                                .driver_number == "0")
-                        ) {
-                            s1 = ";"
-                        }
-                        if (o2.wholeDriverObject?.driver_number == null || (o2.wholeDriverObject!!
-                                .driver_number == "0")
-                        ) {
-                            s2 = ";"
-                        }
-                        return s1!!.compareTo((s2)!!)
+            override fun onDataChanged() {
+                super.onDataChanged()
+                applyBinding {
+                    // If there are no chat messages, show a view that invites the user to add a message.
+                    if (itemCount == 0) {
+                        emptyView.root.visibility = if (itemCount == 0) View.VISIBLE else View.GONE
                     }
-                    else -> {
-                        throw IOException("dfdfs")
-                    }
-//                    2 -> return MainActivity.approvalsClass.getOverApprovalStatusCode(o1.wholeDriverObject) -
-//                            MainActivity.approvalsClass.getOverApprovalStatusCode(o2.wholeDriverObject)
-//                    else -> return MainActivity.approvalsClass.getOverApprovalStatusCode(
-//                        o1.wholeDriverObject
-//                    ) - MainActivity.approvalsClass.getOverApprovalStatusCode(o2.wholeDriverObject)
+
+                    progressCircular.hide()
                 }
             }
+
+            override fun connectionLost() {
+                requireContext().displayToast("No connection available")
+            }
         }
-        sharedPreferences!!.edit().putInt(SORT, compareInt).apply()
-        sharedPreferences!!.edit().putBoolean(REVERSED, reversed).apply()
-        if (reversed) {
-            Collections.sort(mappedObjectList, comparator.reversed())
-        } else {
-            Collections.sort(mappedObjectList, comparator)
-        }
-        recyclerViewAdapter!!.notifyDataSetChanged()
     }
 
-    companion object {
-        private val SORT: String = "SORT"
-        private val REVERSED: String = "REVERSED"
+    private fun showChangeNumberDialog(defaultNumber: String, uid: String) {
+        val inputText = EditText(context).apply {
+            setText(defaultNumber)
+            setSelectAllOnFocus(true)
+        }
+        val layout = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(28, 0, 56, 0)
+            addView(inputText)
+        }
+
+        AlertDialog.Builder(context).setTitle("Change Driver Number")
+            .setView(layout)
+            .setPositiveButton("Submit") { _, _ ->
+                val input = inputText.text?.toString()
+                viewModel.updateDriverNumber(uid, input)
+            }.create().show()
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu_calls_fragment, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        if (menuItem.itemId == R.id.archive) {
+            displaySortOptions()
+        }
+        return true
+    }
+
+    private fun displaySortOptions() {
+        val groupName: Array<String> = arrayOf("Driver Name", "Driver Number")
+        val defaultPosition = viewModel.getSelectionAsPosition()
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+        builder.setTitle("Sort by:")
+            .setSingleChoiceItems(
+                groupName,
+                defaultPosition
+            ) { _, pos ->
+                val option = SortOption.getSortOptionByLabel(groupName[pos])
+                viewModel.createFirebaseOptions(sort = option)
+            }
+            .create().show()
     }
 }
