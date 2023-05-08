@@ -47,7 +47,12 @@ class SuperUserViewModel(
                     onError("No driver identifier provided")
                     return@doTryOperation
                 }
-                firebaseDatabaseSource.postToDatabaseRed(firebaseDatabaseSource.getUserRef(uid), input)
+                val text = if (input.length > 6) input.substring(0,7) else input
+
+                firebaseDatabaseSource.run {
+                    postToDatabaseRed(getDriverNumberRef(uid), text)
+                    onSuccess(Unit)
+                }
             }
         }
     }

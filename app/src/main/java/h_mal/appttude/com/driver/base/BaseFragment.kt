@@ -137,13 +137,15 @@ abstract class BaseFragment<V : BaseViewModel, VB : ViewBinding> : Fragment(), K
     open fun onImageGalleryResult(imageUris: List<Uri>?) {}
 
     fun openGalleryForImage() {
-        registerForActivityResult(getResultsContract()) { result ->
-            @Suppress("UNCHECKED_CAST")
-            when (result) {
-                is Uri -> onImageGalleryResult(result)
-                is List<*> -> onImageGalleryResult(result as List<Uri>)
-            }
-        }.launch(multipleImage)
+        permissionRequest.launch(multipleImage)
+    }
+
+    private val permissionRequest = registerForActivityResult(getResultsContract()) { result ->
+        @Suppress("UNCHECKED_CAST")
+        when (result) {
+            is Uri -> onImageGalleryResult(result)
+            is List<*> -> onImageGalleryResult(result as List<Uri>)
+        }
     }
 
     private fun getResultsContract(): ActivityResultContract<Boolean, Any?> {
@@ -156,7 +158,7 @@ abstract class BaseFragment<V : BaseViewModel, VB : ViewBinding> : Fragment(), K
             }
 
             override fun parseResult(resultCode: Int, intent: Intent?): Any? {
-                intent?.clipData?.convertToList()?.let { clip ->
+                intent?.clipData?.takeIf { it.itemCount > 1 }?.convertToList()?.let { clip ->
                     val list = clip.takeIf { it.size > 10 }?.let {
                         clip.subList(0, 9)
                     } ?: clip

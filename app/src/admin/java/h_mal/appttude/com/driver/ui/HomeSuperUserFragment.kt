@@ -6,9 +6,12 @@ import android.view.*
 import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.core.view.MenuProvider
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
+import com.firebase.ui.common.ChangeEventType
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.database.DataSnapshot
 import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.base.BaseFirebaseAdapter
 import h_mal.appttude.com.driver.base.BaseFragment
@@ -56,6 +59,15 @@ class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuper
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        applyBinding {
+            if (recyclerView.adapter != null) {
+                adapter.startListening()
+            }
+        }
+    }
+
     override fun onStop() {
         super.onStop()
         adapter.stopListening()
@@ -75,13 +87,10 @@ class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuper
                     usernameText.text = userDetails?.profileName
                     emailaddressText.text = userDetails?.profileEmail
                     driverNo.run {
-                        val number = model.driver_number ?: "0"
+                        val number = if (model.driver_number.isNullOrBlank()) "#N/A" else model.driver_number
                         text = number
                         setOnClickListener {
-                            val uid = getKeyAtPosition(position)
-                            if (uid != null) {
-                                showChangeNumberDialog(uid, number)
-                            }
+                            getKeyAtPosition(position)?.let { showChangeNumberDialog(number!!, it) }
                         }
                     }
                     root.setOnClickListener {
@@ -100,9 +109,18 @@ class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuper
                     if (itemCount == 0) {
                         emptyView.root.visibility = if (itemCount == 0) View.VISIBLE else View.GONE
                     }
-
                     progressCircular.hide()
                 }
+            }
+
+            override fun onChildChanged(
+                type: ChangeEventType,
+                snapshot: DataSnapshot,
+                newIndex: Int,
+                oldIndex: Int
+            ) {
+                super.onChildChanged(type, snapshot, newIndex, oldIndex)
+                applyBinding { progressCircular.hide() }
             }
 
             override fun connectionLost() {
@@ -115,6 +133,7 @@ class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuper
         val inputText = EditText(context).apply {
             setText(defaultNumber)
             setSelectAllOnFocus(true)
+            doOnTextChanged { _, _, count, _ -> if (count > 6) context.displayToast("Identifier cannot be larger than 6") }
         }
         val layout = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
@@ -122,11 +141,12 @@ class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuper
             addView(inputText)
         }
 
-        AlertDialog.Builder(context).setTitle("Change Driver Number")
+        AlertDialog.Builder(requireContext(), R.style.AppTheme_AppBarOverlay)
+            .setTitle("Change Driver Identifier")
             .setView(layout)
             .setPositiveButton("Submit") { _, _ ->
                 val input = inputText.text?.toString()
-                viewModel.updateDriverNumber(uid, input)
+                input?.let { viewModel.updateDriverNumber(uid, it) }
             }.create().show()
     }
 

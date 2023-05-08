@@ -8,7 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="android:windowBackground">@drawable/background_with_curve</item>
-        <item name="android:actionMenuTextColor">@android:color/white</item>
         <item name="android:textColorHint">@android:color/white</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
@@ -35,8 +34,18 @@
         <!--<item name="android:autofilledHighlight">@android:color/transparent</item>-->
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="AppTheme.AppBarOverlay" parent="Theme.MaterialComponents.Dialog.Alert">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/AlertDialogTextStyle</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/AlertDialogTextStyle</item>
+        <item name="android:textColor">@color/colour_nine</item>
+    </style>
 
+    <style name="AlertDialogTextStyle">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textColorPrimary">#595959</item>
+        <item name="android:colorAccent">#1b5e20</item>
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
