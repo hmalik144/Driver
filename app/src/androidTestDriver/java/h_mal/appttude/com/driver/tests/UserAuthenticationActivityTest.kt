@@ -33,7 +33,10 @@ class UserAuthenticationActivityTest : FirebaseTest<LoginActivity>(LoginActivity
         }
         home {
             checkTitleExists(getResourceString(R.string.welcome_title))
+            updateProfile()
         }
+
+        // TODO: update user details
     }
 
 }

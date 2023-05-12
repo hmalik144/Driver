@@ -1,4 +1,4 @@
-package h_mal.appttude.com.driver.firebase
+package h_mal.appttude.com.driver.firebase.model
 
 data class SignUpResponse(
     val expiresIn: String? = null,

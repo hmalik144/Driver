@@ -121,6 +121,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$espressoVersion"
     implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     / * Google play services */
     implementation "com.google.android.gms:play-services-auth:20.4.1"
     / * Google firebase */
@@ -156,4 +157,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
     / * Kotlin Reflect */
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.8.10"
+    / * Retrofit2 */
+    def retrofit_version = "2.9.0"
+    androidTestImplementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    androidTestImplementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 }

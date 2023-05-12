@@ -45,8 +45,6 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
         { defaultViewModelCreationExtras }
     )
 
-    private var loading: Boolean = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         configureObserver()
@@ -95,7 +93,6 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
      */
     open fun onStarted() {
         loadingView.fadeIn()
-        loading = true
         mIdlingResource?.setIdleState(false)
     }
 
@@ -104,7 +101,6 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
      */
     open fun onSuccess(data: Any?) {
         loadingView.fadeOut()
-        loading = false
         mIdlingResource?.setIdleState(true)
     }
 
@@ -114,7 +110,6 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
     open fun onFailure(error: String?) {
         error?.let { displayToast(it) }
         loadingView.fadeOut()
-        loading = false
         mIdlingResource?.setIdleState(true)
     }
 
@@ -140,7 +135,8 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
 
 
     override fun onBackPressed() {
-        if (!loading) super.onBackPressed()
+        loadingView.hide()
+        super.onBackPressed()
     }
 
     /**
