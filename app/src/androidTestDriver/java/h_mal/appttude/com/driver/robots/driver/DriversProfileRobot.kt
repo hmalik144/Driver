@@ -1,6 +1,5 @@
-package h_mal.appttude.com.driver.robots
+package h_mal.appttude.com.driver.robots.driver
 
-import android.text.InputType
 import h_mal.appttude.com.driver.FormRobot
 import h_mal.appttude.com.driver.R
 
@@ -12,15 +11,28 @@ class DriversProfileRobot : FormRobot() {
     fun enterPostcode(postcode: String) = fillEditText(R.id.postcode_input, postcode)
     fun enterDateOfBirth(dob: String) = fillEditText(R.id.dob_input, dob)
     fun enterNINumber(niNumber: String) = fillEditText(R.id.ni_number, niNumber)
-    fun enterDateFirstAvailable(year: Int, monthOfYear: Int, dayOfMonth: Int) = setDate(R.id.date_first, year, monthOfYear, dayOfMonth)
+    fun enterDateFirstAvailable(year: Int, monthOfYear: Int, dayOfMonth: Int) =
+        setDate(R.id.date_first, year, monthOfYear, dayOfMonth)
 
-    fun selectImage() = clickButton(R.id.add_photo)
+    fun selectImage() = selectSingleImage(R.id.add_photo, FilePath.PROFILE_PIC)
 
-    fun submitForm(name: String, address: String, postcode: String, dob: String, niNumber: String, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+    fun submitForm(
+        name: String,
+        address: String,
+        postcode: String,
+        dob: String,
+        niNumber: String,
+        year: Int,
+        monthOfYear: Int,
+        dayOfMonth: Int
+    ) {
         selectImage()
-        // TODO: select image in gallery
         enterName(name)
         enterAddress(address)
+        enterPostcode(postcode)
+        enterDateOfBirth(dob)
+        enterNINumber(niNumber)
+        enterDateFirstAvailable(year, monthOfYear, dayOfMonth)
         submit()
     }
 }

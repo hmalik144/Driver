@@ -5,7 +5,6 @@ import android.app.Instrumentation
 import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
-import android.provider.MediaStore
 import android.widget.DatePicker
 import androidx.annotation.StringRes
 import androidx.test.espresso.Espresso.onData
@@ -19,12 +18,12 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
-import androidx.test.espresso.intent.matcher.IntentMatchers.isInternal
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import h_mal.appttude.com.driver.helpers.DataHelper
-import h_mal.appttude.com.driver.helpers.DataHelper.addFilePaths
-import org.hamcrest.CoreMatchers.*
+import h_mal.appttude.com.driver.helpers.EspressoHelper.waitForView
+import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.anything
 import org.hamcrest.Matchers
 import java.io.File
 
@@ -41,6 +40,8 @@ open class BaseTestRobot {
 
     fun matchView(resId: Int): ViewInteraction = onView(withId(resId))
 
+    fun matchViewWaitFor(resId: Int): ViewInteraction = waitForView(withId(resId))
+
     fun matchText(viewInteraction: ViewInteraction, text: String): ViewInteraction = viewInteraction
         .check(matches(ViewMatchers.withText(text)))
 
@@ -54,6 +55,9 @@ open class BaseTestRobot {
 
     fun checkErrorOnTextEntry(resId: Int, errorMessage: String): ViewInteraction =
         onView(withId(resId)).check(matches(checkErrorMessage(errorMessage)))
+
+    fun checkImageViewHasImage(resId: Int): ViewInteraction =
+        onView(withId(resId)).check(matches(checkImage()))
 
     fun swipeDown(resId: Int): ViewInteraction =
         onView(withId(resId)).perform(swipeDown())
@@ -71,12 +75,12 @@ open class BaseTestRobot {
         )
     }
 
-    fun selectSingleImageFromGallery(filePath: String, openSelector: () -> Unit) {
+    fun selectSingleImageFromGallery(filePath: FormRobot.FilePath, openSelector: () -> Unit) {
         Intents.init()
         // Build the result to return when the activity is launched.
         val resultData = Intent()
         resultData.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        resultData.data = Uri.fromFile(File(filePath))
+        resultData.data = Uri.fromFile(File(FormRobot.FilePath.getFilePath(filePath)))
         val result = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
         // Set up result stubbing when an intent sent to image picker is seen.
         intending(hasAction(Intent.ACTION_GET_CONTENT)).respondWith(result)
@@ -87,17 +91,15 @@ open class BaseTestRobot {
 
     fun selectMultipleImageFromGallery(filePaths: Array<String>, openSelector: () -> Unit) {
         Intents.init()
-        openSelector()
         // Build the result to return when the activity is launched.
         val resultData = Intent()
-        val clipData = DataHelper.createClipData(filePaths[0])
-        val remainingFiles = filePaths.copyOfRange(1, filePaths.size-1)
-        clipData.addFilePaths(remainingFiles)
+        val clipData = DataHelper.createClipData(filePaths)
         resultData.clipData = clipData
         val result = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
-
         // Set up result stubbing when an intent sent to "contacts" is seen.
-        Intents.intending(IntentMatchers.toPackage("android.intent.action.PICK")).respondWith(result)
+        intending(IntentMatchers.toPackage("android.intent.action.PICK")).respondWith(result)
+
+        openSelector()
         Intents.release()
     }
 }

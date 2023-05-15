@@ -7,8 +7,8 @@ import androidx.test.rule.GrantPermissionRule
 import h_mal.appttude.com.driver.FirebaseTest
 import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.robots.*
+import h_mal.appttude.com.driver.robots.driver.driversLicense
 import h_mal.appttude.com.driver.ui.MainActivity
-import h_mal.appttude.com.driver.ui.user.LoginActivity
 import org.junit.*
 import org.junit.runner.RunWith
 
@@ -18,7 +18,9 @@ import org.junit.runner.RunWith
 class SubmitNewDataActivityTest :
     FirebaseTest<MainActivity>(MainActivity::class.java, registered = true, signedIn = true) {
 
-    @get:Rule var permissionRule = GrantPermissionRule.grant(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+    @get:Rule
+    var permissionRule =
+        GrantPermissionRule.grant(android.Manifest.permission.READ_EXTERNAL_STORAGE)
 
     @Test
     fun verifyUserRegistration_validUsernameAndPassword_loggedIn() {
@@ -29,13 +31,13 @@ class SubmitNewDataActivityTest :
             openDriverProfile()
         }
         driverScreen {
-
             driverLicense()
         }
         driversLicense {
             submitForm("SAMPLE8456310LTU", 2022, 10, 2)
+
         }
-        waitFor(5000)
+
     }
 
 }
