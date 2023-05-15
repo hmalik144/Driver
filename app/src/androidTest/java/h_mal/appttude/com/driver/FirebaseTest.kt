@@ -1,17 +1,14 @@
 package h_mal.appttude.com.driver
 
-import androidx.test.espresso.intent.rule.IntentsRule
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import h_mal.appttude.com.driver.base.BaseActivity
 import h_mal.appttude.com.driver.data.FirebaseAuthSource
-import h_mal.appttude.com.driver.utils.GenericsHelper.getGenericClassAt
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import org.junit.After
 import org.junit.BeforeClass
-import org.junit.Rule
 
 open class FirebaseTest<T : BaseActivity<*, *>>(
     activity: Class<T>,

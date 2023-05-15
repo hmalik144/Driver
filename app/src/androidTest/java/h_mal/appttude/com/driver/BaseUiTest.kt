@@ -16,7 +16,7 @@ import org.junit.After
 import org.junit.Before
 
 
-open class BaseUiTest<T : BaseActivity<*,*>>(
+open class BaseUiTest<T : BaseActivity<*, *>>(
     private val activity: Class<T>
 ) {
 

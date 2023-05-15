@@ -13,7 +13,7 @@ class NetworkConnectionInterceptor(
     private val applicationContext = context.applicationContext
 
     override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
-        if (!isInternetAvailable()){
+        if (!isInternetAvailable()) {
             throw IOException("Make sure you have an active data connection")
         }
         return chain.proceed(chain.request())

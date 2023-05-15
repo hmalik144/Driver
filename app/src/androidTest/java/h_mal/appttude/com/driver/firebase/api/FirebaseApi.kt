@@ -7,9 +7,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.PUT
-import retrofit2.http.Query
 
 interface FirebaseApi {
 
@@ -26,8 +24,8 @@ interface FirebaseApi {
     suspend fun resetPassword(@Body request: ResetPasswordRequest): Response<ResetPasswordResponse>
 
     // invoke method creating an invocation of the api call
-    companion object{
-        operator fun invoke() : FirebaseApi {
+    companion object {
+        operator fun invoke(): FirebaseApi {
             val host = "10.0.2.2"
             val baseUrl = "http://$host:9099/identitytoolkit.googleapis.com/"
 
