@@ -12,7 +12,7 @@ class LogbookFragment :
 
     override fun setupView(binding: FragmentLogbookBinding) {
         super.setupView(binding)
-        viewsToHide(binding.submitLb, binding.uploadLb)
+        viewsToHide(binding.submit, binding.uploadLb)
     }
 
     override fun setFields(data: Logbook) {

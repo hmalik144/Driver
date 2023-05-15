@@ -1,21 +1,21 @@
 package h_mal.appttude.com.driver.robots
 
-import h_mal.appttude.com.driver.BaseTestRobot
+import h_mal.appttude.com.driver.FormRobot
 import h_mal.appttude.com.driver.R
+import h_mal.appttude.com.driver.helpers.LICENSE
+import h_mal.appttude.com.driver.helpers.getImagePath
 
 fun driversLicense(func: DriversLicenseRobot.() -> Unit) = DriversLicenseRobot().apply { func() }
-class DriversLicenseRobot : BaseTestRobot() {
+class DriversLicenseRobot : FormRobot() {
 
     fun enterLicenseNumber(text: String) = fillEditText(R.id.lic_no, text)
-    fun enterLicenseExpiry(text: String) = fillEditText(R.id.lic_expiry, text)
-    fun selectImage() = clickButton(R.id.search_image)
-    fun clickSubmit() = clickButton(R.id.submit)
+    fun enterLicenseExpiry(year: Int, monthOfYear: Int, dayOfMonth: Int) = setDate(R.id.lic_expiry, year, monthOfYear, dayOfMonth)
+    fun selectImage() = selectSingleImage(R.id.search_image, getImagePath(LICENSE))
 
-    fun submitForm(licenseNumber: String, licenseExpiry: String) {
+    fun submitForm(licenseNumber: String, year: Int, monthOfYear: Int, dayOfMonth: Int) {
         selectImage()
-        // TODO: select image in gallery
         enterLicenseNumber(licenseNumber)
-        enterLicenseExpiry(licenseExpiry)
-        clickSubmit()
+        enterLicenseExpiry(year, monthOfYear, dayOfMonth)
+        submit()
     }
 }

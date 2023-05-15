@@ -30,6 +30,7 @@ open class BaseUiTest<T : BaseActivity<*,*>>(
         mActivityScenarioRule.onActivity {
             mIdlingResource = it.getIdlingResource()!!
             IdlingRegistry.getInstance().register(mIdlingResource)
+            afterLaunch()
         }
     }
 
@@ -57,4 +58,5 @@ open class BaseUiTest<T : BaseActivity<*,*>>(
     }
 
     open fun beforeLaunch() {}
+    open fun afterLaunch() {}
 }

@@ -134,9 +134,8 @@
             android:padding="12dp"
             android:textSize="18sp" />
 
-
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/submit_vehicle"
+            android:id="@+id/submit"
             style="@style/TextButton.WithIcon"
             android:text="@string/submit"
             android:layout_marginBottom="48dp"

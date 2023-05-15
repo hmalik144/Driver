@@ -55,7 +55,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/submit_lb"
+        android:id="@+id/submit"
         style="@style/TextButton.WithIcon"
         android:text="@string/submit"
         app:layout_constraintTop_toTopOf="parent"

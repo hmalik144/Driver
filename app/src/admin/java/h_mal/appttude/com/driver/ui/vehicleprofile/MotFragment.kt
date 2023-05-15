@@ -11,7 +11,7 @@ class MotFragment : DataViewerFragment<MotViewModel, FragmentMotBinding, Mot>() 
 
     override fun setupView(binding: FragmentMotBinding) {
         super.setupView(binding)
-        viewsToHide(binding.submitMot, binding.uploadmot)
+        viewsToHide(binding.submit, binding.uploadmot)
     }
 
     override fun setFields(data: Mot) {

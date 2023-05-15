@@ -1,8 +1,5 @@
 package h_mal.appttude.com.driver.robots
 
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.contrib.DrawerActions
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import h_mal.appttude.com.driver.BaseTestRobot
 import h_mal.appttude.com.driver.R
 

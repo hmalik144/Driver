@@ -18,15 +18,15 @@ import org.kodein.di.generic.singleton
 
 class DriverApplication : Application(), KodeinAware {
 
-    override fun onCreate() {
-        super.onCreate()
-
-        val localHost = "10.0.2.2"
-
-        FirebaseAuth.getInstance().useEmulator(localHost, 9099)
-        FirebaseDatabase.getInstance().useEmulator(localHost, 9000)
-        FirebaseStorage.getInstance().useEmulator(localHost, 9199)
-    }
+//    override fun onCreate() {
+//        super.onCreate()
+//
+//        val localHost = "10.0.2.2"
+//
+//        FirebaseAuth.getInstance().useEmulator(localHost, 9099)
+//        FirebaseDatabase.getInstance().useEmulator(localHost, 9000)
+//        FirebaseStorage.getInstance().useEmulator(localHost, 9199)
+//    }
 
     // Kodein aware to initialise the classes used for DI
     override val kodein = Kodein.lazy {

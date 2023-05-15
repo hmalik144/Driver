@@ -14,7 +14,7 @@ class InsuranceFragment :
 
     override fun setupView(binding: FragmentInsuranceBinding) {
         super.setupView(binding)
-        viewsToHide(binding.submitIns, binding.uploadInsurance)
+        viewsToHide(binding.submit, binding.uploadInsurance)
     }
 
 

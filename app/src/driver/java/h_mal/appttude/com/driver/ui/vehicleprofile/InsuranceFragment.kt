@@ -34,7 +34,7 @@ class InsuranceFragment :
                 }
             }
             uploadInsurance.setOnClickListener { openGalleryWithPermissionRequest() }
-            submitIns.setOnClickListener { submit() }
+            submit.setOnClickListener { submit() }
         }
     }
 

@@ -132,7 +132,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/submit_driver"
+            android:id="@+id/submit"
             style="@style/TextButton"
             android:text="@string/submit" />
     </LinearLayout>

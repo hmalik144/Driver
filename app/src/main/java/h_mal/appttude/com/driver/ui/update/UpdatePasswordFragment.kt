@@ -13,7 +13,7 @@ class UpdatePasswordFragment : BaseFragment<UpdateUserViewModel, FragmentUpdateP
     override fun setupView(binding: FragmentUpdatePasswordBinding) {
         applyBinding {
             emailUpdate.setEnterPressedListener { registerUser() }
-            emailSignUp.setOnClickListener { registerUser() }
+            submit.setOnClickListener { registerUser() }
         }
     }
 

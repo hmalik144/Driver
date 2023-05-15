@@ -11,7 +11,7 @@ class VehicleProfileFragment :
 
     override fun setupView(binding: FragmentVehicleSetupBinding) {
         super.setupView(binding)
-        viewsToHide(binding.submitVehicle)
+        viewsToHide(binding.submit)
     }
 
     override fun setFields(data: VehicleProfile) {

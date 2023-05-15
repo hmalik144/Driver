@@ -20,6 +20,7 @@ import h_mal.appttude.com.driver.utils.PermissionsUtils
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
+import java.io.File
 
 abstract class BaseFragment<V : BaseViewModel, VB : ViewBinding> : Fragment(), KodeinAware {
 
@@ -151,10 +152,10 @@ abstract class BaseFragment<V : BaseViewModel, VB : ViewBinding> : Fragment(), K
     private fun getResultsContract(): ActivityResultContract<Boolean, Any?> {
         return object : ActivityResultContract<Boolean, Any?>() {
             override fun createIntent(context: Context, input: Boolean): Intent {
-                return Intent(Intent.ACTION_PICK).apply {
-                    type = "image/*"
-                    putExtra(Intent.EXTRA_ALLOW_MULTIPLE, input)
-                }
+                return Intent(Intent.ACTION_GET_CONTENT)
+                    .addCategory(Intent.CATEGORY_OPENABLE)
+                    .putExtra(Intent.EXTRA_ALLOW_MULTIPLE, input)
+                    .setType("image/*")
             }
 
             override fun parseResult(resultCode: Int, intent: Intent?): Any? {

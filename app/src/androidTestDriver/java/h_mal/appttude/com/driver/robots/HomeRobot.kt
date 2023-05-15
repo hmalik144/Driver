@@ -27,4 +27,5 @@ class HomeRobot : BaseTestRobot() {
     fun openDriverProfile() = clickButton(R.id.driver)
     fun openVehicleProfile() = clickButton(R.id.car)
 
+    fun requestProfile() = clickButton(R.id.request_driver_button)
 }

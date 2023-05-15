@@ -12,7 +12,7 @@ class UpdateEmailFragment : BaseFragment<UpdateUserViewModel, FragmentUpdateEmai
 
     override fun setupView(binding: FragmentUpdateEmailBinding) = binding.run {
         newEmail.setEnterPressedListener { registerUser() }
-        submissionButtonLabel.setOnClickListener { registerUser() }
+        submit.setOnClickListener { registerUser() }
     }
 
     private fun registerUser() {

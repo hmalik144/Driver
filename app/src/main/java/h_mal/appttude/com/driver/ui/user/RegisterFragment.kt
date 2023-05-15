@@ -13,13 +13,13 @@ class RegisterFragment :
 
     override fun setupView(binding: FragmentRegisterBinding) = binding.run {
         passwordBottom.setEnterPressedListener { registerUser() }
-        emailSignUp.setOnClickListener { registerUser() }
+        submit.setOnClickListener { registerUser() }
     }
 
     private fun registerUser() {
         applyBinding {
             val nameString = nameRegister.validatePasswordEditText() ?: return@applyBinding
-            val emailText = emailRegister.validateEmailEditText() ?: return@applyBinding
+            val emailText = email.validateEmailEditText() ?: return@applyBinding
             val passwordText = passwordTop.validatePasswordEditText() ?: return@applyBinding
             val passwordTextBottom =
                 passwordBottom.validatePasswordEditText() ?: return@applyBinding
