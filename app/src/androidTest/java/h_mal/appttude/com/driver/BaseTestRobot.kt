@@ -7,6 +7,7 @@ import android.content.res.Resources
 import android.net.Uri
 import android.widget.DatePicker
 import androidx.annotation.StringRes
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
@@ -14,12 +15,13 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.PickerActions
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import h_mal.appttude.com.driver.helpers.DataHelper
 import h_mal.appttude.com.driver.helpers.EspressoHelper.waitForView
 import org.hamcrest.CoreMatchers.allOf
@@ -51,6 +53,16 @@ open class BaseTestRobot {
         onData(anything())
             .inAdapterView(allOf(withId(listRes)))
             .atPosition(position).perform(ViewActions.click())
+    }
+
+    fun <VH : ViewHolder> clickRecyclerItemWithText(recyclerId: Int, text: String) {
+        onView(withId(recyclerId))
+            .perform(
+                // scrollTo will fail the test if no item matches.
+                RecyclerViewActions.scrollTo<VH>(
+                    hasDescendant(withText(text))
+                )
+            )
     }
 
     fun checkErrorOnTextEntry(resId: Int, errorMessage: String): ViewInteraction =
