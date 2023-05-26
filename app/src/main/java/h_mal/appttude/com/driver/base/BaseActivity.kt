@@ -2,7 +2,6 @@ package h_mal.appttude.com.driver.base
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -16,12 +15,11 @@ import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.application.ApplicationViewModelFactory
 import h_mal.appttude.com.driver.data.ViewState
 import h_mal.appttude.com.driver.utils.*
+import h_mal.appttude.com.driver.utils.GenericsHelper.getGenericClassAt
+import h_mal.appttude.com.driver.utils.GenericsHelper.inflateBindingByType
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
-import java.lang.reflect.ParameterizedType
-import kotlin.reflect.KClass
-
 
 abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActivity(), KodeinAware {
     // The Idling Resource which will be null in production.
@@ -47,34 +45,10 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
         { defaultViewModelCreationExtras }
     )
 
-    @Suppress("UNCHECKED_CAST")
-    fun <CLASS : Any> Any.getGenericClassAt(position: Int): KClass<CLASS> =
-        ((javaClass.genericSuperclass as? ParameterizedType)
-            ?.actualTypeArguments?.getOrNull(position) as? Class<CLASS>)
-            ?.kotlin
-            ?: throw IllegalStateException("Can not find class from generic argument")
-
-    /**
-     * Create a view binding out of the the generic [VB]
-     */
-    private fun inflateBindingByType(
-        genericClassAt: KClass<VB>
-    ): VB = try {
-        @Suppress("UNCHECKED_CAST")
-        genericClassAt.java.methods.first { viewBinding ->
-            viewBinding.parameterTypes.size == 1
-                    && viewBinding.parameterTypes.getOrNull(0) == LayoutInflater::class.java
-        }.invoke(null, layoutInflater) as VB
-    } catch (exception: Exception) {
-        throw IllegalStateException("Can not inflate binding from generic")
-    }
-
-    private var loading: Boolean = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         configureObserver()
-        _binding = inflateBindingByType(getGenericClassAt(1))
+        _binding = inflateBindingByType(getGenericClassAt(1), layoutInflater)
         setContentView(requireNotNull(_binding).root)
         setupView(binding)
     }
@@ -119,7 +93,6 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
      */
     open fun onStarted() {
         loadingView.fadeIn()
-        loading = true
         mIdlingResource?.setIdleState(false)
     }
 
@@ -128,7 +101,6 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
      */
     open fun onSuccess(data: Any?) {
         loadingView.fadeOut()
-        loading = false
         mIdlingResource?.setIdleState(true)
     }
 
@@ -138,7 +110,6 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
     open fun onFailure(error: String?) {
         error?.let { displayToast(it) }
         loadingView.fadeOut()
-        loading = false
         mIdlingResource?.setIdleState(true)
     }
 
@@ -164,7 +135,8 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
 
 
     override fun onBackPressed() {
-        if (!loading) super.onBackPressed()
+        loadingView.hide()
+        super.onBackPressed()
     }
 
     /**

@@ -5,6 +5,6 @@
     <item
         android:id="@+id/archive"
         android:icon="@drawable/ic_sort_black_24dp"
-        android:title="sort"
-        app:showAsAction="ifRoom"></item>
+        android:title="@string/sort"
+        app:showAsAction="ifRoom" />
 </menu>

@@ -6,10 +6,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object DateUtils {
-    fun getDateStamp(): String {
-        val sdf: SimpleDateFormat = getSimpleDateFormat("yyyyMMdd_HHmm")
-        return sdf.format(Date())
-    }
 
     fun getDateTimeStamp(): String {
         val sdf: SimpleDateFormat = getSimpleDateFormat("yyyyMMdd_HHmmss")
@@ -21,7 +17,7 @@ object DateUtils {
         return try {
             val sdfIn = getSimpleDateFormat(formatIn)
             val sdfOut = getSimpleDateFormat(formatOut)
-            val newDate: Date = sdfIn.parse(this)
+            val newDate = sdfIn.parse(this)
             sdfOut.format(newDate)
         } catch (e: Exception) {
             e.printStackTrace()

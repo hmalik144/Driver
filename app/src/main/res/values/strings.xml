@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Choice Minicabs</string>
     <string name="nav_header_title">Driver Name</string>
     <string name="nav_header_subtitle">driver@example.com</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -59,6 +58,7 @@
     <string name="address_of_keeper">Address of Keeper</string>
     <string name="postcode_of_keeper">Postcode of Keeper</string>
     <string name="car_start_date">Start date</string>
+    <string name="driver_identifier">driver identifier</string>
     <string name="vehicle_seized">Vehicle Seized</string>
     <string name="full_name">Full name</string>
     <string name="address">Address</string>
@@ -83,7 +83,7 @@
     <string name="insurance">Insurance</string>
     <string name="m_o_t">M.O.T</string>
     <string name="log_book">Log book</string>
-    <string name="private_hire_vehicle_license">Private hire Vehicle License</string>
+    <string name="private_hire_vehicle_license">Private Hire Vehicle License</string>
     <string name="upload_insurance_documents">Upload Insurance Documents</string>
     <string name="insurer">Insurer</string>
     <string name="insurance_expiry">Insurance expiry</string>
@@ -95,4 +95,11 @@
     <string name="request_driver_profile">Request driver profile</string>
     <string name="or">OR</string>
     <string name="floating_action_button">Floating action button</string>
+    <string name="sort">sort</string>
+    <string name="denied">Approval denied</string>
+    <string name="pending">Pending approval</string>
+    <string name="approved">Approved</string>
+    <string name="not_submitted">Not submitted</string>
+    <string name="empty_view_message">You have no drivers</string>
+    <string name="approval_status">approval status</string>
 </resources>

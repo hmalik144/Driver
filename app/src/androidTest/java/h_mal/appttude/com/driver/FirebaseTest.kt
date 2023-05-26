@@ -10,14 +10,13 @@ import kotlinx.coroutines.tasks.await
 import org.junit.After
 import org.junit.BeforeClass
 
-open class FirebaseTest<T : BaseActivity<*,*>>(
+open class FirebaseTest<T : BaseActivity<*, *>>(
     activity: Class<T>,
     private val registered: Boolean = false,
-    private val signedIn: Boolean = false
+    private val signedIn: Boolean = false,
+    private val signOutAfterTest: Boolean = true
 ) : BaseUiTest<T>(activity) {
-
     private val firebaseAuthSource by lazy { FirebaseAuthSource() }
-
     private var email: String? = null
 
     companion object {
@@ -45,9 +44,10 @@ open class FirebaseTest<T : BaseActivity<*,*>>(
     }
 
     @After
-    fun tearDownFirebase() = runBlocking {
-        removeUser()
-        firebaseAuthSource.logOut()
+    fun tearDownFirebase() {
+        if (signOutAfterTest) {
+            firebaseAuthSource.logOut()
+        }
     }
 
     suspend fun setupUser(
@@ -82,9 +82,6 @@ open class FirebaseTest<T : BaseActivity<*,*>>(
     }
 
     fun getEmail(): String? {
-        firebaseAuthSource.getUser()?.email?.let {
-            return it
-        }
-        return email
+        return firebaseAuthSource.getUser()?.email ?: email
     }
 }

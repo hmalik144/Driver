@@ -41,7 +41,7 @@ class UpdateProfileFragment : BaseFragment<UpdateUserViewModel, FragmentUpdatePr
             }
         }
 
-        submitUpdateProfile.setOnClickListener { submitProfileUpdate() }
+        submit.setOnClickListener { submitProfileUpdate() }
     }
 
     private fun submitProfileUpdate() {

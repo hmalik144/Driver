@@ -33,6 +33,7 @@ class MainActivity : DrawerActivity<MainViewModel, ActivityMainBinding>() {
                 setupDrawer(data)
             }
         }
+
     }
 
     private fun setupDrawer(user: FirebaseUser) {

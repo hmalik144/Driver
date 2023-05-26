@@ -1,15 +1,10 @@
-package h_mal.appttude.com.driver.admin.objects
+package h_mal.appttude.com.driver.objects
 
+import com.google.firebase.database.IgnoreExtraProperties
 
-class UserObject {
-    var profileName: String? = null
-    var profileEmail: String? = null
-    var profilePicString: String? = null
-
-    constructor()
-    constructor(profileName: String?, profileEmail: String?, profilePicString: String?) {
-        this.profileName = profileName
-        this.profileEmail = profileEmail
-        this.profilePicString = profilePicString
-    }
-}
+@IgnoreExtraProperties
+data class UserObject (
+    var profileName: String? = "",
+    var profileEmail: String? = "",
+    var profilePicString: String? = "",
+)

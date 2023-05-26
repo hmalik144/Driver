@@ -16,7 +16,7 @@ import org.junit.After
 import org.junit.Before
 
 
-open class BaseUiTest<T : BaseActivity<*,*>>(
+open class BaseUiTest<T : BaseActivity<*, *>>(
     private val activity: Class<T>
 ) {
 
@@ -30,6 +30,7 @@ open class BaseUiTest<T : BaseActivity<*,*>>(
         mActivityScenarioRule.onActivity {
             mIdlingResource = it.getIdlingResource()!!
             IdlingRegistry.getInstance().register(mIdlingResource)
+            afterLaunch()
         }
     }
 
@@ -57,4 +58,5 @@ open class BaseUiTest<T : BaseActivity<*,*>>(
     }
 
     open fun beforeLaunch() {}
+    open fun afterLaunch() {}
 }

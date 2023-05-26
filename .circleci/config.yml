@@ -79,7 +79,7 @@ jobs:
     parameters:
       flavour:
         type: string
-        default: ""
+        default: "Driver"
     executor:
       name: android/android-machine
     steps:
@@ -101,7 +101,7 @@ workflows:
   build-release-driver:
     jobs:
       - build-and-test:
-          flavour: Driver
+          flavour: "Driver"
       - assemble-and-release:
           flavour: "Driver"
           filters:
@@ -113,9 +113,9 @@ workflows:
   build-release-admin:
     jobs:
       - build-and-test:
-          flavour: Admin
+          flavour: "Admin"
       - assemble-and-release:
-          flavour: Admin
+          flavour: "Admin"
           filters:
             branches:
               only: main_admin
