@@ -58,6 +58,7 @@
     <string name="address_of_keeper">Address of Keeper</string>
     <string name="postcode_of_keeper">Postcode of Keeper</string>
     <string name="car_start_date">Start date</string>
+    <string name="driver_identifier">driver identifier</string>
     <string name="vehicle_seized">Vehicle Seized</string>
     <string name="full_name">Full name</string>
     <string name="address">Address</string>

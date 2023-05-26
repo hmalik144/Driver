@@ -131,6 +131,7 @@ class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuper
 
     private fun showChangeNumberDialog(defaultNumber: String, uid: String) {
         val inputText = EditText(context).apply {
+            setTag(R.string.driver_identifier, "DriverIdentifierInput")
             setText(defaultNumber)
             setSelectAllOnFocus(true)
             doOnTextChanged { _, _, count, _ -> if (count > 6) context.displayToast("Identifier cannot be larger than 6") }

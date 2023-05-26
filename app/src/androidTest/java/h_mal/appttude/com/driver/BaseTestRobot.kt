@@ -5,13 +5,17 @@ import android.app.Instrumentation
 import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
+import android.view.View
 import android.widget.DatePicker
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.PickerActions
@@ -20,12 +24,12 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import h_mal.appttude.com.driver.helpers.DataHelper
 import h_mal.appttude.com.driver.helpers.EspressoHelper.waitForView
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.anything
+import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import java.io.File
 
@@ -38,29 +42,49 @@ open class BaseTestRobot {
         )
 
     fun clickButton(resId: Int): ViewInteraction =
-        onView((withId(resId))).perform(ViewActions.click())
+        onView((withId(resId))).perform(click())
 
     fun matchView(resId: Int): ViewInteraction = onView(withId(resId))
 
     fun matchViewWaitFor(resId: Int): ViewInteraction = waitForView(withId(resId))
 
     fun matchText(viewInteraction: ViewInteraction, text: String): ViewInteraction = viewInteraction
-        .check(matches(ViewMatchers.withText(text)))
+        .check(matches(withText(text)))
 
     fun matchText(resId: Int, text: String): ViewInteraction = matchText(matchView(resId), text)
 
     fun clickListItem(listRes: Int, position: Int) {
         onData(anything())
             .inAdapterView(allOf(withId(listRes)))
-            .atPosition(position).perform(ViewActions.click())
+            .atPosition(position).perform(click())
     }
 
-    fun <VH : ViewHolder> clickRecyclerItemWithText(recyclerId: Int, text: String) {
-        onView(withId(recyclerId))
+    fun <VH : ViewHolder> scrollToRecyclerItem(recyclerId: Int, text: String): ViewInteraction? {
+        return onView(withId(recyclerId))
             .perform(
                 // scrollTo will fail the test if no item matches.
                 RecyclerViewActions.scrollTo<VH>(
                     hasDescendant(withText(text))
+                )
+            )
+    }
+
+    fun <VH : ViewHolder> clickViewInRecycler(recyclerId: Int, text: String) {
+        scrollToRecyclerItem<VH>(recyclerId, text)?.perform(click())
+    }
+
+    fun <VH : ViewHolder> clickSubViewInRecycler(recyclerId: Int, text: String, subView: Int) {
+        scrollToRecyclerItem<VH>(recyclerId, text)
+            ?.perform(
+                // scrollTo will fail the test if no item matches.
+                RecyclerViewActions.actionOnItem<VH>(
+                    hasDescendant(withText(text)), object : ViewAction {
+                        override fun getDescription(): String = "Matching recycler descendant"
+                        override fun getConstraints(): Matcher<View>? = isRoot()
+                        override fun perform(uiController: UiController?, view: View?) {
+                            view?.findViewById<View>(subView)?.performClick()
+                        }
+                    }
                 )
             )
     }
@@ -78,7 +102,7 @@ open class BaseTestRobot {
         Resources.getSystem().getString(resId)
 
     fun selectDateInPicker(year: Int, month: Int, day: Int) {
-        onView(ViewMatchers.withClassName(Matchers.equalTo(DatePicker::class.java.name))).perform(
+        onView(withClassName(Matchers.equalTo(DatePicker::class.java.name))).perform(
             PickerActions.setDate(
                 year,
                 month,

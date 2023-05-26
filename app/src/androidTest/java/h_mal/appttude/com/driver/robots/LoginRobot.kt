@@ -1,6 +1,7 @@
 package h_mal.appttude.com.driver.robots
 
 import h_mal.appttude.com.driver.BaseTestRobot
+import h_mal.appttude.com.driver.PASSWORD
 import h_mal.appttude.com.driver.R
 
 
@@ -20,5 +21,12 @@ class LoginRobot : BaseTestRobot() {
     fun checkEmailError(err: String) = checkErrorOnTextEntry(R.id.email, err)
 
     fun checkPasswordError(err: String) = checkErrorOnTextEntry(R.id.password, err)
+
+    fun attemptLogin(emailAddress: String, password: String = PASSWORD) {
+        matchViewWaitFor(R.id.email)
+        setEmail(emailAddress)
+        setPassword(password)
+        clickLogin()
+    }
 
 }

@@ -12,7 +12,7 @@ class DriverProfileFragment :
 
     override fun setupView(binding: FragmentDriverProfileBinding) {
         super.setupView(binding)
-        viewsToHide(binding.submitDriver, binding.addPhoto)
+        viewsToHide(binding.submit, binding.addPhoto)
     }
 
     override fun setFields(data: DriverProfile) {
