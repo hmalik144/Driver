@@ -12,6 +12,7 @@ class VehicleProfileFragment :
     override fun setupView(binding: FragmentVehicleSetupBinding) {
         super.setupView(binding)
         viewsToHide(binding.submit)
+        binding.seizedCheckbox.isEnabled = false
     }
 
     override fun setFields(data: VehicleProfile) {

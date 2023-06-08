@@ -58,6 +58,14 @@ open class FirebaseTest<T : BaseActivity<*, *>>(
         firebaseAuthSource.registerUser(signInEmail, password).await().user
     }
 
+    suspend fun login(
+        signInEmail: String,
+        password: String
+    ) {
+        email = signInEmail
+        firebaseAuthSource.signIn(signInEmail, password).await()
+    }
+
     // remove the user we created for testing
     suspend fun removeUser() {
         try {

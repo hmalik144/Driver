@@ -1,6 +1,7 @@
 package h_mal.appttude.com.driver.application
 
 import android.app.Application
+import android.content.res.Resources
 import h_mal.appttude.com.driver.data.FirebaseAuthSource
 import h_mal.appttude.com.driver.data.FirebaseDatabaseSource
 import h_mal.appttude.com.driver.data.FirebaseStorageSource
@@ -22,6 +23,6 @@ class DriverApplication : Application(), KodeinAware {
         bind() from singleton { FirebaseDatabaseSource() }
         bind() from singleton { FirebaseStorageSource() }
         bind() from singleton { PreferenceProvider(this@DriverApplication) }
-        bind() from provider { ApplicationViewModelFactory(instance(), instance(), instance(), instance()) }
+        bind() from provider { ApplicationViewModelFactory(instance(), instance(), instance(), instance(), instance<Resources>()) }
     }
 }

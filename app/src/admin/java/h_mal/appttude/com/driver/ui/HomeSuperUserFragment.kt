@@ -105,10 +105,8 @@ class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuper
             override fun onDataChanged() {
                 super.onDataChanged()
                 applyBinding {
-                    // If there are no chat messages, show a view that invites the user to add a message.
-                    if (itemCount == 0) {
-                        emptyView.root.visibility = if (itemCount == 0) View.VISIBLE else View.GONE
-                    }
+                    // If there are no driver data, show a view that informs the admin.
+                    emptyView.root.visibility = if (itemCount == 0) View.VISIBLE else View.GONE
                     progressCircular.hide()
                 }
             }

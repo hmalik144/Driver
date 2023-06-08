@@ -102,4 +102,7 @@
     <string name="not_submitted">Not submitted</string>
     <string name="empty_view_message">You have no drivers</string>
     <string name="approval_status">approval status</string>
+    <string name="approve">Approve</string>
+    <string name="deny">Deny</string>
+    <string name="decline">Decline</string>
 </resources>
