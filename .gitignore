@@ -20,9 +20,5 @@ local
 /Gemfile.lock
 /playstore.json
 
-.firebaserc
-database.rules.json
 database-debug.log
 firebase-debug.log
-firebase.json
-storage.rules
