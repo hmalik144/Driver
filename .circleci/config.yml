@@ -51,7 +51,7 @@ jobs:
       - run:
           name: Start firebase emulator
           command: |
-            firebase emulators:start --import=app_data/export_directory
+            firebase emulators:start --import=driver_app_data/export_directory
           background: true
       # Then start the emulator and run the Instrumentation tests!
       - android/start-emulator-and-run-tests:
