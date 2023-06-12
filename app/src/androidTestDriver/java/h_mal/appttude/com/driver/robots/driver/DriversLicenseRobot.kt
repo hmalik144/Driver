@@ -19,6 +19,11 @@ class DriversLicenseRobot : FormRobot() {
         submit()
     }
 
+    fun validateEmptyPage() {
+        assertEmptyForm(R.id.lic_no, R.id.lic_expiry)
+        // Todo: assert imageview has default image
+    }
+
     fun validate() {
         checkImageViewHasImage(R.id.driversli_img)
 

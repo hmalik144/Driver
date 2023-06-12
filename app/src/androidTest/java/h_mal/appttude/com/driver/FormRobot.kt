@@ -1,5 +1,6 @@
 package h_mal.appttude.com.driver
 
+import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -19,12 +20,17 @@ open class FormRobot : BaseTestRobot() {
         selectSingleImageFromGallery(filePath) {
             onView(withId(imagePickerLauncherViewId)).perform(click())
         }
-        // click ok in date picker
     }
 
     fun selectMultipleImage(imagePickerLauncherViewId: Int, filePaths: Array<String>) {
         selectMultipleImageFromGallery(filePaths) {
             onView(withId(imagePickerLauncherViewId)).perform(click())
+        }
+    }
+
+    fun assertEmptyForm(@IdRes vararg ids: Int) {
+        ids.forEach {
+            matchText(it, "")
         }
     }
 

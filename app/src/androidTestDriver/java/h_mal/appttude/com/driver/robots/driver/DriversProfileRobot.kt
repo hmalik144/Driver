@@ -2,6 +2,7 @@ package h_mal.appttude.com.driver.robots.driver
 
 import h_mal.appttude.com.driver.FormRobot
 import h_mal.appttude.com.driver.R
+import h_mal.appttude.com.driver.model.Date
 
 fun driversProfile(func: DriversProfileRobot.() -> Unit) = DriversProfileRobot().apply { func() }
 class DriversProfileRobot : FormRobot() {
@@ -10,9 +11,10 @@ class DriversProfileRobot : FormRobot() {
     fun enterAddress(address: String) = fillEditText(R.id.address_input, address)
     fun enterPostcode(postcode: String) = fillEditText(R.id.postcode_input, postcode)
     fun enterDateOfBirth(dob: String) = fillEditText(R.id.dob_input, dob)
+    fun enterDateOfBirth(dob: Date) = setDate(R.id.dob_input, dob.year, dob.monthOfYear, dob.dayOfMonth)
     fun enterNINumber(niNumber: String) = fillEditText(R.id.ni_number, niNumber)
-    fun enterDateFirstAvailable(year: Int, monthOfYear: Int, dayOfMonth: Int) =
-        setDate(R.id.date_first, year, monthOfYear, dayOfMonth)
+    fun enterDateFirstAvailable(date: Date) =
+        setDate(R.id.date_first, date.year, date.monthOfYear, date.dayOfMonth)
 
     fun selectImage() = selectSingleImage(R.id.add_photo, FilePath.PROFILE_PIC)
 
@@ -20,11 +22,9 @@ class DriversProfileRobot : FormRobot() {
         name: String,
         address: String,
         postcode: String,
-        dob: String,
+        dob: Date,
         niNumber: String,
-        year: Int,
-        monthOfYear: Int,
-        dayOfMonth: Int
+        firstDateAvailable: Date
     ) {
         selectImage()
         enterName(name)
@@ -32,7 +32,7 @@ class DriversProfileRobot : FormRobot() {
         enterPostcode(postcode)
         enterDateOfBirth(dob)
         enterNINumber(niNumber)
-        enterDateFirstAvailable(year, monthOfYear, dayOfMonth)
+        enterDateFirstAvailable(firstDateAvailable)
         submit()
     }
 }
