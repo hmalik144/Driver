@@ -32,8 +32,8 @@ jobs:
       # config git user
       - run:
           command: |
-            git config --global user.email "you@example.com"
-            git config --global user.name "Your Name"
+            git config --global user.email "h.malik144@gmail.com"
+            git config --global user.name "h.malik144@gmail.com"
       - run: git subtree add --prefix=driver_app_data https://github.com/hmalik144/driver_app_data main
       # Setup files for build.
       - run:
