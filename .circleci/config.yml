@@ -30,8 +30,8 @@ jobs:
       # Checkout the code and its submodule as the first step.
       - checkout
       # config git user
-        git config --global user.email "you@example.com"
-        git config --global user.name "Your Name"
+      - git config --global user.email "you@example.com"
+      - git config --global user.name "Your Name"
       - run: git subtree add --prefix=driver_app_data https://github.com/hmalik144/driver_app_data main
       # Setup files for build.
       - run:
