@@ -784,10 +784,10 @@
     },
     "dsKwEePbYRXysJaLjNWQ2MXR1ZD2": {
       "approvalsObject": {
-        "driver_details_approval": 2,
+        "driver_details_approval": 3,
         "driver_license_approval": 3,
         "insurance_details_approval": 2,
-        "log_book_approval": 3,
+        "log_book_approval": 1,
         "mot_details_approval": 3,
         "private_hire_approval": 2,
         "private_hire_vehicle_approval": 3,
