@@ -25,7 +25,7 @@ class DocumentApproverTest : AdminBaseTest() {
             Espresso.pressBack()
         }
         driverOverview {
-            clickOnItemAtPosition(1)
+            clickOnItemAtPosition(2)
         }
         approver {
             clickApprove()
@@ -33,7 +33,7 @@ class DocumentApproverTest : AdminBaseTest() {
             Espresso.pressBack()
         }
         driverOverview {
-            matchView(1, getResourceString(R.string.approved))
+            matchView(2, getResourceString(R.string.approved))
         }
 
         // Decline check
@@ -46,7 +46,7 @@ class DocumentApproverTest : AdminBaseTest() {
             Espresso.pressBack()
         }
         driverOverview {
-            clickOnItemAtPosition(2)
+            clickOnItemAtPosition(1)
         }
         approver {
             clickDecline()
@@ -54,7 +54,7 @@ class DocumentApproverTest : AdminBaseTest() {
             Espresso.pressBack()
         }
         driverOverview {
-            matchView(2, getResourceString(R.string.denied))
+            matchView(1, getResourceString(R.string.denied))
         }
     }
 

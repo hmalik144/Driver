@@ -36,7 +36,7 @@ class FirebaseDatabaseSource {
         return data
     }
 
-    fun getDatabaseReferenceFromLink(link: String) = database.getReferenceFromUrl(link)
+    fun getDatabaseRefFromPath(path: String) = database.getReference(path)
 
     val users = database.getReference(USER_CONST)
 

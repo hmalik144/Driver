@@ -5,6 +5,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import h_mal.appttude.com.driver.base.BaseActivity
 import h_mal.appttude.com.driver.data.FirebaseAuthSource
+import h_mal.appttude.com.driver.data.FirebaseDatabaseSource
+import h_mal.appttude.com.driver.data.FirebaseStorageSource
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import org.junit.After
@@ -16,7 +18,11 @@ open class FirebaseTest<T : BaseActivity<*, *>>(
     private val signedIn: Boolean = false,
     private val signOutAfterTest: Boolean = true
 ) : BaseUiTest<T>(activity) {
+
     private val firebaseAuthSource by lazy { FirebaseAuthSource() }
+    private val firebaseDatabaseSource by lazy { FirebaseDatabaseSource() }
+    private val firebaseStorageSource by lazy { FirebaseStorageSource() }
+
     private var email: String? = null
 
     companion object {
