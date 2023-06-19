@@ -167,4 +167,7 @@ abstract class BaseFragment<V : BaseViewModel, VB : ViewBinding> : Fragment(), K
             }
         }
     }
+
+    fun showToast(message: String) = (activity as BaseActivity<*, *>).showToast(message)
+    fun showSnackBar(message: String) = (activity as BaseActivity<*, *>).showSnackBar(message)
 }

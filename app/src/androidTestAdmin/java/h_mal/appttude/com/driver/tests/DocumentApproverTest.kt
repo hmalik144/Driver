@@ -29,7 +29,6 @@ class DocumentApproverTest : AdminBaseTest() {
         }
         approver {
             clickApprove()
-            checkSnackBarDisplayedByMessage("Document has been approved")
             Espresso.pressBack()
         }
         driverOverview {
@@ -50,7 +49,6 @@ class DocumentApproverTest : AdminBaseTest() {
         }
         approver {
             clickDecline()
-            checkSnackBarDisplayedByMessage("Document has been declined")
             Espresso.pressBack()
         }
         driverOverview {

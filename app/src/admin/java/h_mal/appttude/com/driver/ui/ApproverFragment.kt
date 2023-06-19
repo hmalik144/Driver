@@ -35,10 +35,6 @@ class ApproverFragment : BaseFragment<ApproverViewModel, FragmentApproverBinding
     }
 
     private fun displaySnackBar(status: String) {
-        Snackbar.make(
-            requireView(),
-            "Document has been $status",
-            Snackbar.LENGTH_LONG
-        ).show()
+        showSnackBar("Document has been $status")
     }
 }

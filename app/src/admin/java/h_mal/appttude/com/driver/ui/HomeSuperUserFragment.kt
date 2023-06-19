@@ -122,7 +122,7 @@ class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuper
             }
 
             override fun connectionLost() {
-                requireContext().displayToast("No connection available")
+                showToast("No connection available")
             }
         }
     }
@@ -132,7 +132,7 @@ class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuper
             setTag(R.string.driver_identifier, "DriverIdentifierInput")
             setText(defaultNumber)
             setSelectAllOnFocus(true)
-            doOnTextChanged { _, _, count, _ -> if (count > 6) context.displayToast("Identifier cannot be larger than 6") }
+            doOnTextChanged { _, _, count, _ -> if (count > 6) showToast("Identifier cannot be larger than 6") }
         }
         val layout = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL

@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.*
@@ -100,7 +101,7 @@ open class BaseUiTest<T : BaseActivity<*, *>>(
                 withId(com.google.android.material.R.id.snackbar_text),
                 withText(message)
             )
-        ).check(matches(isDisplayed())).perform(click())
+        ).check(matches(isDisplayed()))
     }
 
     private fun getCurrentActivity(): Activity {
