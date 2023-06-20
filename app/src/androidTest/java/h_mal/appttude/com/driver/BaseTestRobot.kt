@@ -60,7 +60,7 @@ open class BaseTestRobot {
     }
 
     fun <VH : ViewHolder> scrollToRecyclerItem(recyclerId: Int, text: String): ViewInteraction? {
-        return onView(withId(recyclerId))
+        return matchView(recyclerId)
             .perform(
                 // scrollTo will fail the test if no item matches.
                 RecyclerViewActions.scrollTo<VH>(
@@ -69,8 +69,38 @@ open class BaseTestRobot {
             )
     }
 
+    fun <VH : ViewHolder> scrollToRecyclerItem(recyclerId: Int, resIdForString: Int): ViewInteraction? {
+        return matchView(recyclerId)
+            .perform(
+                // scrollTo will fail the test if no item matches.
+                RecyclerViewActions.scrollTo<VH>(
+                    hasDescendant(withText(resIdForString))
+                )
+            )
+    }
+
+    fun <VH : ViewHolder> scrollToRecyclerItemByPosition(recyclerId: Int, position: Int): ViewInteraction? {
+        return matchView(recyclerId)
+            .perform(
+                // scrollTo will fail the test if no item matches.
+                RecyclerViewActions.scrollToPosition<VH>(position)
+            )
+    }
+
     fun <VH : ViewHolder> clickViewInRecycler(recyclerId: Int, text: String) {
-        scrollToRecyclerItem<VH>(recyclerId, text)?.perform(click())
+        matchView(recyclerId)
+            .perform(
+                // scrollTo will fail the test if no item matches.
+                RecyclerViewActions.actionOnItem<VH>(hasDescendant(withText(text)), click())
+            )
+    }
+
+    fun <VH : ViewHolder> clickViewInRecycler(recyclerId: Int, resIdForString: Int) {
+        matchView(recyclerId)
+            .perform(
+                // scrollTo will fail the test if no item matches.
+                RecyclerViewActions.actionOnItem<VH>(hasDescendant(withText(resIdForString)), click())
+            )
     }
 
     fun <VH : ViewHolder> clickSubViewInRecycler(recyclerId: Int, text: String, subView: Int) {

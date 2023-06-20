@@ -27,8 +27,15 @@ jobs:
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
-      # Checkout the code as the first step.
+      # Checkout the code and its submodule as the first step.
       - checkout
+      # config git user
+      - run:
+          name: Setup subtree for test data
+          command: |
+            git config --global user.email "$GIT_EMAIL"
+            git config --global user.name "$GIT_EMAIL"
+            git subtree add --prefix=driver_app_data https://github.com/hmalik144/driver_app_data main
       # Setup files for build.
       - run:
           name: Setup variables for build
@@ -50,7 +57,7 @@ jobs:
       - run:
           name: Start firebase emulator
           command: |
-            firebase emulators:start
+            firebase emulators:start --import=driver_app_data/export_directory
           background: true
       # Then start the emulator and run the Instrumentation tests!
       - android/start-emulator-and-run-tests:

@@ -12,6 +12,10 @@ import h_mal.appttude.com.driver.base.CustomViewHolder
 fun homeAdmin(func: HomeAdminRobot.() -> Unit) = HomeAdminRobot().apply { func() }
 class HomeAdminRobot : BaseTestRobot() {
 
+    fun waitUntilDisplayed() {
+        matchViewWaitFor(R.id.recycler_view)
+    }
+
     fun openDrawer() {
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open())
     }

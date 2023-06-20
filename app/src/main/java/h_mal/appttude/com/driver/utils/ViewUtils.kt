@@ -33,14 +33,6 @@ fun View.hide() {
     this.visibility = View.GONE
 }
 
-fun Context.displayToast(message: String) {
-    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-}
-
-fun Fragment.displayToast(message: String) {
-    requireContext().displayToast(message)
-}
-
 fun EditText.setEnterPressedListener(action: () -> Unit) {
     setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
         if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {

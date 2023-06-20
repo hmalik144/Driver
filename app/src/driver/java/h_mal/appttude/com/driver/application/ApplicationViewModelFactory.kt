@@ -11,8 +11,7 @@ import h_mal.appttude.com.driver.viewmodels.*
 class ApplicationViewModelFactory(
     private val auth: FirebaseAuthSource,
     private val database: FirebaseDatabaseSource,
-    private val storage: FirebaseStorageSource,
-    private val preferences: PreferenceProvider
+    private val storage: FirebaseStorageSource
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")

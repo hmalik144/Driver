@@ -105,10 +105,8 @@ class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuper
             override fun onDataChanged() {
                 super.onDataChanged()
                 applyBinding {
-                    // If there are no chat messages, show a view that invites the user to add a message.
-                    if (itemCount == 0) {
-                        emptyView.root.visibility = if (itemCount == 0) View.VISIBLE else View.GONE
-                    }
+                    // If there are no driver data, show a view that informs the admin.
+                    emptyView.root.visibility = if (itemCount == 0) View.VISIBLE else View.GONE
                     progressCircular.hide()
                 }
             }
@@ -124,7 +122,7 @@ class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuper
             }
 
             override fun connectionLost() {
-                requireContext().displayToast("No connection available")
+                showToast("No connection available")
             }
         }
     }
@@ -134,7 +132,7 @@ class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuper
             setTag(R.string.driver_identifier, "DriverIdentifierInput")
             setText(defaultNumber)
             setSelectAllOnFocus(true)
-            doOnTextChanged { _, _, count, _ -> if (count > 6) context.displayToast("Identifier cannot be larger than 6") }
+            doOnTextChanged { _, _, count, _ -> if (count > 6) showToast("Identifier cannot be larger than 6") }
         }
         val layout = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL

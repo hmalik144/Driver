@@ -20,7 +20,6 @@ import h_mal.appttude.com.driver.utils.PermissionsUtils
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
-import java.io.File
 
 abstract class BaseFragment<V : BaseViewModel, VB : ViewBinding> : Fragment(), KodeinAware {
 
@@ -42,7 +41,6 @@ abstract class BaseFragment<V : BaseViewModel, VB : ViewBinding> : Fragment(), K
     fun setImageSelectionAsMultiple() {
         multipleImage = true
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -169,4 +167,7 @@ abstract class BaseFragment<V : BaseViewModel, VB : ViewBinding> : Fragment(), K
             }
         }
     }
+
+    fun showToast(message: String) = (activity as BaseActivity<*, *>).showToast(message)
+    fun showSnackBar(message: String) = (activity as BaseActivity<*, *>).showSnackBar(message)
 }

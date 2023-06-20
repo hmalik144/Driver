@@ -23,68 +23,16 @@
         android:id="@+id/userMainFragment"
         android:name="h_mal.appttude.com.driver.ui.DriverOverviewFragment"
         android:label="fragment_user_main"
-        tools:layout="@layout/fragment_user_main" >
+        tools:layout="@layout/fragment_user_main">
+
         <action
-            android:id="@+id/to_driverLicenseFragment"
-            app:destination="@id/driverLicenseFragment" />
-        <action
-            android:id="@+id/to_driverProfileFragment"
-            app:destination="@id/driverProfileFragment" />
-        <action
-            android:id="@+id/to_privateHireLicenseFragment"
-            app:destination="@id/privateHireLicenseFragment" />
-        <action
-            android:id="@+id/to_insuranceFragment"
-            app:destination="@id/insuranceFragment" />
-        <action
-            android:id="@+id/to_logbookFragment"
-            app:destination="@id/logbookFragment" />
-        <action
-            android:id="@+id/to_motFragment"
-            app:destination="@id/motFragment" />
-        <action
-            android:id="@+id/to_privateHireVehicleFragment"
-            app:destination="@id/privateHireVehicleFragment" />
-        <action
-            android:id="@+id/to_vehicleProfileFragment"
-            app:destination="@id/vehicleProfileFragment" />
+            android:id="@+id/to_approverFragment"
+            app:destination="@id/approverFragment" />
     </fragment>
     <fragment
-        android:id="@+id/driverLicenseFragment"
-        android:name="h_mal.appttude.com.driver.ui.driverprofile.DriverLicenseFragment"
-        android:label="DriverLicenseFragment" />
-    <fragment
-        android:id="@+id/driverProfileFragment"
-        android:name="h_mal.appttude.com.driver.ui.driverprofile.DriverProfileFragment"
-        android:label="fragment_driver_profile"
-        tools:layout="@layout/fragment_driver_profile" />
-    <fragment
-        android:id="@+id/privateHireLicenseFragment"
-        android:name="h_mal.appttude.com.driver.ui.driverprofile.PrivateHireLicenseFragment"
-        android:label="fragment_private_hire_license"
-        tools:layout="@layout/fragment_private_hire_license" />
-    <fragment
-        android:id="@+id/insuranceFragment"
-        android:name="h_mal.appttude.com.driver.ui.vehicleprofile.InsuranceFragment"
-        android:label="InsuranceFragment" />
-    <fragment
-        android:id="@+id/logbookFragment"
-        android:name="h_mal.appttude.com.driver.ui.vehicleprofile.LogbookFragment"
-        android:label="fragment_logbook"
-        tools:layout="@layout/fragment_logbook" />
-    <fragment
-        android:id="@+id/motFragment"
-        android:name="h_mal.appttude.com.driver.ui.vehicleprofile.MotFragment"
-        android:label="MotFragment" />
-    <fragment
-        android:id="@+id/privateHireVehicleFragment"
-        android:name="h_mal.appttude.com.driver.ui.vehicleprofile.PrivateHireVehicleFragment"
-        android:label="fragment_private_hire_vehicle"
-        tools:layout="@layout/fragment_private_hire_vehicle" />
-    <fragment
-        android:id="@+id/vehicleProfileFragment"
-        android:name="h_mal.appttude.com.driver.ui.vehicleprofile.VehicleProfileFragment"
-        android:label="fragment_vehicle_setup"
-        tools:layout="@layout/fragment_vehicle_setup" />
+        android:id="@+id/approverFragment"
+        android:name="h_mal.appttude.com.driver.ui.ApproverFragment"
+        android:label="fragment_approver"
+        tools:layout="@layout/fragment_approver" />
 
 </navigation>
