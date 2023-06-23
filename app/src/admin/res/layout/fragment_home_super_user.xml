@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/container"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.HomeSuperUserFragment">
 
@@ -28,15 +29,14 @@
 
     <include
         android:id="@+id/empty_view"
-        layout="@layout/empty_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        layout="@layout/empty_users_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:visibility="gone"
         tools:visibility="visible"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

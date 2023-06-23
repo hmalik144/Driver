@@ -36,7 +36,7 @@ class FirebaseDatabaseSource {
         return data
     }
 
-    fun getDatabaseReferenceFromLink(link: String) = database.getReferenceFromUrl(link)
+    fun getDatabaseRefFromPath(path: String) = database.getReference(path)
 
     val users = database.getReference(USER_CONST)
 
@@ -46,6 +46,7 @@ class FirebaseDatabaseSource {
     fun getVehicleRef(uid: String) = getUserRef(uid).child(VEHICLE_PROFILE)
     fun getDriverRef(uid: String) = getUserRef(uid).child(DRIVER_PROFILE)
     fun getApprovalsRef(uid: String) = getUserRef(uid).child(APPROVALS)
+    fun getDocumentApprovalRef(uid: String, document: String) = getApprovalsRef(uid).child(document)
     fun getArchiveRef(uid: String) = getUserRef(uid).child(ARCHIVE)
     fun getUserRoleRef(uid: String) = getUserRef(uid).child(PROFILE_ROLE)
     fun getDriverNumberRef(uid: String) = getUserRef(uid).child(DRIVER_NUMBER)

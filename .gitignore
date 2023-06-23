@@ -9,6 +9,7 @@
 /.idea/navEditor.xml
 /.idea/misc.xml
 /.idea/assetWizardSettings.xml
+/.idea/shelf/
 .DS_Store
 /build
 /captures
@@ -19,3 +20,6 @@ local
 /.circleci/run_local.bash
 /Gemfile.lock
 /playstore.json
+
+database-debug.log
+firebase-debug.log

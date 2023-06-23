@@ -1,5 +1,6 @@
 package h_mal.appttude.com.driver.application
 
+import android.content.res.Resources
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import h_mal.appttude.com.driver.data.FirebaseAuthSource
@@ -12,7 +13,8 @@ class ApplicationViewModelFactory(
     private val auth: FirebaseAuthSource,
     private val database: FirebaseDatabaseSource,
     private val storage: FirebaseStorageSource,
-    private val preferences: PreferenceProvider
+    private val preferences: PreferenceProvider,
+    private val resources: Resources
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
@@ -57,6 +59,7 @@ class ApplicationViewModelFactory(
                     database,
                     preferences
                 )
+                isAssignableFrom(ApproverViewModel::class.java) -> ApproverViewModel(resources , database)
                 else -> throw IllegalArgumentException("Unknown ViewModel class")
             } as T
         }

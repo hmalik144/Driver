@@ -1,6 +1,12 @@
 package h_mal.appttude.com.driver.objects
 
-import h_mal.appttude.com.driver.model.*
+import h_mal.appttude.com.driver.model.DriversLicense
+import h_mal.appttude.com.driver.model.Insurance
+import h_mal.appttude.com.driver.model.Logbook
+import h_mal.appttude.com.driver.model.Mot
+import h_mal.appttude.com.driver.model.PrivateHireLicense
+import h_mal.appttude.com.driver.model.PrivateHireVehicle
+import h_mal.appttude.com.driver.model.VehicleProfile
 
 
 data class ArchiveObject(
