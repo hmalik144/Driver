@@ -1,6 +1,5 @@
 package h_mal.appttude.com.driver.ui
 
-import com.google.android.material.snackbar.Snackbar
 import h_mal.appttude.com.driver.base.BaseFragment
 import h_mal.appttude.com.driver.databinding.FragmentApproverBinding
 import h_mal.appttude.com.driver.model.ApprovalStatus

@@ -5,14 +5,19 @@ import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.*
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.IdlingResource
+import androidx.test.espresso.Root
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import h_mal.appttude.com.driver.base.BaseActivity
 import h_mal.appttude.com.driver.helpers.BaseViewAction
@@ -61,7 +66,7 @@ open class BaseUiTest<T : BaseActivity<*, *>>(
     fun waitFor(delay: Long) {
         onView(isRoot()).perform(object : ViewAction {
             override fun getConstraints(): Matcher<View> = isRoot()
-            override fun getDescription(): String? = "wait for $delay milliseconds"
+            override fun getDescription(): String = "wait for $delay milliseconds"
             override fun perform(uiController: UiController, v: View?) {
                 uiController.loopMainThreadForAtLeast(delay)
             }
@@ -71,6 +76,8 @@ open class BaseUiTest<T : BaseActivity<*, *>>(
     open fun beforeLaunch() {}
     open fun afterLaunch(context: Context) {}
 
+
+    @Suppress("DEPRECATION")
     fun checkToastMessage(message: String) {
         onView(withText(message)).inRoot(object : TypeSafeMatcher<Root>() {
             override fun describeTo(description: Description?) {
@@ -79,7 +86,7 @@ open class BaseUiTest<T : BaseActivity<*, *>>(
 
             override fun matchesSafely(root: Root): Boolean {
                 root.run {
-                    if (windowLayoutParams.get().type === WindowManager.LayoutParams.TYPE_TOAST) {
+                    if (windowLayoutParams.get().type == WindowManager.LayoutParams.TYPE_TOAST) {
                         decorView.run {
                             if (windowToken === applicationWindowToken) {
                                 // windowToken == appToken means this window isn't contained by any other windows.

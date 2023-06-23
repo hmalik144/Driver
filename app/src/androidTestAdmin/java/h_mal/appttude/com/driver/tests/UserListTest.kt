@@ -1,6 +1,7 @@
 package h_mal.appttude.com.driver.tests
 
 import h_mal.appttude.com.driver.ADMIN_EMAIL
+import h_mal.appttude.com.driver.DRIVER_EMAIL
 import h_mal.appttude.com.driver.FirebaseTest
 import h_mal.appttude.com.driver.robots.homeAdmin
 import h_mal.appttude.com.driver.robots.login
@@ -18,7 +19,17 @@ class UserListTest : FirebaseTest<LoginActivity>(LoginActivity::class.java) {
         homeAdmin {
             clickOnDriverIdentifier("rsaif660@gmail.com")
             submitDialog("ID45")
-            waitFor(5000)
+        }
+    }
+
+    @Test
+    fun loginAsUser_unableToSeeDrivers_loggedIn() {
+        login {
+            waitFor(1100)
+            attemptLogin(DRIVER_EMAIL)
+        }
+        homeAdmin {
+            showNoPermissionsDisplay()
         }
     }
 

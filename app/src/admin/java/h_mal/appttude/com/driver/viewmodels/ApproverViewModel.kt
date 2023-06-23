@@ -14,7 +14,11 @@ import h_mal.appttude.com.driver.objects.ApprovalsObject
 import h_mal.appttude.com.driver.ui.driverprofile.DriverLicenseFragment
 import h_mal.appttude.com.driver.ui.driverprofile.DriverProfileFragment
 import h_mal.appttude.com.driver.ui.driverprofile.PrivateHireLicenseFragment
-import h_mal.appttude.com.driver.ui.vehicleprofile.*
+import h_mal.appttude.com.driver.ui.vehicleprofile.InsuranceFragment
+import h_mal.appttude.com.driver.ui.vehicleprofile.LogbookFragment
+import h_mal.appttude.com.driver.ui.vehicleprofile.MotFragment
+import h_mal.appttude.com.driver.ui.vehicleprofile.PrivateHireVehicleFragment
+import h_mal.appttude.com.driver.ui.vehicleprofile.VehicleProfileFragment
 import h_mal.appttude.com.driver.utils.Coroutines.io
 import h_mal.appttude.com.driver.utils.FRAGMENT
 import h_mal.appttude.com.driver.utils.getDataFromDatabaseRef

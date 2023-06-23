@@ -19,6 +19,8 @@ import h_mal.appttude.com.driver.base.CustomViewHolder
 import h_mal.appttude.com.driver.data.USER_CONST
 import h_mal.appttude.com.driver.databinding.FragmentHomeSuperUserBinding
 import h_mal.appttude.com.driver.databinding.ListItemLayoutBinding
+import h_mal.appttude.com.driver.model.DatabaseStatus
+import h_mal.appttude.com.driver.model.DatabaseStatus.*
 import h_mal.appttude.com.driver.model.SortOption
 import h_mal.appttude.com.driver.objects.UserObject
 import h_mal.appttude.com.driver.objects.WholeDriverObject
@@ -27,7 +29,8 @@ import h_mal.appttude.com.driver.viewmodels.SuperUserViewModel
 import java.util.*
 
 
-class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuperUserBinding>(), MenuProvider {
+class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuperUserBinding>(),
+    MenuProvider {
     private lateinit var adapter: FirebaseRecyclerAdapter<WholeDriverObject, CustomViewHolder<ListItemLayoutBinding>>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,6 +43,17 @@ class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuper
         super.onSuccess(data)
         when (data) {
             is FirebaseRecyclerOptions<*> -> setAdapterToRecyclerView(data)
+        }
+    }
+    private fun setNonView(status: DatabaseStatus) {
+        applyBinding {
+            emptyView.run {
+                root.setOnClickListener(null)
+                root.visibility = View.VISIBLE
+                icon.setImageResource(status.drawable)
+                header.setText(status.header)
+                subtext.setText(status.subtext)
+            }
         }
     }
 
@@ -74,8 +88,8 @@ class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuper
     }
 
     private fun createAdapter(options: FirebaseRecyclerOptions<WholeDriverObject>): BaseFirebaseAdapter<WholeDriverObject, ListItemLayoutBinding> {
-        return object : BaseFirebaseAdapter<WholeDriverObject, ListItemLayoutBinding>(options, layoutInflater) {
-
+        return object :
+            BaseFirebaseAdapter<WholeDriverObject, ListItemLayoutBinding>(options, layoutInflater) {
             override fun onBindViewHolder(
                 holder: CustomViewHolder<ListItemLayoutBinding>,
                 position: Int,
@@ -87,7 +101,8 @@ class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuper
                     usernameText.text = userDetails?.profileName
                     emailaddressText.text = userDetails?.profileEmail
                     driverNo.run {
-                        val number = if (model.driver_number.isNullOrBlank()) "#N/A" else model.driver_number
+                        val number =
+                            if (model.driver_number.isNullOrBlank()) "#N/A" else model.driver_number
                         text = number
                         setOnClickListener {
                             getKeyAtPosition(position)?.let { showChangeNumberDialog(number!!, it) }
@@ -121,8 +136,24 @@ class HomeSuperUserFragment : BaseFragment<SuperUserViewModel, FragmentHomeSuper
                 applyBinding { progressCircular.hide() }
             }
 
-            override fun connectionLost() {
-                showToast("No connection available")
+            override fun authorizationError() {
+                setNonView(NO_AUTHORIZATION)
+            }
+
+            override fun cannotRetrieve() {
+                setNonView(CANNOT_RETRIEVE)
+            }
+
+            override fun noConnection() {
+                setNonView(NO_CONNECTION)
+            }
+
+            override fun permissionsDenied() {
+                setNonView(NO_PERMISSION)
+            }
+
+            override fun emptyList() {
+                setNonView(EMPTY_RESULTS)
             }
         }
     }

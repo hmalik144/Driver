@@ -7,7 +7,6 @@ import h_mal.appttude.com.driver.ui.MainActivity
 import kotlinx.coroutines.runBlocking
 
 open class AdminBaseTest: FirebaseTest<MainActivity>(MainActivity::class.java) {
-
     override fun beforeLaunch() {
         runBlocking {
             login(ADMIN_EMAIL, PASSWORD)

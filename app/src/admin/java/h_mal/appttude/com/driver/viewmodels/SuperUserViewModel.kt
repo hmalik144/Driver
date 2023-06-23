@@ -22,7 +22,7 @@ class SuperUserViewModel(
     }
 
     fun createFirebaseOptions(sort: SortOption? = null) {
-        val ref = firebaseDatabaseSource.getUsersRef()
+        val ref = firebaseDatabaseSource.getUsersRef().orderByChild("role").startAt("driver").endAt("driver")
 
         sort?.isNotNull { preferenceProvider.setSortOption(it.label) }
 
@@ -33,7 +33,7 @@ class SuperUserViewModel(
 //        }
 
         val options = FirebaseRecyclerOptions.Builder<WholeDriverObject>()
-            .setQuery(ref.orderByKey(), WholeDriverObject::class.java)
+            .setQuery(ref, WholeDriverObject::class.java)
             .build()
 
         onSuccess(options)
@@ -47,7 +47,7 @@ class SuperUserViewModel(
                     onError("No driver identifier provided")
                     return@doTryOperation
                 }
-                val text = if (input.length > 6) input.substring(0,7) else input
+                val text = if (input.length > 6) input.substring(0, 7) else input
 
                 firebaseDatabaseSource.run {
                     postToDatabaseRed(getDriverNumberRef(uid), text)

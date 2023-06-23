@@ -8,6 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withTagKey
 import h_mal.appttude.com.driver.BaseTestRobot
 import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.base.CustomViewHolder
+import h_mal.appttude.com.driver.model.DatabaseStatus
 
 fun homeAdmin(func: HomeAdminRobot.() -> Unit) = HomeAdminRobot().apply { func() }
 class HomeAdminRobot : BaseTestRobot() {
@@ -42,5 +43,10 @@ class HomeAdminRobot : BaseTestRobot() {
         )
         // Click OK
         onView(withId(android.R.id.button1)).perform(ViewActions.click())
+    }
+
+    fun showNoPermissionsDisplay() {
+        matchText(R.id.header, DatabaseStatus.NO_PERMISSION.header)
+        matchText(R.id.subtext, DatabaseStatus.NO_PERMISSION.subtext)
     }
 }

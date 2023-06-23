@@ -24,7 +24,11 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
+import androidx.test.espresso.matcher.ViewMatchers.withClassName
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import h_mal.appttude.com.driver.helpers.DataHelper
 import h_mal.appttude.com.driver.helpers.EspressoHelper.waitForView
 import org.hamcrest.CoreMatchers.allOf
@@ -33,6 +37,7 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import java.io.File
 
+@SuppressWarnings("unused")
 open class BaseTestRobot {
 
     fun fillEditText(resId: Int, text: String?): ViewInteraction =
@@ -50,6 +55,9 @@ open class BaseTestRobot {
 
     fun matchText(viewInteraction: ViewInteraction, text: String): ViewInteraction = viewInteraction
         .check(matches(withText(text)))
+
+    fun matchText(viewId: Int, textId: Int): ViewInteraction = onView(withId(viewId))
+        .check(matches(withText(textId)))
 
     fun matchText(resId: Int, text: String): ViewInteraction = matchText(matchView(resId), text)
 

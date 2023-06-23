@@ -105,4 +105,15 @@
     <string name="approve">Approve</string>
     <string name="deny">Deny</string>
     <string name="decline">Decline</string>
+    <string name="no_drivers_to_show">No drivers to show</string>
+    <string name="no_drivers_subtext">There are no drivers present for your organisation.</string>
+    <string name="no_permission">You do not have permissions to view</string>
+    <string name="no_permission_subtext">You are not a super user. Contact us to get super user access.</string>
+    <string name="cannot_retrieve">Cannot retrieve data.</string>
+    <string name="cannot_retrieve_subtext">Check you are logged in correctly and have a working connection.</string>
+    <string name="no_connection">No connection</string>
+    <string name="no_connection_subtext">Make you have a valid internet connection.</string>
+    <string name="no_authorization">Authentication has failed</string>
+    <string name="no_authorization_subtext">There is a problem with authentication.</string>
+    <string name="image_icon_for_feedback_view">Image icon for feedback view.</string>
 </resources>

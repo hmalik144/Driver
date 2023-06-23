@@ -8,15 +8,20 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.viewbinding.ViewBinding
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.database.DatabaseError
 import h_mal.appttude.com.driver.utils.GenericsHelper.getGenericClassAt
 import h_mal.appttude.com.driver.utils.GenericsHelper.inflateBindingByType
 import java.nio.ByteBuffer
 
 
-open class BaseFirebaseAdapter<T: Any, VB : ViewBinding>(options: FirebaseRecyclerOptions<T>, private val layoutInflater: LayoutInflater):
+open class BaseFirebaseAdapter<T : Any, VB : ViewBinding>(
+    options: FirebaseRecyclerOptions<T>,
+    private val layoutInflater: LayoutInflater
+) :
     FirebaseRecyclerAdapter<T, CustomViewHolder<VB>>(options) {
 
-    private val connectivityManager = layoutInflater.context.getSystemService(ConnectivityManager::class.java) as ConnectivityManager
+    private val connectivityManager =
+        layoutInflater.context.getSystemService(ConnectivityManager::class.java) as ConnectivityManager
 
     private var _binding: VB? = null
     val binding: VB
@@ -32,7 +37,7 @@ open class BaseFirebaseAdapter<T: Any, VB : ViewBinding>(options: FirebaseRecycl
         return CustomViewHolder(requireNotNull(_binding))
     }
 
-    override fun onBindViewHolder(holder: CustomViewHolder<VB>, position: Int, model: T) { }
+    override fun onBindViewHolder(holder: CustomViewHolder<VB>, position: Int, model: T) {}
 
     override fun getItemId(position: Int): Long {
         return snapshots.getSnapshot(position).key?.toByteArray()
@@ -50,6 +55,26 @@ open class BaseFirebaseAdapter<T: Any, VB : ViewBinding>(options: FirebaseRecycl
     }
 
     open fun connectionLost() {}
+    override fun onDataChanged() {
+        super.onDataChanged()
+        if (itemCount == 0) emptyList()
+    }
+    override fun onError(error: DatabaseError) {
+        super.onError(error)
+        when (error.code) {
+            DatabaseError.PERMISSION_DENIED -> permissionsDenied()
+            DatabaseError.DISCONNECTED, DatabaseError.UNAVAILABLE, DatabaseError.NETWORK_ERROR -> noConnection()
+            DatabaseError.EXPIRED_TOKEN, DatabaseError.OPERATION_FAILED, DatabaseError.INVALID_TOKEN, DatabaseError.MAX_RETRIES -> authorizationError()
+            else -> cannotRetrieve()
+        }
+
+    }
+
+    open fun permissionsDenied() {}
+    open fun noConnection() {}
+    open fun cannotRetrieve() {}
+    open fun authorizationError() {}
+    open fun emptyList() {}
 }
 
-class CustomViewHolder<VB : ViewBinding>(val viewBinding: VB): ViewHolder(viewBinding.root)
+class CustomViewHolder<VB : ViewBinding>(val viewBinding: VB) : ViewHolder(viewBinding.root)
