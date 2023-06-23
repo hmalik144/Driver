@@ -3,6 +3,7 @@ package h_mal.appttude.com.driver
 import android.R
 import android.app.Activity
 import android.content.Context
+import android.os.Build
 import android.view.View
 import android.view.WindowManager
 import androidx.annotation.StringRes
@@ -100,6 +101,9 @@ open class BaseUiTest<T : BaseActivity<*, *>>(
             }
         }
         ).check(matches(isDisplayed()))
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            waitFor(3500)
+        }
     }
 
     fun checkSnackBarDisplayedByMessage(message: String) {
