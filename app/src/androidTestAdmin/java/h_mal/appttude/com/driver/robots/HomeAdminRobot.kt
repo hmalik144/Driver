@@ -46,6 +46,7 @@ class HomeAdminRobot : BaseTestRobot() {
     }
 
     fun showNoPermissionsDisplay() {
+        matchViewWaitFor(R.id.header)
         matchText(R.id.header, DatabaseStatus.NO_PERMISSION.header)
         matchText(R.id.subtext, DatabaseStatus.NO_PERMISSION.subtext)
     }

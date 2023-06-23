@@ -7,6 +7,7 @@ import h_mal.appttude.com.driver.robots.homeAdmin
 import h_mal.appttude.com.driver.robots.login
 import h_mal.appttude.com.driver.ui.user.LoginActivity
 import org.junit.Test
+import java.io.IOException
 
 class UserListTest : FirebaseTest<LoginActivity>(LoginActivity::class.java) {
 
@@ -30,6 +31,7 @@ class UserListTest : FirebaseTest<LoginActivity>(LoginActivity::class.java) {
         }
         homeAdmin {
             showNoPermissionsDisplay()
+            throw IOException("sadfasdfasdf")
         }
     }
 
