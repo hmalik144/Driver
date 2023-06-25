@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.View.OnAttachStateChangeListener
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.inflate
@@ -160,6 +161,8 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
                     mIdlingResource?.setIdleState(false)
                 }
             })
+        } else {
+
         }
         toast.show()
     }
