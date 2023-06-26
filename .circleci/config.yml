@@ -65,6 +65,9 @@ jobs:
           test-command: ./gradlew connected<< parameters.flavour >>DebugAndroidTest
           system-image: system-images;android-25;google_apis;x86
           max-tries: 1
+          pull-data: true
+          pull-data-path: storage/emulated/0/Android/data/h_mal.appttude.com.driver.admin/files/screengrab/en-US/images/screenshots
+          pull-data-target: "."
       # store test reports
       - store_artifacts:
           path: app/build/reports/androidTests/connected

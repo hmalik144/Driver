@@ -16,10 +16,13 @@
 .externalNativeBuild
 *.log
 local
+# Circleci
 /.circleci/local_config.yml
 /.circleci/run_local.bash
+# Gem/fastlane
 /Gemfile.lock
 /playstore.json
-
+/fastlane/report.xml
+# Firebase emulator
 database-debug.log
 firebase-debug.log

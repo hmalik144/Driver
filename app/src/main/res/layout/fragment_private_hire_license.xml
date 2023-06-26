@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:maxWidth="350dp"
         android:layout_marginBottom="12dp"
         app:cardCornerRadius="28dp"
         app:cardElevation="0dp"
@@ -18,11 +19,11 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="200dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            tools:src="@drawable/choice_img_round"
+            tools:src="@drawable/driver_license_private_hire"
             android:contentDescription="@string/image_description" />
     </androidx.cardview.widget.CardView>
 
@@ -33,7 +34,8 @@
         android:text="@string/upload_private_hire_photo"
         app:layout_constraintBottom_toTopOf="@id/til_submission"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        tools:visibility="gone"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_submission"
@@ -48,7 +50,8 @@
             style="@style/EditTextStyle"
             android:hint="@string/private_hire_license_no"
             android:importantForAutofill="no"
-            tools:ignore="TextFields" />
+            tools:ignore="TextFields"
+            tools:text="987651"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,7 +66,8 @@
             android:id="@+id/ph_expiry"
             style="@style/EditTextStyle.Date"
             android:hint="@string/private_hire_license_expiry"
-            android:autofillHints="date" />
+            android:autofillHints="date"
+            tools:text="30/12/2018"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -76,6 +80,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_submission"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8" />
+        app:layout_constraintVertical_bias="0.8"
+        tools:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

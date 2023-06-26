@@ -1,27 +1,23 @@
 package h_mal.appttude.com.driver.helpers
 
-import android.app.Activity
 import android.content.Context
 import android.view.View
 import androidx.test.espresso.FailureHandler
 import androidx.test.espresso.base.DefaultFailureHandler
-import com.squareup.spoon.Spoon
 import org.hamcrest.Matcher
+import tools.fastlane.screengrab.Screengrab
 
 
-class SpoonFailureHandler(targetContext: Context) : FailureHandler {
+class CustomFailureHandler(targetContext: Context) : FailureHandler {
     private val delegate: FailureHandler
-    private val context: Context
 
     init {
         delegate = DefaultFailureHandler(targetContext)
-        context = targetContext
     }
 
-    override fun handle(error: Throwable?, viewMatcher: Matcher<View?>?) {
+    override fun handle(error: Throwable, viewMatcher: Matcher<View>) {
         delegate.handle(error, viewMatcher)
-        if (context is Activity) {
-            Spoon.screenshot(context, "error")
-        }
+        // Catch a screenshot on failure
+        Screengrab.screenshot("error")
     }
 }
