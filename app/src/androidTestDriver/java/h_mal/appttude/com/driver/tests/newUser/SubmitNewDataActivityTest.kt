@@ -18,10 +18,6 @@ import org.junit.runner.RunWith
 class SubmitNewDataActivityTest :
     FirebaseTest<MainActivity>(MainActivity::class.java, registered = true, signedIn = true) {
 
-    @get:Rule
-    var permissionRule =
-        GrantPermissionRule.grant(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-
     @Test
     fun verifyUserRegistration_validUsernameAndPassword_loggedIn() {
         home {
@@ -35,9 +31,7 @@ class SubmitNewDataActivityTest :
         }
         driversLicense {
             submitForm("SAMPLE8456310LTU", 2022, 10, 2)
-
         }
-
     }
 
 }

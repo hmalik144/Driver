@@ -17,6 +17,7 @@ class DocumentApproverTest : AdminBaseTest() {
         }
         // Approve check
         driverOverview {
+            waitForListViewToDisplay()
             clickOnItemAtPosition(0)
         }
         approver {
@@ -25,6 +26,7 @@ class DocumentApproverTest : AdminBaseTest() {
             Espresso.pressBack()
         }
         driverOverview {
+            waitForListViewToDisplay()
             clickOnItemAtPosition(2)
         }
         approver {
@@ -32,11 +34,21 @@ class DocumentApproverTest : AdminBaseTest() {
             Espresso.pressBack()
         }
         driverOverview {
+            waitForListViewToDisplay()
             matchView(2, getResourceString(R.string.approved))
+        }
+    }
+
+    @Test
+    fun loginAsAdmin_declineDocumentForDriver_documentDeclined() {
+        homeAdmin {
+            waitUntilDisplayed()
+            clickOnItem("kabirmhkhan@gmail.com")
         }
 
         // Decline check
         driverOverview {
+            waitForListViewToDisplay()
             clickOnItemAtPosition(3)
         }
         approver {
@@ -45,6 +57,7 @@ class DocumentApproverTest : AdminBaseTest() {
             Espresso.pressBack()
         }
         driverOverview {
+            waitForListViewToDisplay()
             clickOnItemAtPosition(1)
         }
         approver {
@@ -52,6 +65,7 @@ class DocumentApproverTest : AdminBaseTest() {
             Espresso.pressBack()
         }
         driverOverview {
+            waitForListViewToDisplay()
             matchView(1, getResourceString(R.string.denied))
         }
     }
@@ -63,6 +77,7 @@ class DocumentApproverTest : AdminBaseTest() {
             clickOnItem("fanasid@gmail.com")
         }
         driverOverview {
+            waitForListViewToDisplay()
             matchView(0, getResourceString(R.string.not_submitted))
             clickOnItemAtPosition(0)
             matchView(0, getResourceString(R.string.not_submitted))

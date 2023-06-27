@@ -14,7 +14,6 @@ class UserListTest : FirebaseTest<LoginActivity>(LoginActivity::class.java) {
     @Test
     fun loginAsAdmin_updateDriverIdentifier_loggedIn() {
         login {
-            waitFor(1100)
             attemptLogin(ADMIN_EMAIL)
         }
         homeAdmin {
@@ -26,12 +25,10 @@ class UserListTest : FirebaseTest<LoginActivity>(LoginActivity::class.java) {
     @Test
     fun loginAsUser_unableToSeeDrivers_loggedIn() {
         login {
-            waitFor(1100)
             attemptLogin(DRIVER_EMAIL)
         }
         homeAdmin {
             showNoPermissionsDisplay()
-            throw IOException("sadfasdfasdf")
         }
     }
 
