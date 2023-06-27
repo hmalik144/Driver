@@ -62,19 +62,23 @@ jobs:
       # Then start the emulator and run the Instrumentation tests!
       - android/start-emulator-and-run-tests:
           post-emulator-launch-assemble-command: ./gradlew assemble<< parameters.flavour >>DebugAndroidTest
-          pull-data: true
-          pull-data-path: /storage
           test-command: ./gradlew connected<< parameters.flavour >>DebugAndroidTest
           system-image: system-images;android-25;google_apis;x86
-          run-logcat: true
           max-tries: 1
+          kill-emulators: false
+      - run:
+          name: Pull screenshots from device
+          command: |
+            mkdir ~/screenshots
+            adb pull /storage/emulated/0/Android/data/h_mal.appttude.com.driver.admin/files/screengrab/en-US/images/screenshots ~/screenshots
+          when: on_fail
       # store test reports
       - store_artifacts:
           path: app/build/reports/androidTests/connected
           destination: reports
       # store screenshots for failed ui tests
       - store_artifacts:
-          path: storage
+          path: ~/screenshots
           destination: screenshots
       # Then publish the artifacts of the Firebase emulator logs!
       - run:
