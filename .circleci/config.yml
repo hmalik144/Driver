@@ -78,7 +78,7 @@ jobs:
           destination: reports
       # store screenshots for failed ui tests
       - store_artifacts:
-          path: screenshots
+          path: ~/screenshots
           destination: screenshots
       # Then publish the artifacts of the Firebase emulator logs!
       - run:
