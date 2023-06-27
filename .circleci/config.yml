@@ -71,6 +71,10 @@ jobs:
       - store_artifacts:
           path: app/build/reports/androidTests/connected
           destination: reports
+      # store screenshots for failed ui tests
+      - store_artifacts:
+          path: screenshots
+          destination: screenshots
       # Then publish the artifacts of the Firebase emulator logs!
       - run:
           name: save firebase emulator logs
