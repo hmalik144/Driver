@@ -1,5 +1,6 @@
 package h_mal.appttude.com.driver
 
+import android.Manifest
 import android.R
 import android.app.Activity
 import android.content.Context
@@ -8,20 +9,15 @@ import android.view.View
 import android.view.WindowManager
 import androidx.annotation.StringRes
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.*
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.IdlingResource
-import androidx.test.espresso.Root
-import androidx.test.espresso.UiController
-import androidx.test.espresso.ViewAction
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.isRoot
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import androidx.test.rule.GrantPermissionRule
 import h_mal.appttude.com.driver.base.BaseActivity
 import h_mal.appttude.com.driver.helpers.BaseViewAction
+import h_mal.appttude.com.driver.helpers.SnapshotRule
 import org.hamcrest.CoreMatchers
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -29,6 +25,11 @@ import org.hamcrest.TypeSafeMatcher
 import org.hamcrest.core.AllOf
 import org.junit.After
 import org.junit.Before
+import org.junit.ClassRule
+import org.junit.Rule
+import tools.fastlane.screengrab.Screengrab
+import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy
+import tools.fastlane.screengrab.locale.LocaleTestRule
 
 
 open class BaseUiTest<T : BaseActivity<*, *>>(
@@ -40,8 +41,19 @@ open class BaseUiTest<T : BaseActivity<*, *>>(
 
     private lateinit var currentActivity: Activity
 
+    @get:Rule
+    var permissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+    @get:Rule
+    var snapshotRule: SnapshotRule = SnapshotRule()
+
+    @Rule
+    @JvmField
+    var localeTestRule = LocaleTestRule()
+
     @Before
     fun setup() {
+        Screengrab.setDefaultScreenshotStrategy(UiAutomatorScreenshotStrategy())
         beforeLaunch()
         mActivityScenarioRule = ActivityScenario.launch(activity)
         mActivityScenarioRule.onActivity {

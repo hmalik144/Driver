@@ -7,7 +7,7 @@ version: 2.1
 # Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
 # See: https://circleci.com/docs/2.0/orb-intro/
 orbs:
-  android: circleci/android@1.0.3
+  android: circleci/android@2.3.0
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
@@ -23,7 +23,7 @@ jobs:
     # See: https://circleci.com/docs/2.0/executor-types/
     executor:
       name: android/android-machine
-
+      tag: 2023.05.1
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
@@ -65,10 +65,21 @@ jobs:
           test-command: ./gradlew connected<< parameters.flavour >>DebugAndroidTest
           system-image: system-images;android-25;google_apis;x86
           max-tries: 1
+          kill-emulators: false
+      - run:
+          name: Pull screenshots from device
+          command: |
+            mkdir ~/screenshots
+            adb pull /storage/emulated/0/Android/data/h_mal.appttude.com.driver.admin/files/screengrab/en-US/images/screenshots ~/screenshots
+          when: on_fail
       # store test reports
       - store_artifacts:
           path: app/build/reports/androidTests/connected
           destination: reports
+      # store screenshots for failed ui tests
+      - store_artifacts:
+          path: ~/screenshots
+          destination: screenshots
       # Then publish the artifacts of the Firebase emulator logs!
       - run:
           name: save firebase emulator logs
@@ -90,6 +101,7 @@ jobs:
         default: "Driver"
     executor:
       name: android/android-machine
+      tag: 2023.05.1
     steps:
       - run:
           name: Setup variables for release

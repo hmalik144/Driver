@@ -20,13 +20,12 @@ class DriverOverviewFragment : BaseFragment<DriverOverviewViewModel, FragmentUse
 
     override fun setupView(binding: FragmentUserMainBinding) {
         listView = binding.approvalsList
+        loadList()
     }
 
     override fun onResume() {
         super.onResume()
-        driverId = requireArguments().getString(USER_CONST)
-            ?: throw IOException("No user ID has been passed")
-        viewModel.loadDriverApprovals(driverId)
+        loadList()
     }
 
     override fun onSuccess(data: Any?) {
@@ -45,5 +44,11 @@ class DriverOverviewFragment : BaseFragment<DriverOverviewViewModel, FragmentUse
                 (listView.adapter as ApprovalListAdapter).updateAdapter(listData)
             }
         }
+    }
+
+    private fun loadList() {
+        driverId = requireArguments().getString(USER_CONST)
+            ?: throw IOException("No user ID has been passed")
+        viewModel.loadDriverApprovals(driverId)
     }
 }
