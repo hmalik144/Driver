@@ -23,7 +23,7 @@
             android:layout_height="200dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            tools:src="@drawable/driver_license_private_hire"
+            tools:src="@drawable/choice_img"
             android:contentDescription="@string/image_description" />
     </androidx.cardview.widget.CardView>
 
@@ -34,8 +34,7 @@
         android:text="@string/upload_private_hire_photo"
         app:layout_constraintBottom_toTopOf="@id/til_submission"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:visibility="gone"/>
+        app:layout_constraintRight_toRightOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_submission"
@@ -80,7 +79,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_submission"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8"
-        tools:visibility="gone"/>
+        app:layout_constraintVertical_bias="0.8"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

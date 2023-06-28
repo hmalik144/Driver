@@ -116,4 +116,5 @@
     <string name="no_authorization">Authentication has failed</string>
     <string name="no_authorization_subtext">There is a problem with authentication.</string>
     <string name="image_icon_for_feedback_view">Image icon for feedback view.</string>
+    <string name="user_status">user status</string>
 </resources>
