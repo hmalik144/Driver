@@ -43,6 +43,8 @@ class DocumentApproverTest : AdminBaseTest() {
     fun loginAsAdmin_declineDocumentForDriver_documentDeclined() {
         homeAdmin {
             waitUntilDisplayed()
+            // TODO: find a better way to waitw
+            waitFor(1200)
             clickOnItem("kabirmhkhan@gmail.com")
         }
 
