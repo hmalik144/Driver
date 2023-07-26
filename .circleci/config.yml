@@ -14,6 +14,12 @@ commands:
     description: checkout repo and android dependencies
     steps:
       - checkout
+      - run:
+          name: Setup subtree for test data
+          command: |
+            git config --global user.email "$GIT_EMAIL"
+            git config --global user.name "$GIT_EMAIL"
+            git subtree add --prefix=driver_app_data https://github.com/hmalik144/driver_app_data main
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
@@ -26,13 +32,7 @@ commands:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      # config git user
-      - run:
-          name: Setup subtree for test data
-          command: |
-            git config --global user.email "$GIT_EMAIL"
-            git config --global user.name "$GIT_EMAIL"
-            git subtree add --prefix=driver_app_data https://github.com/hmalik144/driver_app_data main
+
       # Setup files for build.
       - run:
           name: Setup variables for build
