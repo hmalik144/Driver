@@ -70,7 +70,7 @@ commands:
       - run:
           name: Install firebase tools
           command: |
-            npm install firebase-tools
+            sudo npm install -g firebase-tools
       # Save cache for firebase tools
       - save_cache:
           paths:
@@ -81,7 +81,7 @@ commands:
       - run:
           name: Start firebase emulator
           command: |
-            ./firebase-cli/node_modules/.bin/firebase emulators:start --import=driver_app_data/export_directory
+            firebase emulators:start --import=driver_app_data/export_directory
           background: true
       # Then start the emulator and run the Instrumentation tests!
       - android/start-emulator-and-run-tests:
