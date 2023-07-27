@@ -63,7 +63,6 @@ commands:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
       # Install Firebase tools needed for firebase emulator
@@ -76,7 +75,7 @@ commands:
           paths:
             - node_modules
             - ~/.cache/firebase/emulators/
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ epoch }}
       # Then start firebase emulator in the background
       - run:
           name: Start firebase emulator
