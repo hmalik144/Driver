@@ -128,9 +128,8 @@ jobs:
         default: "Driver"
     # These next lines define the Android machine image executor.
     # See: https://circleci.com/docs/2.0/executor-types/
-    executor:
-      name: android/android-machine
-      tag: 2023.05-node
+    docker:
+      - image: cimg/android:2023.07-node
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
