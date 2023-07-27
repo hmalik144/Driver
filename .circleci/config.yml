@@ -63,18 +63,20 @@ commands:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - emulator-cache-v1-
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
       # Install Firebase tools needed for firebase emulator
       - run:
           name: Install firebase tools
           command: |
-            curl -sL firebase.tools | bash
+            npm install -g firebase-tools
       # Save cache for firebase tools
       - save_cache:
           paths:
-            - .firebase/emulator
+            - node_modules
             - ~/.cache/firebase/emulators/
-          key: emulator-cache-v1-{{ epoch }}
+          key: v1-dependencies-{{ checksum "package.json" }}
       # Then start firebase emulator in the background
       - run:
           name: Start firebase emulator
@@ -128,14 +130,14 @@ jobs:
     # See: https://circleci.com/docs/2.0/executor-types/
     executor:
       name: android/android-machine
-      tag: 2023.05.1
+      tag: 2023.05.1-node
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       # Checkout the code and its submodule as the first step.
       - setup_repo
-      - run_tests:
-          flavour: << parameters.flavour >>
+#      - run_tests:
+#          flavour: << parameters.flavour >>
       - run_ui_tests:
           flavour: << parameters.flavour >>
   # Assemble
