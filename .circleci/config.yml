@@ -64,6 +64,10 @@ commands:
         type: string
         default: "AtlasWeather"
     steps:
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - emulator-cache-v1-
       # Install Firebase tools needed for firebase emulator
       - run:
           name: Install firebase tools
@@ -82,6 +86,7 @@ commands:
           system-image: system-images;android-25;google_apis;x86
           pull-data: true
           pull-data-target: data
+          restore-gradle-cache-prefix: v2
       # store test reports
       - store_artifacts:
           path: app/build/reports/androidTests/connected
@@ -96,6 +101,12 @@ commands:
           command: |
             mkdir -p tmp/firebase_logs
             cp *.log tmp/firebase_logs
+      # Save cache for firebase tools
+      - save_cache:
+          paths:
+            - .firebase/emulator
+            - ~/.cache/firebase/emulators/
+          key: emulator-cache-v1-{{ epoch }}
       - store_artifacts:
           path: tmp/firebase_logs
           destination: logs
