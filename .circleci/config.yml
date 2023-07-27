@@ -70,7 +70,7 @@ commands:
       - run:
           name: Install firebase tools
           command: |
-            npm install -g firebase-tools
+            npm install firebase-tools
       # Save cache for firebase tools
       - save_cache:
           paths:
