@@ -45,8 +45,8 @@ commands:
         type: string
         default: "Driver"
     steps:
-      - android/restore-gradle-cache
-      - android/restore-build-cache
+#      - android/restore-gradle-cache
+#      - android/restore-build-cache
       # The next step will run the unit tests
       - run:
           name: Run non-instrumentation unit tests
@@ -64,21 +64,11 @@ commands:
         type: string
         default: "AtlasWeather"
     steps:
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - emulator-cache-v1-
       # Install Firebase tools needed for firebase emulator
       - run:
           name: Install firebase tools
           command: |
             curl -sL firebase.tools | bash
-      # Save cache for firebase tools
-      - save_cache:
-          paths:
-            - .firebase/emulator
-            - ~/.cache/firebase/emulators/
-          key: emulator-cache-v1-{{ epoch }}
       # Then start firebase emulator in the background
       - run:
           name: Start firebase emulator
