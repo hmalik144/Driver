@@ -46,8 +46,10 @@ jobs:
           command: |
             chmod +x gradlew
       # The next step will run the unit tests
-      - android/run-tests:
-          test-command: ./gradlew test<< parameters.flavour >>DebugUnitTest --continue
+      - run:
+          name: Run non-instrumentation unit tests
+          command: |
+            ./gradlew test<< parameters.flavour >>DebugUnitTest --continue
       # Install Firebase tools needed for firebase emulator
       - run:
           name: Install firebase tools
