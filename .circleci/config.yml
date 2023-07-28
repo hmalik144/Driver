@@ -72,6 +72,7 @@ commands:
           test-command: ./gradlew connected<< parameters.flavour >>DebugAndroidTest
           system-image: system-images;android-25;google_apis;x86
           pull-data: true
+          pull-data-path: /storage/emulated/0/Android/data/
           pull-data-target: ~/app-data
           pre-emulator-wait-steps:
             # Start firebase emulator in the background while waiting to start testing
