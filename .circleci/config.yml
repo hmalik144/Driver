@@ -20,19 +20,13 @@ commands:
             git config --global user.email "$GIT_EMAIL"
             git config --global user.name "$GIT_EMAIL"
             git subtree add --prefix=driver_app_data https://github.com/hmalik144/driver_app_data main
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - android/restore-gradle-cache
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-
       # Setup files for build.
       - run:
           name: Setup variables for build
@@ -45,7 +39,6 @@ commands:
         type: string
         default: "Driver"
     steps:
-#      - android/restore-gradle-cache
 #      - android/restore-build-cache
       # The next step will run the unit tests
       - run:
