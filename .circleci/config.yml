@@ -73,12 +73,6 @@ commands:
           name: Install firebase tools
           command: |
             curl -sL firebase.tools | bash
-      # Then start firebase emulator in the background
-      - run:
-          name: Start firebase emulator and run tests
-          command: |
-            firebase emulators:start --import=driver_app_data/export_directory
-          background: true
       # Then start the emulator and run the Instrumentation tests!
       - android/start-emulator-and-run-tests:
           post-emulator-launch-assemble-command: ./gradlew assemble<< parameters.flavour >>DebugAndroidTest
@@ -87,6 +81,19 @@ commands:
           pull-data: true
           pull-data-target: data
           restore-gradle-cache-prefix: v2
+          pre-emulator-wait-steps:
+            # Start firebase emulator in the background while waiting to start testing
+            - run:
+                name: Start firebase emulator and while avd starts
+                command: |
+                  firebase emulators:start --import=driver_app_data/export_directory
+                background: true
+          post-run-tests-steps:
+            # Save cache for firebase tools
+            - save_cache:
+                paths:
+                  - ~/.cache/firebase/emulators/
+                key: emulator-cache-v1-{{ epoch }}
       # store test reports
       - store_artifacts:
           path: app/build/reports/androidTests/connected
@@ -101,11 +108,6 @@ commands:
           command: |
             mkdir -p tmp/firebase_logs
             cp *.log tmp/firebase_logs
-      # Save cache for firebase tools
-      - save_cache:
-          paths:
-            - ~/.cache/firebase/emulators/
-          key: emulator-cache-v1-{{ epoch }}
       - store_artifacts:
           path: tmp/firebase_logs
           destination: logs
