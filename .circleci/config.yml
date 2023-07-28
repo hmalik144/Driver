@@ -79,8 +79,7 @@ commands:
           test-command: ./gradlew connected<< parameters.flavour >>DebugAndroidTest
           system-image: system-images;android-25;google_apis;x86
           pull-data: true
-          pull-data-target: data
-          restore-gradle-cache-prefix: v2
+          pull-data-target: ~/app-data
           pre-emulator-wait-steps:
             # Start firebase emulator in the background while waiting to start testing
             - run:
@@ -100,7 +99,7 @@ commands:
           destination: reports
       # store screenshots for failed ui tests
       - store_artifacts:
-          path: data
+          path: ~/app-data
           destination: data
       # Then publish the artifacts of the Firebase emulator logs!
       - run:
