@@ -45,8 +45,6 @@ commands:
         type: string
         default: "Driver"
     steps:
-#      - android/restore-gradle-cache
-#      - android/restore-build-cache
       # The next step will run the unit tests
       - run:
           name: Run non-instrumentation unit tests
@@ -75,18 +73,9 @@ commands:
             curl -sL firebase.tools | bash
       # Then start firebase emulator in the background
       - run:
-          name: Start firebase emulator
+          name: Start firebase emulator and run tests
           command: |
-            firebase emulators:start --import=driver_app_data/export_directory
-          background: true
-      # Then start the emulator and run the Instrumentation tests!
-      - android/start-emulator-and-run-tests:
-          post-emulator-launch-assemble-command: ./gradlew assemble<< parameters.flavour >>DebugAndroidTest
-          test-command: ./gradlew connected<< parameters.flavour >>DebugAndroidTest
-          system-image: system-images;android-25;google_apis;x86
-          pull-data: true
-          pull-data-target: data
-          restore-gradle-cache-prefix: v2
+            firebase emulators:exec 'start-avd-and-test' --import=driver_app_data/export_directory
       # store test reports
       - store_artifacts:
           path: app/build/reports/androidTests/connected
@@ -113,6 +102,16 @@ commands:
       # Then publish the results of the Instrumentation tests!
       - store_test_results:
           path: app/build/outputs/androidTest-results/connected
+  start-avd-and-test:
+    steps:
+      # Then start the emulator and run the Instrumentation tests!
+      - android/start-emulator-and-run-tests:
+          post-emulator-launch-assemble-command: ./gradlew assemble<< parameters.flavour >>DebugAndroidTest
+          test-command: ./gradlew connected<< parameters.flavour >>DebugAndroidTest
+          system-image: system-images;android-25;google_apis;x86
+          pull-data: true
+          pull-data-target: data
+          restore-gradle-cache-prefix: v2
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
