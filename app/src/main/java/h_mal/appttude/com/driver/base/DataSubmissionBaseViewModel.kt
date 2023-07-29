@@ -15,6 +15,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import java.io.IOException
 
+
 abstract class DataSubmissionBaseViewModel<T : Any>(
     auth: FirebaseAuthentication,
     private val database: FirebaseDatabaseSource,
@@ -32,7 +33,7 @@ abstract class DataSubmissionBaseViewModel<T : Any>(
     open fun setDataInDatabase(data: T, localImageUris: List<Uri?>?): Job = Job()
     open fun setDataInDatabase(data: T) {}
 
-    inline fun <reified T : Any> getDataClass() = io {
+    inline fun <reified T : Any> retrieveDataFromDatabase() = io {
         doTryOperation("Failed to retrieve $objectName") {
             val data = databaseRef.getDataFromDatabaseRef<T>()
             onSuccess(data ?: FirebaseCompletion.Default)

@@ -1,29 +1,36 @@
 package h_mal.appttude.com.driver.base
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnAttachStateChangeListener
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.inflate
+import android.widget.Toast
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelLazy
 import androidx.test.espresso.IdlingResource
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.snackbar.BaseTransientBottomBar.BaseCallback
+import com.google.android.material.snackbar.Snackbar
 import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.application.ApplicationViewModelFactory
 import h_mal.appttude.com.driver.data.ViewState
-import h_mal.appttude.com.driver.utils.*
+import h_mal.appttude.com.driver.utils.BasicIdlingResource
+import h_mal.appttude.com.driver.utils.GenericsHelper.getGenericClassAt
+import h_mal.appttude.com.driver.utils.GenericsHelper.inflateBindingByType
+import h_mal.appttude.com.driver.utils.hide
+import h_mal.appttude.com.driver.utils.show
+import h_mal.appttude.com.driver.utils.triggerAnimation
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
-import java.lang.reflect.ParameterizedType
-import kotlin.reflect.KClass
 
-
-abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActivity(), KodeinAware {
+abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActivity(),
+    KodeinAware {
     // The Idling Resource which will be null in production.
     private var mIdlingResource: BasicIdlingResource? = null
     private lateinit var loadingView: View
@@ -47,34 +54,10 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
         { defaultViewModelCreationExtras }
     )
 
-    @Suppress("UNCHECKED_CAST")
-    fun <CLASS : Any> Any.getGenericClassAt(position: Int): KClass<CLASS> =
-        ((javaClass.genericSuperclass as? ParameterizedType)
-            ?.actualTypeArguments?.getOrNull(position) as? Class<CLASS>)
-            ?.kotlin
-            ?: throw IllegalStateException("Can not find class from generic argument")
-
-    /**
-     * Create a view binding out of the the generic [VB]
-     */
-    private fun inflateBindingByType(
-        genericClassAt: KClass<VB>
-    ): VB = try {
-        @Suppress("UNCHECKED_CAST")
-        genericClassAt.java.methods.first { viewBinding ->
-            viewBinding.parameterTypes.size == 1
-                    && viewBinding.parameterTypes.getOrNull(0) == LayoutInflater::class.java
-        }.invoke(null, layoutInflater) as VB
-    } catch (exception: Exception) {
-        throw IllegalStateException("Can not inflate binding from generic")
-    }
-
-    private var loading: Boolean = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         configureObserver()
-        _binding = inflateBindingByType(getGenericClassAt(1))
+        _binding = inflateBindingByType(getGenericClassAt(1), layoutInflater)
         setContentView(requireNotNull(_binding).root)
         setupView(binding)
     }
@@ -119,7 +102,6 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
      */
     open fun onStarted() {
         loadingView.fadeIn()
-        loading = true
         mIdlingResource?.setIdleState(false)
     }
 
@@ -128,7 +110,6 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
      */
     open fun onSuccess(data: Any?) {
         loadingView.fadeOut()
-        loading = false
         mIdlingResource?.setIdleState(true)
     }
 
@@ -136,9 +117,8 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
      *  Called in case of failure or some error emitted from the liveData in viewModel
      */
     open fun onFailure(error: String?) {
-        error?.let { displayToast(it) }
+        error?.let { showToast(it) }
         loadingView.fadeOut()
-        loading = false
         mIdlingResource?.setIdleState(true)
     }
 
@@ -164,7 +144,46 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
 
 
     override fun onBackPressed() {
-        if (!loading) super.onBackPressed()
+        loadingView.hide()
+        super.onBackPressed()
+    }
+
+    fun showToast(message: String) {
+        val toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            toast.addCallback(object : Toast.Callback() {
+                override fun onToastHidden() {
+                    super.onToastHidden()
+                    mIdlingResource?.setIdleState(true)
+                }
+                override fun onToastShown() {
+                    super.onToastShown()
+                    mIdlingResource?.setIdleState(false)
+                }
+            })
+        } else {
+
+        }
+        toast.show()
+    }
+
+    fun showSnackBar(message: String) {
+        val snackbar = Snackbar.make(
+            window.decorView.findViewById(android.R.id.content),
+            message,
+            Snackbar.LENGTH_LONG
+        )
+        snackbar.addCallback(object : BaseCallback<Snackbar>() {
+            override fun onShown(transientBottomBar: Snackbar?) {
+                super.onShown(transientBottomBar)
+                mIdlingResource?.setIdleState(false)
+            }
+            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                super.onDismissed(transientBottomBar, event)
+                mIdlingResource?.setIdleState(true)
+            }
+        })
+        snackbar.show()
     }
 
     /**

@@ -37,7 +37,7 @@ class DriverProfileFragment :
             }
         }
         addPhoto.setOnClickListener { openGalleryWithPermissionRequest() }
-        submitDriver.setOnClickListener { submit() }
+        submit.setOnClickListener { submit() }
     }
 
     override fun submit() {

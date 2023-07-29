@@ -3,75 +3,71 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
-    style="@style/constraint_container"
+    style="@style/parent_constraint_layout"
     android:background="#73000000"
     tools:context="ui.user.ForgotPasswordFragment">
 
-    <TextView
-        android:id="@+id/login_title_tv"
-        style="@style/title_text"
-        android:layout_width="0dp"
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/submit"
+        style="@style/TextButton.WithIcon"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="96dp"
-        android:layout_marginEnd="24dp"
-        android:text="@string/register_label"
-        android:textColor="#ffffff"
+        android:text="@string/submit"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/til_new_password"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8" />
+
+    <TextView
+        android:id="@+id/login_title_tv"
+        style="@style/headerStyle"
+        android:layout_marginBottom="12dp"
+        android:text="@string/register_label"
+        app:layout_constraintBottom_toTopOf="@id/login_subtitle_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/login_subtitle_tv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="24dp"
+        style="@style/subheader"
+        android:layout_marginBottom="24dp"
         android:text="@string/register_subtitle"
-        android:textColor="#ffffff"
+        app:layout_constraintBottom_toTopOf="@id/til_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_title_tv" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_old_email"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="24dp"
-        android:background="#99000000"
-        android:textColorHint="@android:color/white"
+        android:id="@+id/til_name"
+        style="@style/text_input_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_subtitle_tv">
+        app:layout_constraintBottom_toTopOf="@id/til_email">
 
         <EditText
             android:id="@+id/name_register"
             style="@style/EditTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:hint="@string/promt_name"
             android:inputType="textPersonName"
-            android:autofillHints="name" />
+            android:autofillHints="name"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_email"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="24dp"
-        android:background="#99000000"
-        android:textColorHint="@android:color/white"
+        style="@style/text_input_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_old_email">
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/til_name">
         <EditText
-            android:id="@+id/email_register"
+            android:id="@+id/email"
             style="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -81,74 +77,31 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_password_top"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="24dp"
-        android:background="#99000000"
-        android:textColorHint="@android:color/white"
+        android:id="@+id/til_new_password"
+        style="@style/text_input_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_email">
-
         <EditText
             android:id="@+id/password_top"
             style="@style/EditTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:hint="@string/prompt_password"
             android:inputType="textPassword"
             android:autofillHints="password" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_password_bottom"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="24dp"
-        android:background="#99000000"
-        android:textColorHint="@android:color/white"
+        android:id="@+id/til_new_password_again"
+        style="@style/text_input_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_password_top">
-
+        app:layout_constraintTop_toBottomOf="@+id/til_new_password">
         <EditText
             android:id="@+id/password_bottom"
             style="@style/EditTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:hint="@string/prompt_password"
             android:inputType="textPassword"
             android:autofillHints="password" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/email_sign_up"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="64dp"
-        android:backgroundTint="@color/colour_one"
-        android:enabled="false"
-        app:cardCornerRadius="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_password_bottom">
-
-        <TextView
-            android:id="@+id/submission_button_label"
-            style="@style/button_inner_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/submit"
-            android:textColor="@android:color/white" />
-    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

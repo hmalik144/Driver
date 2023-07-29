@@ -9,9 +9,21 @@
 /.idea/navEditor.xml
 /.idea/misc.xml
 /.idea/assetWizardSettings.xml
+/.idea/shelf/
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 *.log
 local
+# Circleci
+/.circleci/local_config.yml
+/.circleci/run_local.bash
+# Gem/fastlane
+/Gemfile.lock
+/google-play-key.json
+/app/google-services.json
+/fastlane/report.xml
+# Firebase emulator
+database-debug.log
+firebase-debug.log

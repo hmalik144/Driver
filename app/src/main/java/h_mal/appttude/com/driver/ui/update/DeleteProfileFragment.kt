@@ -12,7 +12,7 @@ class DeleteProfileFragment :
 
     override fun setupView(binding: FragmentDeleteProfileBinding) = binding.run {
         passwordTop.setEnterPressedListener { deleteUser() }
-        submissionButtonLabel.setOnClickListener { deleteUser() }
+        submit.setOnClickListener { deleteUser() }
     }
 
     private fun deleteUser() = applyBinding {

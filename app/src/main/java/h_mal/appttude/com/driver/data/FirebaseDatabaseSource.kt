@@ -21,6 +21,7 @@ const val PRIVATE_HIRE_VEHICLE = "private_hire_vehicle"
 const val VEHICLE_DETAILS = "vehicle_details"
 const val ARCHIVE = "archive"
 
+@SuppressWarnings("unused|WeakerAccess")
 class FirebaseDatabaseSource {
     private val database = FirebaseDatabase.getInstance()
 
@@ -35,11 +36,17 @@ class FirebaseDatabaseSource {
         return data
     }
 
-    fun getUserRef(uid: String) = database.getReference(USER_CONST).child(uid)
+    fun getDatabaseRefFromPath(path: String) = database.getReference(path)
+
+    val users = database.getReference(USER_CONST)
+
+    fun getUsersRef() = database.reference.child(USER_CONST)
+    fun getUserRef(uid: String) = users.child(uid)
     fun getUserDetailsRef(uid: String) = getUserRef(uid).child(USER_DETAILS)
     fun getVehicleRef(uid: String) = getUserRef(uid).child(VEHICLE_PROFILE)
     fun getDriverRef(uid: String) = getUserRef(uid).child(DRIVER_PROFILE)
     fun getApprovalsRef(uid: String) = getUserRef(uid).child(APPROVALS)
+    fun getDocumentApprovalRef(uid: String, document: String) = getApprovalsRef(uid).child(document)
     fun getArchiveRef(uid: String) = getUserRef(uid).child(ARCHIVE)
     fun getUserRoleRef(uid: String) = getUserRef(uid).child(PROFILE_ROLE)
     fun getDriverNumberRef(uid: String) = getUserRef(uid).child(DRIVER_NUMBER)

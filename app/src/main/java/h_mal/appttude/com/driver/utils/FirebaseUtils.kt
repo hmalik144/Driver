@@ -30,7 +30,6 @@ suspend fun DatabaseReference.singleValueEvent(): EventResponse = suspendCorouti
 /**
  * Read database reference once {@link #DatabaseReference.addListenerForSingleValueEvent}
  *
- *
  * @return T
  */
 suspend inline fun <reified T : Any> DatabaseReference.getDataFromDatabaseRef(): T? {
@@ -39,7 +38,34 @@ suspend inline fun <reified T : Any> DatabaseReference.getDataFromDatabaseRef():
             response.snapshot.getValue(T::class.java)
         }
         is EventResponse.Cancelled -> {
-            throw response.error.toException()
+            throw FirebaseException(response.error)
+        }
+    }
+}
+
+/**
+ * Read database reference once {@link #DatabaseReference.addListenerForSingleValueEvent}
+ *
+ * @return T
+ */
+suspend inline fun <reified T : Any> DatabaseReference.getListDataFromDatabaseRef(): List<T?> {
+    return when (val response: EventResponse = singleValueEvent()) {
+        is EventResponse.Changed -> {
+            response.snapshot.children.map { it.getValue(T::class.java) }
+        }
+        is EventResponse.Cancelled -> {
+            throw FirebaseException(response.error)
+        }
+    }
+}
+
+suspend fun <T: Any> DatabaseReference.getDataFromDatabaseRef(clazz : Class<T>): T? {
+    return when (val response: EventResponse = singleValueEvent()) {
+        is EventResponse.Changed -> {
+            response.snapshot.getValue(clazz)
+        }
+        is EventResponse.Cancelled -> {
+            throw FirebaseException(response.error)
         }
     }
 }

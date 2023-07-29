@@ -24,7 +24,7 @@ class MotFragment : DataSubmissionBaseFragment<MotViewModel, FragmentMotBinding,
         }
 
         uploadmot.setOnClickListener { openGalleryWithPermissionRequest() }
-        submitMot.setOnClickListener {
+        submit.setOnClickListener {
             validateEditTexts(motExpiry).isTrue {
                 viewModel.setDataInDatabase(model, picUri)
             }

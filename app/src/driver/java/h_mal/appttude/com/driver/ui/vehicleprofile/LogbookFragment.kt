@@ -17,7 +17,7 @@ class LogbookFragment :
     override fun setupView(binding: FragmentLogbookBinding) = binding.run {
         v5cNo.setTextOnChange { model.v5cnumber = it }
         uploadLb.setOnClickListener { openGalleryWithPermissionRequest() }
-        submitLb.setOnClickListener { submit() }
+        submit.setOnClickListener { submit() }
     }
 
     override fun submit() {

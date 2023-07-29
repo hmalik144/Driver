@@ -5,11 +5,34 @@
     android:id="@+id/main_navigation"
     app:startDestination="@id/homeAdminFragment">
 
+    <activity
+        android:id="@+id/nav_user_settings"
+        android:name="h_mal.appttude.com.driver.ui.update.UpdateActivity"
+        android:label="fragment_profile"
+        tools:layout="@layout/update_activity" />
     <fragment
         android:id="@+id/homeAdminFragment"
         android:name="h_mal.appttude.com.driver.ui.HomeSuperUserFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home_super_user">
+        <action
+            android:id="@+id/action_homeAdminFragment_to_userMainFragment"
+            app:destination="@id/userMainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/userMainFragment"
+        android:name="h_mal.appttude.com.driver.ui.DriverOverviewFragment"
+        android:label="fragment_user_main"
+        tools:layout="@layout/fragment_user_main">
+
+        <action
+            android:id="@+id/to_approverFragment"
+            app:destination="@id/approverFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/approverFragment"
+        android:name="h_mal.appttude.com.driver.ui.ApproverFragment"
+        android:label="fragment_approver"
+        tools:layout="@layout/fragment_approver" />
 
 </navigation>
