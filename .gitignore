@@ -21,7 +21,8 @@ local
 /.circleci/run_local.bash
 # Gem/fastlane
 /Gemfile.lock
-/playstore.json
+/google-play-key.json
+/app/google-services.json
 /fastlane/report.xml
 # Firebase emulator
 database-debug.log

@@ -22,11 +22,10 @@ commands:
             git subtree add --prefix=driver_app_data https://github.com/hmalik144/driver_app_data main
       - android/restore-gradle-cache
       - run:
-          name: Chmod permissions
-          command: sudo chmod +x ./gradlew
-      - run:
           name: Download Dependencies
-          command: ./gradlew androidDependencies
+          command: |
+            sudo chmod +x ./gradlew
+            ./gradlew androidDependencies
       # Setup files for build.
       - run:
           name: Setup variables for build
@@ -39,7 +38,6 @@ commands:
         type: string
         default: "Driver"
     steps:
-#      - android/restore-build-cache
       # The next step will run the unit tests
       - run:
           name: Run non-instrumentation unit tests
@@ -131,29 +129,6 @@ jobs:
           flavour: << parameters.flavour >>
       - run_ui_tests:
           flavour: << parameters.flavour >>
-  # Assemble
-  assemble-and-release:
-    # Parameters used for determining
-    parameters:
-      flavour:
-        type: string
-        default: "Driver"
-    executor:
-      name: android/android-machine
-      tag: 2023.05.1
-    steps:
-      - setup_repo
-      - run:
-          name: Setup variables for release
-          command: |
-            echo "$RELEASE_KEYSTORE_BASE64" | base64 --decode > "android/app/release_keystore.jks"
-            echo "$GOOGLE_PLAY_KEY" > "android/playstore.json"
-      # And finally run the release build
-      - run:
-          name: Assemble and Upload to PlayStore
-          command: |
-            pwd
-            bundle exec fastlane deploy<< parameters.flavour >>
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -162,22 +137,29 @@ workflows:
     jobs:
       - build-and-test:
           flavour: "Driver"
-      - assemble-and-release:
-          flavour: "Driver"
+      - android/deploy-to-play-store:
           filters:
             branches:
               only:
                 - main_driver
           requires:
             - build-and-test
+          executor:
+            name: android/android-machine
+            tag: 2023.05.1
+          lane-name: deployDriver
   build-release-admin:
     jobs:
       - build-and-test:
           flavour: "Admin"
-      - assemble-and-release:
-          flavour: "Admin"
+      - android/deploy-to-play-store:
           filters:
             branches:
-              only: main_admin
+              only:
+                - main_driver
           requires:
             - build-and-test
+          executor:
+            name: android/android-machine
+            tag: 2023.05.1
+          lane-name: deployAdmin
