@@ -137,6 +137,10 @@ workflows:
     jobs:
       - build-and-test:
           flavour: "Driver"
+          filters:
+            branches:
+              ignore:
+                - main_admin
       - android/deploy-to-play-store:
           filters:
             branches:
@@ -152,11 +156,15 @@ workflows:
     jobs:
       - build-and-test:
           flavour: "Admin"
+          filters:
+            branches:
+              ignore:
+                - main_driver
       - android/deploy-to-play-store:
           filters:
             branches:
               only:
-                - main_driver
+                - main_admin
           requires:
             - build-and-test
           executor:
