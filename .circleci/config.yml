@@ -133,6 +133,20 @@ jobs:
 #          flavour: << parameters.flavour >>
 #      - run_ui_tests:
 #          flavour: << parameters.flavour >>
+  setup_fastlane:
+    executor:
+      name: android/android-machine
+      tag: 2023.05.1
+    steps:
+      - restore_cache:
+          key: fastlane-cache-v1-
+      - run:
+          command: |
+            gem install fastlane
+      - save_cache:
+          key: fastlane-cache-v1-
+          paths:
+           - ~/.rvm/gems
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -145,6 +159,7 @@ workflows:
 #            branches:
 #              ignore:
 #                - main_admin
+      - setup_fastlane
       - android/deploy-to-play-store:
           filters:
             branches:
