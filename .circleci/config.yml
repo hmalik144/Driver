@@ -20,6 +20,9 @@ commands:
             git config --global user.email "$GIT_EMAIL"
             git config --global user.name "$GIT_EMAIL"
             git subtree add --prefix=driver_app_data https://github.com/hmalik144/driver_app_data main
+      # Added to prevent gradle build failures in pipeline
+      - android/create-keystore-properties:
+          release-keystore: "keystore.jks"
       - android/restore-gradle-cache
       - run:
           name: Download Dependencies
