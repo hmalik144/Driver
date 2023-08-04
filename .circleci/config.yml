@@ -129,6 +129,8 @@ commands:
           name: Run fastlane command to deploy to playstore
           command: |
             bundle exec fastlane deploy<< parameters.flavour >>
+      - store_test_results:
+          path: fastlane/report.xml
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
