@@ -120,7 +120,7 @@ commands:
       - run:
           name: Setup keystore
           command: |
-            echo "$RELEASE_KEYSTORE_BASE64" | base64 --decode > "./keystore.jks"
+            echo "$BASE64_KEYSTORE" | base64 --decode > "./keystore.jks"
       - run:
           name: Setup playstore key
           command: | 
