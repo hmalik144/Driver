@@ -109,6 +109,26 @@ commands:
       # Then publish the results of the Instrumentation tests!
       - store_test_results:
           path: app/build/outputs/androidTest-results/connected
+  deploy_to_play_store:
+    description: deploy to playstore based on flavour
+    parameters:
+      flavour:
+        type: string
+        default: "Driver"
+    steps:
+      # The next step will run the unit tests
+      - run:
+          name: Setup keystore
+          command: |
+            echo "$RELEASE_KEYSTORE_BASE64" | base64 --decode > "./keystore.jks"
+      - run:
+          name: Setup playstore key
+          command: | 
+            echo "$GOOGLE_PLAY_KEY" > "google-play-key.json"
+      - run:
+          name: Run fastlane command to deploy to playstore
+          command: |
+            bundle exec fastlane deploy<< parameters.flavour >>
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -133,20 +153,20 @@ jobs:
 #          flavour: << parameters.flavour >>
 #      - run_ui_tests:
 #          flavour: << parameters.flavour >>
-  setup_fastlane:
-    executor:
-      name: android/android-machine
-      tag: 2023.05.1
+  deploy-to-playstore:
+    parameters:
+      flavour:
+        type: string
+        default: "Driver"
+    docker:
+      - image: cimg/android:2023.07-browsers
+        auth:
+          username: ${DOCKER_USERNAME}
+          password: ${DOCKER_PASSWORD}
     steps:
-      - restore_cache:
-          key: fastlane-cache-v1-
-      - run:
-          command: |
-            gem install fastlane
-      - save_cache:
-          key: fastlane-cache-v1-
-          paths:
-           - ~/.rvm/gems
+      - setup_repo
+      - deploy_to_play_store:
+          flavour: << parameters.flavour >>
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -155,25 +175,20 @@ workflows:
     jobs:
       - build-and-test:
           flavour: "Driver"
-#          filters:
-#            branches:
-#              ignore:
-#                - main_admin
-      - setup_fastlane
-      - android/deploy-to-play-store:
+          filters:
+            branches:
+              ignore:
+                - main_admin
+                - circleci_branch_filter_fix
+      - deploy-to-playstore:
+          flavour: "Driver"
           filters:
             branches:
               only:
                 - main_driver
                 - circleci_branch_filter_fix
-          requires:
-            - build-and-test
-          executor:
-            name: android/android-machine
-            tag: 2023.05.1
-          keystore-location: "./app/keystore.jks"
-          release-keystore: "keystore.jks"
-          lane-name: deployDriver
+#          requires:
+#            - build-and-test
 #  build-release-admin:
 #    jobs:
 #      - build-and-test:
