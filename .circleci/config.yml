@@ -128,8 +128,7 @@ commands:
       - run:
           name: Run fastlane command to deploy to playstore
           command: |
-            sudo apt install tree
-            tree -d
+            ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
 #            pwd
 #            bundle exec fastlane deploy<< parameters.flavour >>
       - store_test_results:
