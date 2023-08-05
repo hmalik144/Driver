@@ -118,15 +118,11 @@ commands:
     steps:
       # The next step will run the unit tests
       - run:
-          name: Setup keystore
+          name: Setup keystore & properties
           command: |
-            echo "$BASE64_KEYSTORE" | base64 --decode > "$PWD/app/keystore.jks"
             FILE=$PWD/app/keystore.jks
-            if [[ -f "$FILE" ]]; then
-                echo "$FILE exists."
-            else 
-                echo "$FILE does not exist."
-            fi
+            echo "$BASE64_KEYSTORE" | base64 --decode > "$FILE"
+            printf 'releaseKeyAlias=%s\nreleaseKeyPassword=%s\nreleaseKeyStore=%s\nreleaseStorePassword=%s' $RELEASE_KEY_ALIAS $RELEASE_KEY_PASSWORD $FILE $RELEASE_STORE_PASSWORD > keystore.properties
       - run:
           name: files list
           command: |

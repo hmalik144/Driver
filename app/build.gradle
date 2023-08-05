@@ -6,9 +6,14 @@ plugins {
     id 'androidx.navigation.safeargs'
 }
 
-def relStorePassword = System.getenv("RELEASE_STORE_PASSWORD")
-def relKeyPassword = System.getenv("RELEASE_KEY_PASSWORD")
-def relKeyAlias = System.getenv("RELEASE_KEY_ALIAS")
+def keyStorePropertiesFile = rootProject.file("keystore.properties")
+def keyStoreProperties = new Properties()
+if (keyStorePropertiesFile.exists()) {
+    keyStoreProperties.load(new FileInputStream(keyStorePropertiesFile))
+}
+
+def keystorePath = System.getenv('PWD') + "/app/keystore.jks"
+def keystore = file(keystorePath).exists() ? file(keystorePath) : null
 
 android {
     compileSdkVersion 31
@@ -37,10 +42,10 @@ android {
 
     signingConfigs {
         release {
-            storePassword relStorePassword
-            keyPassword relKeyPassword
-            keyAlias relKeyAlias
-            storeFile rootProject.file("app/keystore.jks").exists() ? rootProject.file("app/keystore.jks") : null
+            keyAlias keyStoreProperties['releaseKeyAlias']
+            keyPassword keyStoreProperties['releaseKeyPassword']
+            storeFile keystore
+            storePassword keyStoreProperties['releaseStorePassword']
         }
     }
 

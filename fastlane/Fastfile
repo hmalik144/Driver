@@ -36,12 +36,7 @@ platform :android do
         task: "clean bundle",
         flavor: "Driver",
         build_type: "Release",
-        properties: {
-          "android.injected.signing.store.file" => ENV['PWD'] + "/app/keystore.jks",
-          "android.injected.signing.store.password" => ENV['RELEASE_STORE_PASSWORD'],
-          "android.injected.signing.key.alias" => ENV['RELEASE_KEY_ALIAS'],
-          "android.injected.signing.key.password" => ENV['RELEASE_KEY_PASSWORD'],
-        })
+        )
     upload_to_play_store(
         aab: "app/build/outputs/bundle/driverRelease/app-driver-release.aab",
         json_key: "google-play-key.json",
