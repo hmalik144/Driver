@@ -126,16 +126,15 @@ commands:
           command: | 
             echo "$GOOGLE_PLAY_KEY" > "google-play-key.json"
       - run:
-          name: file structure
+          name: file tree
           command: |
+            cd app
             ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
-          working_directory: app
       - run:
           name: Run fastlane command to deploy to playstore
           command: |
-            ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
-#            pwd
-#            bundle exec fastlane deploy<< parameters.flavour >>
+            pwd
+            bundle exec fastlane deploy<< parameters.flavour >>
       - store_test_results:
           path: fastlane/report.xml
 # Define a job to be invoked later in a workflow.
