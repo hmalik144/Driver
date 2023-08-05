@@ -121,15 +121,16 @@ commands:
           name: Setup keystore
           command: |
             echo "$BASE64_KEYSTORE" | base64 --decode > "$PWD/app/keystore.jks"
+            FILE=$PWD/app/keystore.jks
+            if [[ -f "$FILE" ]]; then
+                echo "$FILE exists."
+            else 
+                echo "$FILE does not exist."
+            fi
       - run:
           name: Setup playstore key
           command: | 
             echo "$GOOGLE_PLAY_KEY" > "google-play-key.json"
-      - run:
-          name: file tree
-          command: |
-            cd app
-            ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
       - run:
           name: Run fastlane command to deploy to playstore
           command: |
