@@ -196,23 +196,21 @@ workflows:
                 - main_driver
           requires:
             - build-and-test
-#  build-release-admin:
-#    jobs:
-#      - build-and-test:
-#          flavour: "Admin"
-#          filters:
-#            branches:
-#              ignore:
-#                - main_driver
-#      - android/deploy-to-play-store:
-#          filters:
-#            branches:
-#              only:
-#                - main_admin
-#          requires:
-#            - build-and-test
-#          executor:
-#            name: android/android-machine
-#            tag: 2023.05.1
-#          keystore-location: "keystore.jks"
-#          lane-name: deployAdmin
+  build-release-admin:
+    jobs:
+      - build-and-test:
+          context: appttude
+          flavour: "Admin"
+          filters:
+            branches:
+              ignore:
+                - main_driver
+      - deploy-to-playstore:
+          context: appttude
+          flavour: "Admin"
+          filters:
+            branches:
+              only:
+                - main_admin
+          requires:
+            - build-and-test
