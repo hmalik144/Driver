@@ -120,11 +120,16 @@ commands:
       - run:
           name: Setup keystore
           command: |
-            echo "$BASE64_KEYSTORE" | base64 --decode > "app/keystore.jks"
+            echo "$BASE64_KEYSTORE" | base64 --decode > "$PWD/app/keystore.jks"
       - run:
           name: Setup playstore key
           command: | 
             echo "$GOOGLE_PLAY_KEY" > "google-play-key.json"
+      - run:
+          name: file structure
+          command: |
+            ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
+          working_directory: app
       - run:
           name: Run fastlane command to deploy to playstore
           command: |
