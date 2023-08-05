@@ -40,7 +40,7 @@ android {
             storePassword relStorePassword
             keyPassword relKeyPassword
             keyAlias relKeyAlias
-            storeFile file("./keystore.jks").exists() ? file("./keystore.jks") : null
+            storeFile rootProject.file("app/keystore.jks").exists() ? rootProject.file("app/keystore.jks") : null
         }
     }
 
