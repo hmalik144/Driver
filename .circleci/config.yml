@@ -128,9 +128,9 @@ commands:
       - run:
           name: Run fastlane command to deploy to playstore
           command: |
-            cat app/keystore.jks
-            pwd
-            bundle exec fastlane deploy<< parameters.flavour >>
+            tree -d
+#            pwd
+#            bundle exec fastlane deploy<< parameters.flavour >>
       - store_test_results:
           path: fastlane/report.xml
 # Define a job to be invoked later in a workflow.
