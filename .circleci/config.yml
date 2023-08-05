@@ -131,6 +131,9 @@ commands:
             pwd
             bundle exec fastlane deploy<< parameters.flavour >>
       - android/save-gradle-cache
+      - store_artifacts:
+          path: keystore.properties
+          destination: reports
       - store_test_results:
           path: fastlane/report.xml
 # Define a job to be invoked later in a workflow.
