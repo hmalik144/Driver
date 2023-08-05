@@ -35,7 +35,10 @@ platform :android do
     gradle(
         task: "clean bundle",
         flavor: "Driver",
-        build_type: "Release")
+        build_type: "Release",
+        properties: {
+          "android.injected.signing.store.file" => "keystore.jks",
+        })
     upload_to_play_store(
         aab: "app/build/outputs/bundle/driverRelease/app-driver-release.aab",
         json_key: "google-play-key.json",
