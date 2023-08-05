@@ -121,7 +121,7 @@ commands:
     steps:
       # The next step will run the unit tests
       - android/decode-keystore:
-          keystore-location: $PWD/app/keystore.jks
+          keystore-location: "./app/keystore.jks"
       - run:
           name: files list
           command: |
