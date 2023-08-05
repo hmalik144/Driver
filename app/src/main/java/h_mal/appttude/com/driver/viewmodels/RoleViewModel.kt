@@ -18,7 +18,7 @@ class RoleViewModel(
     override val storageRef: StorageReference? = null
     override val objectName: String = "role"
 
-    override fun getDataFromDatabase() = getDataClass<String>()
+    override fun getDataFromDatabase() = retrieveDataFromDatabase<String>()
 
     override fun setDataInDatabase(data: String) {
         io {

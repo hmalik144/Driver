@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/colour_ten"
+        android:paddingEnd="28dp"
+        app:layout_constraintLeft_toLeftOf="@id/approval_status"
+        app:layout_constraintRight_toRightOf="@id/approval_status"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlSymmetry" />
+
+    <ImageView
+        android:id="@+id/approval_iv"
+        android:layout_width="@dimen/status_size"
+        android:layout_height="@dimen/status_size"
+        android:layout_gravity="center"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="9dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/pending"
+        android:contentDescription="@string/approval_status" />
+
+    <TextView
+        android:id="@+id/approval_status"
+        style="@style/subheader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="28dp"
+        android:layout_marginRight="28dp"
+        app:layout_constraintBottom_toBottomOf="@id/approval_iv"
+        app:layout_constraintLeft_toRightOf="@id/approval_iv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/approval_iv"
+        tools:text="Pending Approval" />
+
+
+    <TextView
+        android:id="@+id/approval_text"
+        style="@style/headerStyle"
+        android:textSize="20sp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="16dp"
+        android:paddingBottom="9dp"
+        app:layout_constraintLeft_toLeftOf="@id/approval_status"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/approval_status"
+        tools:text="Private Hire License" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

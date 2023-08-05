@@ -20,6 +20,9 @@ abstract class BaseViewModel : ViewModel() {
         uiState.postValue(ViewState.HasError(Event(error)))
     }
 
+    /*
+     * All in one function for trying an operation and handling its start and failure
+     */
     suspend fun doTryOperation(
         defaultErrorMessage: String?,
         operation: suspend () -> Unit
@@ -29,14 +32,11 @@ abstract class BaseViewModel : ViewModel() {
             operation()
         } catch (e: Exception) {
             e.printStackTrace()
-            e.message?.let {
-                onError(it)
-                return
-            }
             defaultErrorMessage?.let {
                 onError(it)
                 return
             }
+            onError((e.message ?: "Operation failed!!"))
         }
     }
 }

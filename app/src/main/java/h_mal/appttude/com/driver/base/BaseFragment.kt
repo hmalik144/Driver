@@ -1,29 +1,27 @@
 package h_mal.appttude.com.driver.base
 
-import android.app.Activity
 import android.content.ClipData
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.createViewModelLazy
 import androidx.viewbinding.ViewBinding
 import h_mal.appttude.com.driver.application.ApplicationViewModelFactory
 import h_mal.appttude.com.driver.data.ViewState
+import h_mal.appttude.com.driver.utils.GenericsHelper.getGenericClassAt
+import h_mal.appttude.com.driver.utils.GenericsHelper.inflateBindingByType
 import h_mal.appttude.com.driver.utils.PermissionsUtils
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
-import java.lang.reflect.ParameterizedType
-import kotlin.reflect.KClass
 
-const val IMAGE_SELECT_REQUEST_CODE = 401
-
-abstract class BaseFragment<V : BaseViewModel, VB : ViewBinding>(
-) : Fragment(), KodeinAware {
+abstract class BaseFragment<V : BaseViewModel, VB : ViewBinding> : Fragment(), KodeinAware {
 
     private var _binding: VB? = null
     private val binding: VB
@@ -31,41 +29,18 @@ abstract class BaseFragment<V : BaseViewModel, VB : ViewBinding>(
 
     var mActivity: BaseActivity<V, *>? = null
 
+    override val kodein by kodein()
+    private val factory by instance<ApplicationViewModelFactory>()
+
     val viewModel: V by getFragmentViewModel()
+    private fun getFragmentViewModel(): Lazy<V> =
+        createViewModelLazy(getGenericClassAt(0), { viewModelStore }, factoryProducer = { factory })
 
     private var multipleImage: Boolean = false
 
     fun setImageSelectionAsMultiple() {
         multipleImage = true
     }
-
-    override val kodein by kodein()
-    val factory by instance<ApplicationViewModelFactory>()
-
-    fun getFragmentViewModel(): Lazy<V> =
-        createViewModelLazy(getGenericClassAt(0), { viewModelStore }, factoryProducer = { factory })
-
-    fun LayoutInflater.inflateBindingByType(
-        container: ViewGroup?,
-        genericClassAt: KClass<VB>
-    ): VB = try {
-        @Suppress("UNCHECKED_CAST")
-        genericClassAt.java.methods.first { inflateFun ->
-            inflateFun.parameterTypes.size == 3
-                    && inflateFun.parameterTypes.getOrNull(0) == LayoutInflater::class.java
-                    && inflateFun.parameterTypes.getOrNull(1) == ViewGroup::class.java
-                    && inflateFun.parameterTypes.getOrNull(2) == Boolean::class.java
-        }.invoke(null, this, container, false) as VB
-    } catch (exception: Exception) {
-        throw IllegalStateException("Can not inflate binding from generic")
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    fun <CLASS : Any> Any.getGenericClassAt(position: Int): KClass<CLASS> =
-        ((javaClass.genericSuperclass as? ParameterizedType)
-            ?.actualTypeArguments?.getOrNull(position) as? Class<CLASS>)
-            ?.kotlin
-            ?: throw IllegalStateException("Can not find class from generic argument")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -126,25 +101,6 @@ abstract class BaseFragment<V : BaseViewModel, VB : ViewBinding>(
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                IMAGE_SELECT_REQUEST_CODE -> {
-                    data?.clipData?.convertToList()?.let { clip ->
-                        val list = clip.takeIf { it.size > 10 }?.let {
-                            clip.subList(0, 9)
-                        } ?: clip
-                        onImageGalleryResult(list)
-                        return
-                    }
-                    onImageGalleryResult(data?.data)
-                }
-            }
-
-        }
-    }
-
     private fun ClipData.convertToList(): List<Uri> = 0.rangeTo(itemCount).map { getItemAt(it).uri }
 
     /**
@@ -180,10 +136,38 @@ abstract class BaseFragment<V : BaseViewModel, VB : ViewBinding>(
     open fun onImageGalleryResult(imageUris: List<Uri>?) {}
 
     fun openGalleryForImage() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, multipleImage)
-        startActivityForResult(intent, IMAGE_SELECT_REQUEST_CODE)
+        permissionRequest.launch(multipleImage)
     }
 
+    private val permissionRequest = registerForActivityResult(getResultsContract()) { result ->
+        @Suppress("UNCHECKED_CAST")
+        when (result) {
+            is Uri -> onImageGalleryResult(result)
+            is List<*> -> onImageGalleryResult(result as List<Uri>)
+        }
+    }
+
+    private fun getResultsContract(): ActivityResultContract<Boolean, Any?> {
+        return object : ActivityResultContract<Boolean, Any?>() {
+            override fun createIntent(context: Context, input: Boolean): Intent {
+                return Intent(Intent.ACTION_GET_CONTENT)
+                    .addCategory(Intent.CATEGORY_OPENABLE)
+                    .putExtra(Intent.EXTRA_ALLOW_MULTIPLE, input)
+                    .setType("image/*")
+            }
+
+            override fun parseResult(resultCode: Int, intent: Intent?): Any? {
+                intent?.clipData?.takeIf { it.itemCount > 1 }?.convertToList()?.let { clip ->
+                    val list = clip.takeIf { it.size > 10 }?.let {
+                        clip.subList(0, 9)
+                    } ?: clip
+                    return list
+                }
+                return intent?.data
+            }
+        }
+    }
+
+    fun showToast(message: String) = (activity as BaseActivity<*, *>).showToast(message)
+    fun showSnackBar(message: String) = (activity as BaseActivity<*, *>).showSnackBar(message)
 }

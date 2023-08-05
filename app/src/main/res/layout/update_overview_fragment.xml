@@ -44,13 +44,13 @@
         android:text="@string/update_password" />
 
     <com.google.android.material.button.MaterialButton
-        style="@style/TextButton.WithIcon"
         android:id="@+id/update_profile_button"
-        android:layout_marginBottom="12dp"
+        style="@style/TextButton.WithIcon"
+        android:layout_marginBottom="8dp"
+        android:text="@string/update_profile"
         app:layout_constraintBottom_toTopOf="@id/delete_profile"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/update_profile" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/TextButton.WithIcon"

@@ -8,3 +8,7 @@ const val deleteAccountFirebase =
 
 
 const val USER_PASSWORD = "LetMeIn123!"
+
+const val DRIVER_EMAIL = "existing-driver@driver.com"
+const val ADMIN_EMAIL = "admin@driver.com"
+const val PASSWORD = "test123456"

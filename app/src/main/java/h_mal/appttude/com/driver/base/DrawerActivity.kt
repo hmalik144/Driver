@@ -48,7 +48,6 @@ abstract class DrawerActivity<V : BaseViewModel, VB : ViewBinding> : BaseActivit
         appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
         navView.setupWithNavController(navController)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

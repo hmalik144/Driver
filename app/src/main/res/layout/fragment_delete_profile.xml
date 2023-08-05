@@ -22,12 +22,12 @@
         style="@style/subheader"
         android:layout_marginBottom="24dp"
         android:text="@string/delete_profile_subtitle"
-        app:layout_constraintBottom_toTopOf="@id/til_old_email"
+        app:layout_constraintBottom_toTopOf="@id/til_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_old_email"
+        android:id="@+id/til_name"
         style="@style/text_input_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +47,7 @@
         style="@style/text_input_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_old_email">
+        app:layout_constraintTop_toBottomOf="@+id/til_name">
 
         <EditText
             android:id="@+id/password_top"
@@ -58,7 +58,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/submission_button_label"
+        android:id="@+id/submit"
         style="@style/TextButton.WithIcon"
         android:text="@string/submit"
         app:layout_constraintBottom_toBottomOf="parent"

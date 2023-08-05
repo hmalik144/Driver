@@ -9,7 +9,9 @@ plugins {
 def relStorePassword = System.getenv("RELEASE_STORE_PASSWORD")
 def relKeyPassword = System.getenv("RELEASE_KEY_PASSWORD")
 def relKeyAlias = System.getenv("RELEASE_KEY_ALIAS")
-def relStoreFile = System.getenv("RELEASE_KEYSTORE")
+
+def keystorePath = System.getenv('PWD') + "/app/keystore.jks"
+def keystore = file(keystorePath).exists() ? file(keystorePath) : null
 
 android {
     compileSdkVersion 31
@@ -17,8 +19,8 @@ android {
         applicationId "h_mal.appttude.com.driver"
         minSdkVersion 24
         targetSdkVersion 31
-        versionCode 6
-        versionName "1.6"
+        versionCode 7
+        versionName "2.0.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
         boolean state = project.rootProject.file('local.properties').canRead()
@@ -41,7 +43,7 @@ android {
             storePassword relStorePassword
             keyPassword relKeyPassword
             keyAlias relKeyAlias
-//            storeFile file(relStoreFile)
+            storeFile keystore
         }
     }
 
@@ -66,22 +68,25 @@ android {
     flavorDimensions "Default"
     productFlavors {
         driver {
-            versionCode 6
-            versionName "1.0.5"
+            applicationId "h_mal.appttude.com.driver"
+            versionCode 7
+            versionName "2.0.0"
         }
         admin {
-            applicationIdSuffix ".admin"
+            applicationId "h_mal.appttude.com.driver.admin"
             versionCode 4
             versionName "0.0.5"
         }
     }
     sourceSets {
         driver {
+            java.srcDirs += 'src/driver/java'
             manifest {
                 srcFile 'src/driver/AndroidManifest.xml'
             }
         }
         admin {
+            java.srcDirs += 'src/admin/java'
             manifest {
                 srcFile 'src/admin/AndroidManifest.xml'
             }
@@ -108,6 +113,7 @@ dependencies {
     implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     testImplementation "junit:junit:4.13.2"
+    implementation "androidx.preference:preference-ktx:1.2.0"
     / * Android Espresso */
     def testJunitVersion = "1.1.5"
     def testRunnerVersion = "1.5.2"
@@ -117,6 +123,8 @@ dependencies {
     androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$espressoVersion"
     implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
     / * Google play services */
     implementation "com.google.android.gms:play-services-auth:20.4.1"
     / * Google firebase */
@@ -128,6 +136,7 @@ dependencies {
     implementation "com.google.firebase:firebase-auth:$firebaseAuth"
     implementation "com.google.firebase:firebase-storage:$firebaseStorage"
     implementation "com.google.firebase:firebase-database:$firebaseDatabase"
+    implementation 'com.firebaseui:firebase-ui-database:8.0.2'
     / * Photoviewer */
     implementation "com.github.chrisbanes:PhotoView:2.1.0"
     / * Picasso photo loader */
@@ -151,4 +160,10 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
     / * Kotlin Reflect */
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.8.10"
+    / * Retrofit2 */
+    def retrofit_version = "2.9.0"
+    androidTestImplementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    androidTestImplementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    / * screenshot library */
+    androidTestImplementation 'tools.fastlane:screengrab:2.1.1'
 }

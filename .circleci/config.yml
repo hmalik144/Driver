@@ -7,8 +7,135 @@ version: 2.1
 # Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
 # See: https://circleci.com/docs/2.0/orb-intro/
 orbs:
-  android: circleci/android@1.0.3
+  android: circleci/android@2.3.0
 
+commands:
+  setup_repo:
+    description: checkout repo and android dependencies
+    steps:
+      - checkout
+      # Setup files for build.
+      - run:
+          name: Setup variables for build
+          command: |
+            echo "$GOOGLE_SERVICES_KEY" > "app/google-services.json"
+      - android/restore-gradle-cache
+  build_gradle:
+    description: Build the gradle
+    steps:
+      - android/restore-gradle-cache
+      - run:
+          name: Download Dependencies
+          command: |
+            sudo chmod +x ./gradlew
+            ./gradlew androidDependencies
+      - android/save-gradle-cache
+  run_tests:
+    description: run non-instrumentation tests for flavour specified
+    parameters:
+      flavour:
+        type: string
+        default: "Driver"
+    steps:
+      # The next step will run the unit tests
+      - build_gradle
+      - run:
+          name: Run non-instrumentation unit tests
+          command: |
+            ./gradlew test<< parameters.flavour >>DebugUnitTest --continue
+      - store_artifacts:
+          path: app/build/reports
+          destination: reports
+      - store_test_results:
+          path: app/build/test-results
+  run_ui_tests:
+    description: start firebase emulator and run ui tests for flavour specified
+    parameters:
+      flavour:
+        type: string
+        default: "AtlasWeather"
+    steps:
+      # Download and cache dependencies
+      - build_gradle
+      - run:
+          name: Setup subtree for test data
+          command: |
+            git stash
+            git config --global user.email "$GIT_EMAIL"
+            git config --global user.name "$GIT_EMAIL"
+            git remote add -f driver_app_data https://github.com/hmalik144/driver_app_data.git
+            git subtree add --prefix=driver_app_data driver_app_data main --squash
+      - restore_cache:
+          keys:
+            - emulator-cache-v1-
+      # Install Firebase tools needed for firebase emulator
+      - run:
+          name: Install firebase tools
+          command: |
+            curl -sL firebase.tools | bash
+      # Then start the emulator and run the Instrumentation tests!
+      - android/start-emulator-and-run-tests:
+          post-emulator-launch-assemble-command: ./gradlew assemble<< parameters.flavour >>DebugAndroidTest
+          test-command: ./gradlew connected<< parameters.flavour >>DebugAndroidTest
+          system-image: system-images;android-25;google_apis;x86
+          pull-data: true
+          pull-data-path: /storage/emulated/0/Android/data/
+          pull-data-target: ~/app-data
+          pre-emulator-wait-steps:
+            # Start firebase emulator in the background while waiting to start testing
+            - run:
+                name: Start firebase emulator and while avd starts
+                command: |
+                  firebase emulators:start --import=driver_app_data/export_directory
+                background: true
+          post-run-tests-steps:
+            # Save cache for firebase tools
+            - save_cache:
+                paths:
+                  - ~/.cache/firebase/emulators/
+                key: emulator-cache-v1-{{ epoch }}
+      # store test reports
+      - store_artifacts:
+          path: app/build/reports/androidTests/connected
+          destination: reports
+      # store screenshots for failed ui tests
+      - store_artifacts:
+          path: ~/app-data
+          destination: data
+      # Then publish the artifacts of the Firebase emulator logs!
+      - run:
+          name: save firebase emulator logs
+          command: |
+            mkdir -p tmp/firebase_logs
+            cp *.log tmp/firebase_logs
+      - store_artifacts:
+          path: tmp/firebase_logs
+          destination: logs
+      # Then publish the results of the Instrumentation tests!
+      - store_test_results:
+          path: app/build/outputs/androidTest-results/connected
+  deploy_to_play_store:
+    description: deploy to playstore based on flavour
+    parameters:
+      flavour:
+        type: string
+        default: "Driver"
+    steps:
+      # The next step will run the unit tests
+      - android/decode-keystore:
+          keystore-location: "./app/keystore.jks"
+      - run:
+          name: Setup playstore key
+          command: | 
+            echo "$GOOGLE_PLAY_KEY" > "google-play-key.json"
+      - build_gradle
+      - run:
+          name: Run fastlane command to deploy to playstore
+          command: |
+            pwd
+            bundle exec fastlane deploy<< parameters.flavour >>
+      - store_test_results:
+          path: fastlane/report.xml
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -23,76 +150,30 @@ jobs:
     # See: https://circleci.com/docs/2.0/executor-types/
     executor:
       name: android/android-machine
-
+      tag: 2023.05.1
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
-      # Checkout the code as the first step.
-      - checkout
-      # Setup files for build.
-      - run:
-          name: Setup variables for build
-          command: |
-            echo "$GOOGLE_SERVICES_KEY" > "app/google-services.json"
-      - run:
-          name: Grant execute permission for gradlew
-          command: |
-            chmod +x gradlew
-      # The next step will run the unit tests
-      - android/run-tests:
-          test-command: ./gradlew test<< parameters.flavour >>DebugUnitTest --continue
-      # Install Firebase tools needed for firebase emulator
-      - run:
-          name: Install firebase tools
-          command: |
-            curl -sL firebase.tools | bash
-      # Then start firebase emulator in the background
-      - run:
-          name: Start firebase emulator
-          command: |
-            firebase emulators:start
-          background: true
-      # Then start the emulator and run the Instrumentation tests!
-      - android/start-emulator-and-run-tests:
-          post-emulator-launch-assemble-command: ./gradlew assemble<< parameters.flavour >>DebugAndroidTest
-          test-command: ./gradlew connected<< parameters.flavour >>DebugAndroidTest
-          system-image: system-images;android-25;google_apis;x86
-      # store test reports
-      - store_artifacts:
-          path: app/build/reports/androidTests/connected
-          destination: reports
-      # Then publish the artifacts of the Firebase emulator logs!
-      - run:
-          name: save firebase emulator logs
-          command: |
-            mkdir -p tmp/firebase_logs
-            cp *.log tmp/firebase_logs
-      - store_artifacts:
-          path: tmp/firebase_logs
-          destination: logs
-      # Then publish the results of the Instrumentation tests!
-      - store_test_results:
-          path: app/build/outputs/androidTest-results/connected
-  # Assemble
-  assemble-and-release:
-    # Parameters used for determining
+      # Checkout the code and its submodule as the first step.
+      - setup_repo
+#      - run_tests:
+#          flavour: << parameters.flavour >>
+      - run_ui_tests:
+          flavour: << parameters.flavour >>
+  deploy-to-playstore:
     parameters:
       flavour:
         type: string
-        default: ""
-    executor:
-      name: android/android-machine
+        default: "Driver"
+    docker:
+      - image: cimg/android:2023.07-browsers
+        auth:
+          username: ${DOCKER_USERNAME}
+          password: ${DOCKER_PASSWORD}
     steps:
-      - run:
-          name: Setup variables for release
-          command: |
-            echo "$RELEASE_KEYSTORE_BASE64" | base64 --decode > "android/app/release_keystore.jks"
-            echo "$GOOGLE_PLAY_KEY" > "android/playstore.json"
-      # And finally run the release build
-      - run:
-          name: Assemble release build
-          command: |
-            ./gradlew assembleDriverRelease
+      - setup_repo
+      - deploy_to_play_store:
+          flavour: << parameters.flavour >>
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -100,8 +181,14 @@ workflows:
   build-release-driver:
     jobs:
       - build-and-test:
-          flavour: Driver
-      - assemble-and-release:
+          context: appttude
+          flavour: "Driver"
+          filters:
+            branches:
+              ignore:
+                - main_admin
+      - deploy-to-playstore:
+          context: appttude
           flavour: "Driver"
           filters:
             branches:
@@ -112,11 +199,18 @@ workflows:
   build-release-admin:
     jobs:
       - build-and-test:
-          flavour: Admin
-      - assemble-and-release:
-          flavour: Admin
+          context: appttude
+          flavour: "Admin"
           filters:
             branches:
-              only: main_admin
+              ignore:
+                - main_driver
+      - deploy-to-playstore:
+          context: appttude
+          flavour: "Admin"
+          filters:
+            branches:
+              only:
+                - main_admin
           requires:
             - build-and-test

@@ -30,7 +30,7 @@ class VehicleProfileFragment : DataSubmissionBaseFragment
         }
         seizedCheckbox.setOnCheckedChangeListener { _, res -> model.isSeized = res }
 
-        submitVehicle.setOnClickListener {
+        submit.setOnClickListener {
             validateEditTexts(
                 reg,
                 make,
