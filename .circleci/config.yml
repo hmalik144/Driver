@@ -181,6 +181,7 @@ workflows:
   build-release-driver:
     jobs:
       - build-and-test:
+          context: appttude
           flavour: "Driver"
           filters:
             branches:
@@ -188,6 +189,7 @@ workflows:
                 - main_admin
                 - circleci_branch_filter_fix
       - deploy-to-playstore:
+          context: appttude
           flavour: "Driver"
           filters:
             branches:
