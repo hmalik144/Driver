@@ -14,12 +14,6 @@ commands:
     description: checkout repo and android dependencies
     steps:
       - checkout
-      - run:
-          name: Setup subtree for test data
-          command: |
-            git config --global user.email "$GIT_EMAIL"
-            git config --global user.name "$GIT_EMAIL"
-            git subtree add --prefix=driver_app_data https://github.com/hmalik144/driver_app_data main
       # Setup files for build.
       - run:
           name: Setup variables for build
@@ -63,6 +57,15 @@ commands:
     steps:
       # Download and cache dependencies
       - build_gradle
+      - run:
+          name: Setup subtree for test data
+          command: |
+#            mkdir -p ~/.ssh
+#            echo 'github.com ssh-rsa b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABCC2KGHuwNI211p8ItXILznAAAAEAAAAAEAAAAzAAAAC3NzaC1lZDI1NTE5AAAAILp1lkgYhIhX9ivOhrjhxmiC8N6z1uqXAefdntBg0svGAAAAoEwY/R7/AMpoatHa7ieunezMYpkWaVveLFMP142wsfwuPecimHkoElVKaGq9SFKHMqmp2kK0CS4r7MsH5hs3DlCMrcrR5bAyG4h2/mxDCAGERpMBQ5LKQUW52cx3CSZP2pjzb8Wu9iS2eDKZVhyGD0igFjLBtT1vKnqQ+n59CjS79dsrXZUtyzc0/mCgbBnqj0Iu/rY2HwfLVuPYXKaz9Zs=' >> ~/.ssh/known_hosts
+            git config --global user.email "$GIT_EMAIL"
+            git config --global user.name "$GIT_EMAIL"
+            git remote add -f driver_app_data https://github.com/hmalik144/driver_app_data.git
+            git subtree add --prefix=driver_app_data https://github.com/hmalik144/driver_app_data main --squash
       - restore_cache:
           keys:
             - emulator-cache-v1-
@@ -123,11 +126,6 @@ commands:
       - android/decode-keystore:
           keystore-location: "./app/keystore.jks"
       - run:
-          name: files list
-          command: |
-            cd app
-            ls
-      - run:
           name: Setup playstore key
           command: | 
             echo "$GOOGLE_PLAY_KEY" > "google-play-key.json"
@@ -137,10 +135,6 @@ commands:
           command: |
             pwd
             bundle exec fastlane deploy<< parameters.flavour >>
-      - android/save-gradle-cache
-      - store_artifacts:
-          path: keystore.properties
-          destination: reports
       - store_test_results:
           path: fastlane/report.xml
 # Define a job to be invoked later in a workflow.
@@ -165,8 +159,8 @@ jobs:
       - setup_repo
 #      - run_tests:
 #          flavour: << parameters.flavour >>
-#      - run_ui_tests:
-#          flavour: << parameters.flavour >>
+      - run_ui_tests:
+          flavour: << parameters.flavour >>
   deploy-to-playstore:
     parameters:
       flavour:
@@ -194,7 +188,6 @@ workflows:
             branches:
               ignore:
                 - main_admin
-                - circleci_branch_filter_fix
       - deploy-to-playstore:
           context: appttude
           flavour: "Driver"
@@ -202,9 +195,8 @@ workflows:
             branches:
               only:
                 - main_driver
-                - circleci_branch_filter_fix
-#          requires:
-#            - build-and-test
+          requires:
+            - build-and-test
 #  build-release-admin:
 #    jobs:
 #      - build-and-test:
