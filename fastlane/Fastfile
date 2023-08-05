@@ -32,13 +32,20 @@ platform :android do
 
   desc "Deploy a new version of Driver to the Google Play"
   lane :deployDriver do
-    gradle(task: "clean bundle", flavor: "driver", build_type: "Release")
-    upload_to_play_store(aab: "app/build/outputs/bundle/driverRelease/app-driver-release.aab", json_key: "google-play-key.json", package_name: "h_mal.appttude.com.driver")
+    gradle(
+        task: "clean bundle",
+        flavor: "Driver",
+        build_type: "Release",
+        )
+    upload_to_play_store(
+        aab: "app/build/outputs/bundle/driverRelease/app-driver-release.aab",
+        json_key: "google-play-key.json",
+        package_name: "h_mal.appttude.com.driver")
   end
 
   desc "Deploy a new version of Admin to the Google Play"
   lane :deployAdmin do
-    gradle(task: "clean bundle", flavor: "admin", build_type: "Release")
+    gradle(task: "clean bundle", flavor: "Admin", build_type: "Release")
     upload_to_play_store(aab: "app/build/outputs/bundle/adminRelease/app-admin-release.aab", json_key: "google-play-key.json", package_name: "h_mal.appttude.com.driver.admin")
   end
 end

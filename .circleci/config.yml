@@ -14,23 +14,22 @@ commands:
     description: checkout repo and android dependencies
     steps:
       - checkout
+      # Setup files for build.
       - run:
-          name: Setup subtree for test data
+          name: Setup variables for build
           command: |
-            git config --global user.email "$GIT_EMAIL"
-            git config --global user.name "$GIT_EMAIL"
-            git subtree add --prefix=driver_app_data https://github.com/hmalik144/driver_app_data main
+            echo "$GOOGLE_SERVICES_KEY" > "app/google-services.json"
+      - android/restore-gradle-cache
+  build_gradle:
+    description: Build the gradle
+    steps:
       - android/restore-gradle-cache
       - run:
           name: Download Dependencies
           command: |
             sudo chmod +x ./gradlew
             ./gradlew androidDependencies
-      # Setup files for build.
-      - run:
-          name: Setup variables for build
-          command: |
-            echo "$GOOGLE_SERVICES_KEY" > "app/google-services.json"
+      - android/save-gradle-cache
   run_tests:
     description: run non-instrumentation tests for flavour specified
     parameters:
@@ -39,6 +38,7 @@ commands:
         default: "Driver"
     steps:
       # The next step will run the unit tests
+      - build_gradle
       - run:
           name: Run non-instrumentation unit tests
           command: |
@@ -56,6 +56,15 @@ commands:
         default: "AtlasWeather"
     steps:
       # Download and cache dependencies
+      - build_gradle
+      - run:
+          name: Setup subtree for test data
+          command: |
+            git stash
+            git config --global user.email "$GIT_EMAIL"
+            git config --global user.name "$GIT_EMAIL"
+            git remote add -f driver_app_data https://github.com/hmalik144/driver_app_data.git
+            git subtree add --prefix=driver_app_data driver_app_data main --squash
       - restore_cache:
           keys:
             - emulator-cache-v1-
@@ -105,6 +114,28 @@ commands:
       # Then publish the results of the Instrumentation tests!
       - store_test_results:
           path: app/build/outputs/androidTest-results/connected
+  deploy_to_play_store:
+    description: deploy to playstore based on flavour
+    parameters:
+      flavour:
+        type: string
+        default: "Driver"
+    steps:
+      # The next step will run the unit tests
+      - android/decode-keystore:
+          keystore-location: "./app/keystore.jks"
+      - run:
+          name: Setup playstore key
+          command: | 
+            echo "$GOOGLE_PLAY_KEY" > "google-play-key.json"
+      - build_gradle
+      - run:
+          name: Run fastlane command to deploy to playstore
+          command: |
+            pwd
+            bundle exec fastlane deploy<< parameters.flavour >>
+      - store_test_results:
+          path: fastlane/report.xml
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -125,9 +156,23 @@ jobs:
     steps:
       # Checkout the code and its submodule as the first step.
       - setup_repo
-      - run_tests:
-          flavour: << parameters.flavour >>
+#      - run_tests:
+#          flavour: << parameters.flavour >>
       - run_ui_tests:
+          flavour: << parameters.flavour >>
+  deploy-to-playstore:
+    parameters:
+      flavour:
+        type: string
+        default: "Driver"
+    docker:
+      - image: cimg/android:2023.07-browsers
+        auth:
+          username: ${DOCKER_USERNAME}
+          password: ${DOCKER_PASSWORD}
+    steps:
+      - setup_repo
+      - deploy_to_play_store:
           flavour: << parameters.flavour >>
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -136,30 +181,36 @@ workflows:
   build-release-driver:
     jobs:
       - build-and-test:
+          context: appttude
           flavour: "Driver"
-      - android/deploy-to-play-store:
+          filters:
+            branches:
+              ignore:
+                - main_admin
+      - deploy-to-playstore:
+          context: appttude
+          flavour: "Driver"
           filters:
             branches:
               only:
                 - main_driver
           requires:
             - build-and-test
-          executor:
-            name: android/android-machine
-            tag: 2023.05.1
-          lane-name: deployDriver
   build-release-admin:
     jobs:
       - build-and-test:
+          context: appttude
           flavour: "Admin"
-      - android/deploy-to-play-store:
+          filters:
+            branches:
+              ignore:
+                - main_driver
+      - deploy-to-playstore:
+          context: appttude
+          flavour: "Admin"
           filters:
             branches:
               only:
-                - main_driver
+                - main_admin
           requires:
             - build-and-test
-          executor:
-            name: android/android-machine
-            tag: 2023.05.1
-          lane-name: deployAdmin
