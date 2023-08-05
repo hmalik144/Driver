@@ -60,8 +60,6 @@ commands:
       - run:
           name: Setup subtree for test data
           command: |
-#            mkdir -p ~/.ssh
-#            echo 'github.com ssh-rsa b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABCC2KGHuwNI211p8ItXILznAAAAEAAAAAEAAAAzAAAAC3NzaC1lZDI1NTE5AAAAILp1lkgYhIhX9ivOhrjhxmiC8N6z1uqXAefdntBg0svGAAAAoEwY/R7/AMpoatHa7ieunezMYpkWaVveLFMP142wsfwuPecimHkoElVKaGq9SFKHMqmp2kK0CS4r7MsH5hs3DlCMrcrR5bAyG4h2/mxDCAGERpMBQ5LKQUW52cx3CSZP2pjzb8Wu9iS2eDKZVhyGD0igFjLBtT1vKnqQ+n59CjS79dsrXZUtyzc0/mCgbBnqj0Iu/rY2HwfLVuPYXKaz9Zs=' >> ~/.ssh/known_hosts
             git config --global user.email "$GIT_EMAIL"
             git config --global user.name "$GIT_EMAIL"
             git remote add -f driver_app_data https://github.com/hmalik144/driver_app_data.git
