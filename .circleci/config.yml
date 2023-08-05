@@ -20,21 +20,12 @@ commands:
             git config --global user.email "$GIT_EMAIL"
             git config --global user.name "$GIT_EMAIL"
             git subtree add --prefix=driver_app_data https://github.com/hmalik144/driver_app_data main
-      # Added to prevent gradle build failures in pipeline
-      - android/create-keystore-properties:
-          release-keystore: "keystore.jks"
-      - android/restore-gradle-cache
-      - run:
-          name: Download Dependencies
-          command: |
-            sudo chmod +x ./gradlew
-            ./gradlew androidDependencies
-      - android/save-gradle-cache
       # Setup files for build.
       - run:
           name: Setup variables for build
           command: |
             echo "$GOOGLE_SERVICES_KEY" > "app/google-services.json"
+      - android/restore-gradle-cache
   run_tests:
     description: run non-instrumentation tests for flavour specified
     parameters:
@@ -47,6 +38,7 @@ commands:
           name: Run non-instrumentation unit tests
           command: |
             ./gradlew test<< parameters.flavour >>DebugUnitTest --continue
+      - android/save-gradle-cache
       - store_artifacts:
           path: app/build/reports
           destination: reports
@@ -89,6 +81,7 @@ commands:
                 paths:
                   - ~/.cache/firebase/emulators/
                 key: emulator-cache-v1-{{ epoch }}
+      - android/save-gradle-cache
       # store test reports
       - store_artifacts:
           path: app/build/reports/androidTests/connected
@@ -118,11 +111,11 @@ commands:
     steps:
       # The next step will run the unit tests
       - run:
-          name: Setup keystore & properties
+          name: Setup keystore
           command: |
-            FILE=$PWD/app/keystore.jks
-            echo "$BASE64_KEYSTORE" | base64 --decode > "$FILE"
-            printf 'releaseKeyAlias=%s\nreleaseKeyPassword=%s\nreleaseKeyStore=%s\nreleaseStorePassword=%s' $RELEASE_KEY_ALIAS $RELEASE_KEY_PASSWORD $FILE $RELEASE_STORE_PASSWORD > keystore.properties
+            echo "$BASE64_KEYSTORE" | base64 --decode > "app/keystore.jks"
+      - android/create-keystore-properties:
+          release-keystore: $PWD/app/keystore.jks
       - run:
           name: files list
           command: |
@@ -137,6 +130,7 @@ commands:
           command: |
             pwd
             bundle exec fastlane deploy<< parameters.flavour >>
+      - android/save-gradle-cache
       - store_test_results:
           path: fastlane/report.xml
 # Define a job to be invoked later in a workflow.
