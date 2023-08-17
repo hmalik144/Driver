@@ -11,9 +11,9 @@
         android:layout_marginBottom="12dp"
         app:cardCornerRadius="28dp"
         app:cardElevation="0dp"
+        app:layout_constraintBottom_toTopOf="@id/til_lic_no"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/til_lic_no">
+        app:layout_constraintRight_toRightOf="parent">
 
         <ImageView
             android:id="@+id/driversli_img"
@@ -21,23 +21,23 @@
             android:layout_height="200dp"
             android:layout_alignParentStart="true"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/image_description"
             android:scaleType="centerCrop"
-            tools:src="@drawable/choice_img_round"
-            android:contentDescription="@string/image_description" />
+            tools:src="@drawable/choice_img_round" />
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/search_image"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_baseline_photo_library_24"
-            android:scaleType="centerInside"
-            android:elevation="1dp"
-            app:civ_border_width="1dp"
-            app:civ_shadow_radius="0.5dp"
-            android:alpha="1"
-            app:civ_circle_color="@color/colour_one"
+            android:layout_gravity="bottom|end"
             android:layout_margin="18dp"
-            android:layout_gravity="bottom|end" />
+            android:alpha="1"
+            android:elevation="1dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_baseline_photo_library_24"
+            app:civ_border_width="1dp"
+            app:civ_circle_color="@color/colour_one"
+            app:civ_shadow_radius="0.5dp" />
 
     </androidx.cardview.widget.CardView>
 
@@ -53,24 +53,24 @@
             android:id="@+id/lic_no"
             style="@style/EditTextStyle.Date"
             android:hint="@string/drivers_license_no"
+            android:importantForAutofill="no"
             android:inputType="none"
-            android:maxLines="1"
-            android:importantForAutofill="no" />
+            android:maxLines="1" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_submission"
         style="@style/text_input_layout"
-        app:layout_constraintTop_toBottomOf="@id/til_lic_no"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_lic_no">
 
         <EditText
-            android:hint="@string/license_expiry_date"
             android:id="@+id/lic_expiry"
             style="@style/EditTextStyle.Date"
-            android:autofillHints="date" />
+            android:autofillHints="date"
+            android:hint="@string/license_expiry_date" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,10 +78,10 @@
         android:id="@+id/submit"
         style="@style/TextButton.WithIcon"
         android:text="@string/submit"
-        app:layout_constraintTop_toBottomOf="@+id/til_submission"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/til_submission"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.8" />
 

@@ -12,8 +12,6 @@ import h_mal.appttude.com.driver.viewmodels.MotViewModel
 
 class MotFragment : DataSubmissionBaseFragment<MotViewModel, FragmentMotBinding, Mot>() {
 
-    override var model = Mot()
-
     override fun setupView(binding: FragmentMotBinding) = binding.run {
         motExpiry.apply {
             setOnClickListener {

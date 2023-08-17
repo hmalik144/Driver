@@ -13,8 +13,6 @@ import h_mal.appttude.com.driver.viewmodels.DriverProfileViewModel
 class DriverProfileFragment :
     DataSubmissionBaseFragment<DriverProfileViewModel, FragmentDriverProfileBinding, DriverProfile>() {
 
-    override var model = DriverProfile()
-
     override fun setupView(binding: FragmentDriverProfileBinding) = binding.run {
         namesInput.setTextOnChange { model.forenames = it }
         addressInput.setTextOnChange { model.address = it }

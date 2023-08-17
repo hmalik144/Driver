@@ -12,8 +12,6 @@ import h_mal.appttude.com.driver.viewmodels.DriverLicenseViewModel
 class DriverLicenseFragment :
     DataSubmissionBaseFragment<DriverLicenseViewModel, FragmentDriverLicenseBinding, DriversLicense>() {
 
-    override var model = DriversLicense()
-
     override fun setupView(binding: FragmentDriverLicenseBinding) {
         binding.apply {
             licExpiry.apply {

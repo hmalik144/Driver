@@ -10,7 +10,8 @@ import androidx.preference.PreferenceManager
  *
  */
 const val SORT_OPTION = "SORT_OPTION"
-class PreferenceProvider (context: Context) {
+
+class PreferenceProvider(context: Context) {
 
     private val appContext = context.applicationContext
 

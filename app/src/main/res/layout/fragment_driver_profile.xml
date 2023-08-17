@@ -46,18 +46,17 @@
                 tools:src="@drawable/choice_img_round" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/text_input_layout">
+        <com.google.android.material.textfield.TextInputLayout style="@style/text_input_layout">
 
             <EditText
                 android:id="@+id/names_input"
                 style="@style/EditTextStyle"
                 android:layout_marginBottom="12dp"
+                android:autofillHints="name"
                 android:ems="10"
                 android:hint="@string/full_name"
                 android:inputType="textPersonName"
-                android:maxLines="1"
-                android:autofillHints="name" />
+                android:maxLines="1" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,6 +66,7 @@
                 android:id="@+id/address_input"
                 style="@style/EditTextStyle"
                 android:layout_marginBottom="12dp"
+                android:autofillHints="postalAddress"
                 android:ems="10"
                 android:gravity="top|start"
                 android:hint="@string/address"
@@ -75,8 +75,7 @@
                 android:maxLines="7"
                 android:minLines="4"
                 android:selectAllOnFocus="true"
-                android:singleLine="true"
-                android:autofillHints="postalAddress" />
+                android:singleLine="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,12 +85,12 @@
                 android:id="@+id/postcode_input"
                 style="@style/EditTextStyle"
                 android:layout_marginBottom="12dp"
+                android:autofillHints="postalCode"
                 android:hint="@string/postcode"
                 android:inputType="none"
                 android:maxLines="1"
                 android:selectAllOnFocus="true"
-                android:singleLine="true"
-                android:autofillHints="postalCode" />
+                android:singleLine="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,8 +100,8 @@
                 android:id="@+id/dob_input"
                 style="@style/EditTextStyle.Date"
                 android:layout_marginBottom="12dp"
-                android:hint="@string/date_of_birth"
-                android:autofillHints="date" />
+                android:autofillHints="date"
+                android:hint="@string/date_of_birth" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -113,9 +112,9 @@
                 style="@style/EditTextStyle"
                 android:layout_marginBottom="12dp"
                 android:hint="@string/ni_number"
-                android:maxLines="1"
                 android:importantForAutofill="no"
                 android:inputType="none"
+                android:maxLines="1"
                 tools:ignore="TextFields" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -126,8 +125,8 @@
                 android:id="@+id/date_first"
                 style="@style/EditTextStyle.Date"
                 android:layout_marginBottom="12dp"
-                android:hint="@string/date_first_available"
-                android:autofillHints="date" />
+                android:autofillHints="date"
+                android:hint="@string/date_first_available" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

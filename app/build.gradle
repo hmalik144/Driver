@@ -166,4 +166,8 @@ dependencies {
     androidTestImplementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     / * screenshot library */
     androidTestImplementation 'tools.fastlane:screengrab:2.1.1'
+    / * Permissions dispatcher * /
+    def dispatcher_ver = "4.9.2"
+    implementation "com.github.permissions-dispatcher:permissionsdispatcher:${dispatcher_ver}"
+    kapt "com.github.permissions-dispatcher:permissionsdispatcher-processor:${dispatcher_ver}"
 }

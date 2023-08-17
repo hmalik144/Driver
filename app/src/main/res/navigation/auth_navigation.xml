@@ -45,9 +45,9 @@
             app:destination="@id/loginFragment"
             app:enterAnim="@anim/nav_default_pop_enter_anim"
             app:exitAnim="@anim/nav_default_pop_exit_anim"
+            app:launchSingleTop="true"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:launchSingleTop="true"
             app:popUpTo="@id/auth_navigation"
             app:popUpToInclusive="true" />
     </fragment>

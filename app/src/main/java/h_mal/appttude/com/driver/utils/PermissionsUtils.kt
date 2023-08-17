@@ -9,7 +9,6 @@ import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 
 
 object PermissionsUtils {
@@ -38,12 +37,6 @@ object PermissionsUtils {
         }
         return true
     }
-
-    fun Fragment.askForPermissions(permission: String, requestCode: Int): Boolean =
-        requireActivity().askForPermissions(permission, requestCode)
-
-    fun isGranted(grantResults: IntArray): Boolean =
-        grantResults.getOrNull(0)?.equals(PERMISSION_GRANTED) ?: false
 
     private fun Context.showPermissionDeniedDialog() {
         AlertDialog.Builder(this)

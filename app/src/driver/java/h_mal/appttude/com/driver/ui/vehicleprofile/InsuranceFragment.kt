@@ -18,8 +18,6 @@ class InsuranceFragment :
 
     private var selectedImages: List<Uri>? = listOf()
 
-    override var model = Insurance()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setImageSelectionAsMultiple()

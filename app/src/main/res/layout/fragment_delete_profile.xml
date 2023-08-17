@@ -37,9 +37,9 @@
         <EditText
             android:id="@+id/email_update"
             style="@style/EditTextStyle"
+            android:autofillHints="emailAddress"
             android:hint="@string/prompt_email"
-            android:inputType="textEmailAddress"
-            android:autofillHints="emailAddress" />
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -52,9 +52,9 @@
         <EditText
             android:id="@+id/password_top"
             style="@style/EditTextStyle"
+            android:autofillHints="password"
             android:hint="@string/prompt_password"
-            android:inputType="textPassword"
-            android:autofillHints="password" />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.View.OnAttachStateChangeListener
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.inflate
@@ -156,6 +155,7 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
                     super.onToastHidden()
                     mIdlingResource?.setIdleState(true)
                 }
+
                 override fun onToastShown() {
                     super.onToastShown()
                     mIdlingResource?.setIdleState(false)
@@ -178,6 +178,7 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
                 super.onShown(transientBottomBar)
                 mIdlingResource?.setIdleState(false)
             }
+
             override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                 super.onDismissed(transientBottomBar, event)
                 mIdlingResource?.setIdleState(true)

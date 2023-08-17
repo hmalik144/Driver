@@ -5,7 +5,7 @@ package h_mal.appttude.com.driver.utils
  *
  * @sample #boolean.isTrue{ #Do something when its true }
  */
-inline fun Boolean.isTrue(block: () -> Unit){
+inline fun Boolean.isTrue(block: () -> Unit) {
     if (this) {
         block()
     }
@@ -16,7 +16,7 @@ inline fun Boolean.isTrue(block: () -> Unit){
  *
  * @sample #nullable.isNotNull{i -> i.doSomethingSinceItsNotNull() }
  */
-inline fun <T, R> T?.isNotNull(block: (T) -> R): R?{
+inline fun <T, R> T?.isNotNull(block: (T) -> R): R? {
     return if (this != null) {
         block(this)
     } else {

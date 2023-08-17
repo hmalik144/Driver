@@ -13,8 +13,6 @@ import h_mal.appttude.com.driver.viewmodels.PrivateHireLicenseViewModel
 class PrivateHireLicenseFragment : DataSubmissionBaseFragment
 <PrivateHireLicenseViewModel, FragmentPrivateHireLicenseBinding, PrivateHireLicense>() {
 
-    override var model = PrivateHireLicense()
-
     override fun setupView(binding: FragmentPrivateHireLicenseBinding) = binding.run {
         phNo.setTextOnChange { model.phNumber = it }
         phExpiry.apply {

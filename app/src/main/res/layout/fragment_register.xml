@@ -46,34 +46,35 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_name"
         style="@style/text_input_layout"
+        app:layout_constraintBottom_toTopOf="@id/til_email"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/til_email">
+        app:layout_constraintStart_toStartOf="parent">
 
         <EditText
             android:id="@+id/name_register"
             style="@style/EditTextStyle"
+            android:autofillHints="name"
             android:hint="@string/promt_name"
-            android:inputType="textPersonName"
-            android:autofillHints="name"/>
+            android:inputType="textPersonName" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_email"
         style="@style/text_input_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_name">
+        app:layout_constraintTop_toBottomOf="@+id/til_name"
+        app:layout_constraintTop_toTopOf="parent">
+
         <EditText
             android:id="@+id/email"
             style="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:autofillHints="emailAddress"
             android:hint="@string/prompt_email"
-            android:inputType="textEmailAddress"
-            android:autofillHints="emailAddress" />
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -82,12 +83,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_email">
+
         <EditText
             android:id="@+id/password_top"
             style="@style/EditTextStyle"
+            android:autofillHints="password"
             android:hint="@string/prompt_password"
-            android:inputType="textPassword"
-            android:autofillHints="password" />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -96,12 +98,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_new_password">
+
         <EditText
             android:id="@+id/password_bottom"
             style="@style/EditTextStyle"
+            android:autofillHints="password"
             android:hint="@string/prompt_password"
-            android:inputType="textPassword"
-            android:autofillHints="password" />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

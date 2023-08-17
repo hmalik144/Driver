@@ -25,7 +25,6 @@ import org.hamcrest.TypeSafeMatcher
 import org.hamcrest.core.AllOf
 import org.junit.After
 import org.junit.Before
-import org.junit.ClassRule
 import org.junit.Rule
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy
@@ -88,35 +87,6 @@ open class BaseUiTest<T : BaseActivity<*, *>>(
 
     open fun beforeLaunch() {}
     open fun afterLaunch(context: Context) {}
-
-
-    @Suppress("DEPRECATION")
-    fun checkToastMessage(message: String) {
-        onView(withText(message)).inRoot(object : TypeSafeMatcher<Root>() {
-            override fun describeTo(description: Description?) {
-                description?.appendText("is toast")
-            }
-
-            override fun matchesSafely(root: Root): Boolean {
-                root.run {
-                    if (windowLayoutParams.get().type == WindowManager.LayoutParams.TYPE_TOAST) {
-                        decorView.run {
-                            if (windowToken === applicationWindowToken) {
-                                // windowToken == appToken means this window isn't contained by any other windows.
-                                // if it was a window for an activity, it would have TYPE_BASE_APPLICATION.
-                                return true
-                            }
-                        }
-                    }
-                }
-                return false
-            }
-        }
-        ).check(matches(isDisplayed()))
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-            waitFor(3500)
-        }
-    }
 
     fun checkSnackBarDisplayedByMessage(message: String) {
         onView(

@@ -14,9 +14,9 @@
         android:layout_marginBottom="12dp"
         app:cardCornerRadius="28dp"
         app:cardElevation="0dp"
+        app:layout_constraintBottom_toTopOf="@id/uploadmot"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/uploadmot">
+        app:layout_constraintRight_toRightOf="parent">
 
         <ImageView
             android:id="@+id/mot_img"
@@ -24,32 +24,32 @@
             android:layout_height="200dp"
             android:layout_alignParentStart="true"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/image_description"
             android:scaleType="centerCrop"
-            tools:src="@drawable/choice_img_round"
-            android:contentDescription="@string/image_description" />
+            tools:src="@drawable/choice_img_round" />
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/uploadmot"
         style="@style/TextButton.Rounded"
         android:text="@string/upload_mot"
+        app:layout_constraintBottom_toTopOf="@+id/til_submission"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/til_submission" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_submission"
         style="@style/text_input_layout"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/mot_expiry"
             style="@style/EditTextStyle.Date"
-            android:hint="@string/mot_expiry_date"
-            android:autofillHints="" />
+            android:autofillHints=""
+            android:hint="@string/mot_expiry_date" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

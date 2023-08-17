@@ -19,7 +19,7 @@ object GenericsHelper {
      *
      * @sample inflateBindingByType(getGenericClassAt(0), layoutInflater)
      */
-    fun <VB: ViewBinding> inflateBindingByType(
+    fun <VB : ViewBinding> inflateBindingByType(
         genericClassAt: KClass<VB>,
         layoutInflater: LayoutInflater
     ): VB = try {
@@ -30,12 +30,12 @@ object GenericsHelper {
                     && viewBinding.parameterTypes.getOrNull(0) == LayoutInflater::class.java
         }.invoke(null, layoutInflater) as VB
     } catch (exception: Exception) {
-        println ("generic class failed at = $genericClassAt")
+        println("generic class failed at = $genericClassAt")
         exception.printStackTrace()
         throw IllegalStateException("Can not inflate binding from generic")
     }
 
-    fun <VB: ViewBinding> LayoutInflater.inflateBindingByType(
+    fun <VB : ViewBinding> LayoutInflater.inflateBindingByType(
         container: ViewGroup?,
         genericClassAt: KClass<VB>
     ): VB = try {
