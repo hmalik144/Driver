@@ -37,6 +37,7 @@ import org.hamcrest.CoreMatchers.anything
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import java.io.File
+import java.time.LocalDate
 
 @SuppressWarnings("unused")
 open class BaseTestRobot {
