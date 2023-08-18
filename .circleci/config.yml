@@ -207,6 +207,7 @@ workflows:
               only:
                 - master
                 - main_driver
+                - /^.*ui/g
       - deploy-to-playstore:
           context: appttude
           flavour: "Driver"
@@ -233,6 +234,7 @@ workflows:
               only:
                 - master
                 - main_admin
+                - /^.*ui/g
       - deploy-to-playstore:
           context: appttude
           flavour: "Admin"
