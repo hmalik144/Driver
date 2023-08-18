@@ -16,7 +16,7 @@ class DateDialog(
 
     private val dateSetListener: OnDateSetListener =
         OnDateSetListener { _, year, month, dayOfMonth ->
-            val date = DateUtils.getDateString(year, month, dayOfMonth)
+            val date = DateUtils.getDateString(year, month + 1, dayOfMonth)
             dateSelected(date)
             editText.setText(date)
             editText.error = null
