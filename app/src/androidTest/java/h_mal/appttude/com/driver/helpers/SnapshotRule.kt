@@ -3,7 +3,6 @@ package h_mal.appttude.com.driver.helpers
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 import tools.fastlane.screengrab.Screengrab
-import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy
 
 /**
  * Junit rule that takes a screenshot when a test fails.
