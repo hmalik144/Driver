@@ -11,4 +11,4 @@ data class VehicleProfile(
     var keeperPostCode: String? = null,
     var startDate: String? = null,
     var isSeized: Boolean = false
-)
+) : Model

@@ -1,10 +1,23 @@
-package h_mal.appttude.com.driver.utils
+package h_mal.appttude.com.driver.untiTests
 
+import androidx.startup.AppInitializer
+import androidx.test.platform.app.InstrumentationRegistry
+import h_mal.appttude.com.driver.utils.DateUtils
 import h_mal.appttude.com.driver.utils.DateUtils.convertDateStringDatePattern
-import org.junit.Assert.*
+import net.danlew.android.joda.JodaTimeInitializer
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
 
 class DateUtilsTest {
+
+    @Before
+    fun setup() {
+        AppInitializer.getInstance(InstrumentationRegistry.getInstrumentation().context.applicationContext)
+            .initializeComponent(JodaTimeInitializer::class.java)
+    }
 
     @Test
     fun test_getDateTimeStamp() {
@@ -31,6 +44,8 @@ class DateUtilsTest {
     }
 
     @Test
-    fun test_parseCalenderIntoDateString() {
+    fun test_getDateString() {
+        val date = DateUtils.getDateString(2019, 8, 1)
+        assertEquals(date, "01/08/2019")
     }
 }

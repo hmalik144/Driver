@@ -9,8 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:maxWidth="350dp"
         android:layout_marginBottom="12dp"
+        android:maxWidth="350dp"
         app:cardCornerRadius="28dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toTopOf="@id/uploadphlic"
@@ -22,9 +22,9 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/image_description"
             android:scaleType="centerCrop"
-            tools:src="@drawable/choice_img"
-            android:contentDescription="@string/image_description" />
+            tools:src="@drawable/choice_img" />
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.button.MaterialButton
@@ -50,7 +50,7 @@
             android:hint="@string/private_hire_license_no"
             android:importantForAutofill="no"
             tools:ignore="TextFields"
-            tools:text="987651"/>
+            tools:text="987651" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -64,9 +64,9 @@
         <EditText
             android:id="@+id/ph_expiry"
             style="@style/EditTextStyle.Date"
-            android:hint="@string/private_hire_license_expiry"
             android:autofillHints="date"
-            tools:text="30/12/2018"/>
+            android:hint="@string/private_hire_license_expiry"
+            tools:text="30/12/2018" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,6 +79,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_submission"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8"/>
+        app:layout_constraintVertical_bias="0.8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

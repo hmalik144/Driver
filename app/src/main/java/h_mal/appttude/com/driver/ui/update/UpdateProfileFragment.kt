@@ -1,20 +1,18 @@
 package h_mal.appttude.com.driver.ui.update
 
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.net.Uri
 import androidx.core.widget.doAfterTextChanged
 import com.google.firebase.auth.FirebaseUser
-import h_mal.appttude.com.driver.base.BaseFragment
+import h_mal.appttude.com.driver.base.ImageSelectorFragment
 import h_mal.appttude.com.driver.databinding.FragmentUpdateProfileBinding
-import h_mal.appttude.com.driver.utils.PermissionsUtils.askForPermissions
 import h_mal.appttude.com.driver.utils.setEnterPressedListener
 import h_mal.appttude.com.driver.utils.setGlideImage
 import h_mal.appttude.com.driver.viewmodels.UpdateUserViewModel
 
 const val TAG_CONST = "non-user"
-private const val IMAGE_PERMISSION_RESULT = 402
 
-class UpdateProfileFragment : BaseFragment<UpdateUserViewModel, FragmentUpdateProfileBinding>() {
+class UpdateProfileFragment :
+    ImageSelectorFragment<UpdateUserViewModel, FragmentUpdateProfileBinding>() {
 
     private var imageChangeListener: Boolean = false
     private var nameChangeListener: Boolean = false
@@ -35,11 +33,7 @@ class UpdateProfileFragment : BaseFragment<UpdateUserViewModel, FragmentUpdatePr
             setEnterPressedListener { submitProfileUpdate() }
         }
 
-        profileImg.setOnClickListener {
-            if (askForPermissions(READ_EXTERNAL_STORAGE, IMAGE_PERMISSION_RESULT)) {
-                openGalleryForImage()
-            }
-        }
+        profileImg.setOnClickListener { openGalleryForImage() }
 
         submit.setOnClickListener { submitProfileUpdate() }
     }
@@ -52,15 +46,6 @@ class UpdateProfileFragment : BaseFragment<UpdateUserViewModel, FragmentUpdatePr
             viewModel.updateProfile(name, imgUri)
         }
     }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) = onPermissionRequest(requestCode, IMAGE_PERMISSION_RESULT, grantResults) {
-        openGalleryForImage()
-    }
-
 
     override fun onSuccess(data: Any?) {
         super.onSuccess(data)

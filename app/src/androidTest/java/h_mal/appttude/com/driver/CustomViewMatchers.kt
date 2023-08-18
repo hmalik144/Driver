@@ -5,41 +5,32 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import com.google.android.material.textfield.TextInputLayout
-import org.hamcrest.Description
+import h_mal.appttude.com.driver.helpers.BaseMatcher
 import org.hamcrest.Matcher
-import org.hamcrest.TypeSafeMatcher
 
 
 /**
  * Matcher for testing error of TextInputLayout
  */
-fun checkErrorMessage(expectedErrorText: String): Matcher<View?> {
-    return object : TypeSafeMatcher<View?>() {
-        override fun matchesSafely(view: View?): Boolean {
-            if (view is EditText) {
-                return view.error.toString() == expectedErrorText
+fun checkErrorMessage(expectedErrorText: String): Matcher<View> {
+    return object : BaseMatcher<View>() {
+        override fun match(item: View): Boolean {
+            if (item is EditText) {
+                return item.error.toString() == expectedErrorText
             }
 
-            if (view !is TextInputLayout) return false
+            if (item !is TextInputLayout) return false
 
-            val error = view.error ?: return false
+            val error = item.error ?: return false
             return expectedErrorText == error.toString()
         }
-
-        override fun describeTo(d: Description?) {}
     }
 }
 
-fun checkImage(): Matcher<View?> {
-    return object : TypeSafeMatcher<View?>() {
-        override fun matchesSafely(view: View?): Boolean {
-            if (view is ImageView) {
-                return hasImage(view)
-            }
-            return false
-        }
-
-        override fun describeTo(d: Description?) {}
+@Suppress("UNCHECKED_CAST")
+fun checkImage(): Matcher<View> {
+    return object: BaseMatcher<ImageView>() {
+        override fun match(item: ImageView): Boolean = hasImage(item)
 
         private fun hasImage(view: ImageView): Boolean {
             val drawable = view.drawable
@@ -49,6 +40,6 @@ fun checkImage(): Matcher<View?> {
             }
             return hasImage
         }
-    }
+    } as Matcher<View>
 }
 

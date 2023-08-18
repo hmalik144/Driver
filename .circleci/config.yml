@@ -20,16 +20,10 @@ commands:
           command: |
             echo "$GOOGLE_SERVICES_KEY" > "app/google-services.json"
       - android/restore-gradle-cache
-  build_gradle:
-    description: Build the gradle
-    steps:
-      - android/restore-gradle-cache
       - run:
-          name: Download Dependencies
+          name: allow gradle
           command: |
             sudo chmod +x ./gradlew
-            ./gradlew androidDependencies
-      - android/save-gradle-cache
   run_tests:
     description: run non-instrumentation tests for flavour specified
     parameters:
@@ -38,11 +32,11 @@ commands:
         default: "Driver"
     steps:
       # The next step will run the unit tests
-      - build_gradle
       - run:
           name: Run non-instrumentation unit tests
           command: |
-            ./gradlew test<< parameters.flavour >>DebugUnitTest --continue
+            ./gradlew test<< parameters.flavour >>DebugUnitTest
+      - android/save-gradle-cache
       - store_artifacts:
           path: app/build/reports
           destination: reports
@@ -53,10 +47,9 @@ commands:
     parameters:
       flavour:
         type: string
-        default: "AtlasWeather"
+        default: "Driver"
     steps:
       # Download and cache dependencies
-      - build_gradle
       - run:
           name: Setup subtree for test data
           command: |
@@ -78,9 +71,7 @@ commands:
           post-emulator-launch-assemble-command: ./gradlew assemble<< parameters.flavour >>DebugAndroidTest
           test-command: ./gradlew connected<< parameters.flavour >>DebugAndroidTest
           system-image: system-images;android-25;google_apis;x86
-          pull-data: true
-          pull-data-path: /storage/emulated/0/Android/data/
-          pull-data-target: ~/app-data
+          pre-test-command: adb push driver_app_data/images /sdcard/Camera
           pre-emulator-wait-steps:
             # Start firebase emulator in the background while waiting to start testing
             - run:
@@ -94,6 +85,13 @@ commands:
                 paths:
                   - ~/.cache/firebase/emulators/
                 key: emulator-cache-v1-{{ epoch }}
+      # store screenshots for failed ui tests
+      - when:
+          condition: on_fail
+          steps:
+            - store_artifacts:
+                path: app/build/outputs/connected_android_test_additional_output/
+                destination: connected_android_test
       # store test reports
       - store_artifacts:
           path: app/build/reports/androidTests/connected
@@ -128,7 +126,6 @@ commands:
           name: Setup playstore key
           command: | 
             echo "$GOOGLE_PLAY_KEY" > "google-play-key.json"
-      - build_gradle
       - run:
           name: Run fastlane command to deploy to playstore
           command: |
@@ -156,8 +153,23 @@ jobs:
     steps:
       # Checkout the code and its submodule as the first step.
       - setup_repo
-#      - run_tests:
-#          flavour: << parameters.flavour >>
+      - run_tests:
+          flavour: << parameters.flavour >>
+  run_instrumentation_test:
+    # Parameters used for determining
+    parameters:
+      flavour:
+        type: string
+        default: "Driver"
+    # These next lines define the Android machine image executor.
+    # See: https://circleci.com/docs/2.0/executor-types/
+    executor:
+      name: android/android-machine
+      tag: 2023.05.1
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      - setup_repo
       - run_ui_tests:
           flavour: << parameters.flavour >>
   deploy-to-playstore:
@@ -187,6 +199,14 @@ workflows:
             branches:
               ignore:
                 - main_admin
+      - run_instrumentation_test:
+          context: appttude
+          flavour: "Driver"
+          filters:
+            branches:
+              only:
+                - master
+                - main_driver
       - deploy-to-playstore:
           context: appttude
           flavour: "Driver"
@@ -195,7 +215,7 @@ workflows:
               only:
                 - main_driver
           requires:
-            - build-and-test
+            - run_instrumentation_test
   build-release-admin:
     jobs:
       - build-and-test:
@@ -205,12 +225,20 @@ workflows:
             branches:
               ignore:
                 - main_driver
-      - deploy-to-playstore:
+      - run_instrumentation_test:
           context: appttude
           flavour: "Admin"
           filters:
             branches:
               only:
+                - master
+                - main_admin
+      - deploy-to-playstore:
+          context: appttude
+          flavour: "Driver"
+          filters:
+            branches:
+              only:
                 - main_admin
           requires:
-            - build-and-test
+            - run_instrumentation_test

@@ -1,9 +1,12 @@
 package h_mal.appttude.com.driver.utils
 
-import android.icu.util.Calendar
+import h_mal.appttude.com.driver.application.GLOBAL_FORMAT
+import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 object DateUtils {
 
@@ -27,26 +30,19 @@ object DateUtils {
 
     private fun getSimpleDateFormat(format: String) = SimpleDateFormat(format, Locale.getDefault())
 
-    fun parseDateStringIntoCalender(dateString: String, format: String): Calendar? {
-        val dateFormat = getSimpleDateFormat(format)
-        val calendar = Calendar.getInstance()
-        return try {
-            calendar.time = dateFormat.parse(dateString)
-            calendar
-        } catch (e: Exception) {
-            null
+    fun parseDateStringIntoCalender(dateString: String, format: String = GLOBAL_FORMAT): LocalDate {
+        if (dateString.isBlank()) {
+            return LocalDate.now()
         }
+        val dtf = DateTimeFormat.forPattern(format)
+        return dtf.parseLocalDate(dateString)
     }
 
-    fun parseCalenderIntoDateString(calendar: Calendar, format: String): String? {
-        val date = calendar.time
-        val dateFormat = getSimpleDateFormat(format)
-
-        return try {
-            dateFormat.format(date)
-        } catch (e: ParseException) {
-            e.printStackTrace()
-            null
-        }
+    fun getDateString(year: Int, month: Int, dayOfMonth: Int): String {
+        val date = LocalDate.now()
+            .withYear(year)
+            .withMonthOfYear(month + 1)
+            .withDayOfMonth(dayOfMonth)
+        return date.toString(GLOBAL_FORMAT)
     }
 }

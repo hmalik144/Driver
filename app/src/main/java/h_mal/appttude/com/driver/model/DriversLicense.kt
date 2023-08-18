@@ -5,4 +5,4 @@ data class DriversLicense(
     var licenseImageString: String? = null,
     var licenseNumber: String? = null,
     var licenseExpiry: String? = null
-)
+) : Model

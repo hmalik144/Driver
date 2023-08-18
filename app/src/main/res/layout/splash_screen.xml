@@ -6,12 +6,12 @@
 
     <ImageView
         android:id="@+id/background_img"
+        style="@style/imageBackground"
+        android:contentDescription="@string/image_description"
         android:src="@drawable/welcome_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/imageBackground"
-        android:contentDescription="@string/image_description" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

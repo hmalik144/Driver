@@ -2,26 +2,23 @@ package h_mal.appttude.com.driver.robots.driver
 
 import h_mal.appttude.com.driver.FormRobot
 import h_mal.appttude.com.driver.R
+import h_mal.appttude.com.driver.model.DriversLicense
 
 fun driversLicense(func: DriversLicenseRobot.() -> Unit) = DriversLicenseRobot().apply { func() }
-class DriversLicenseRobot : FormRobot() {
+class DriversLicenseRobot : FormRobot<DriversLicense>() {
 
     fun enterLicenseNumber(text: String) = fillEditText(R.id.lic_no, text)
-    fun enterLicenseExpiry(year: Int, monthOfYear: Int, dayOfMonth: Int) =
-        setDate(R.id.lic_expiry, year, monthOfYear, dayOfMonth)
+    fun enterLicenseExpiry(data: String) = setDate(R.id.lic_expiry, data)
 
-    fun selectImage() = selectSingleImage(R.id.search_image, FilePath.LICENSE)
-
-    fun submitForm(licenseNumber: String, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        selectImage()
-        enterLicenseNumber(licenseNumber)
-        enterLicenseExpiry(year, monthOfYear, dayOfMonth)
-        submit()
+    override fun submitForm(data: DriversLicense) {
+        selectSingleImage(R.id.search_image, data.licenseImageString!!)
+        enterLicenseExpiry(data.licenseExpiry!!)
+        enterLicenseNumber(data.licenseNumber!!)
+        super.submitForm(data)
     }
 
-    fun validate() {
-        checkImageViewHasImage(R.id.driversli_img)
-
+    override fun validateSubmission(data: DriversLicense) {
+        checkImageViewDoesNotHaveDefaultImage(R.id.driversli_img)
     }
 
 }

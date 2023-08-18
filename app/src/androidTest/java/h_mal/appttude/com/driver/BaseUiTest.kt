@@ -3,38 +3,41 @@ package h_mal.appttude.com.driver
 import android.Manifest
 import android.R
 import android.app.Activity
-import android.content.Context
-import android.os.Build
 import android.view.View
-import android.view.WindowManager
 import androidx.annotation.StringRes
 import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.*
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.IdlingResource
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.GrantPermissionRule
+import com.google.gson.Gson
 import h_mal.appttude.com.driver.base.BaseActivity
 import h_mal.appttude.com.driver.helpers.BaseViewAction
 import h_mal.appttude.com.driver.helpers.SnapshotRule
 import org.hamcrest.CoreMatchers
-import org.hamcrest.Description
 import org.hamcrest.Matcher
-import org.hamcrest.TypeSafeMatcher
 import org.hamcrest.core.AllOf
 import org.junit.After
 import org.junit.Before
-import org.junit.ClassRule
 import org.junit.Rule
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy
 import tools.fastlane.screengrab.locale.LocaleTestRule
+import java.io.BufferedReader
 
 
 open class BaseUiTest<T : BaseActivity<*, *>>(
     private val activity: Class<T>
 ) {
+    val gson by lazy { Gson() }
 
     private lateinit var mActivityScenarioRule: ActivityScenario<T>
     private var mIdlingResource: IdlingResource? = null
@@ -42,7 +45,7 @@ open class BaseUiTest<T : BaseActivity<*, *>>(
     private lateinit var currentActivity: Activity
 
     @get:Rule
-    var permissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    var permissionRule = GrantPermissionRule.grant(Manifest.permission.READ_EXTERNAL_STORAGE)
 
     @get:Rule
     var snapshotRule: SnapshotRule = SnapshotRule()
@@ -59,8 +62,8 @@ open class BaseUiTest<T : BaseActivity<*, *>>(
         mActivityScenarioRule.onActivity {
             mIdlingResource = it.getIdlingResource()!!
             IdlingRegistry.getInstance().register(mIdlingResource)
-            afterLaunch(it)
         }
+        afterLaunch()
     }
 
     @After
@@ -87,36 +90,7 @@ open class BaseUiTest<T : BaseActivity<*, *>>(
     }
 
     open fun beforeLaunch() {}
-    open fun afterLaunch(context: Context) {}
-
-
-    @Suppress("DEPRECATION")
-    fun checkToastMessage(message: String) {
-        onView(withText(message)).inRoot(object : TypeSafeMatcher<Root>() {
-            override fun describeTo(description: Description?) {
-                description?.appendText("is toast")
-            }
-
-            override fun matchesSafely(root: Root): Boolean {
-                root.run {
-                    if (windowLayoutParams.get().type == WindowManager.LayoutParams.TYPE_TOAST) {
-                        decorView.run {
-                            if (windowToken === applicationWindowToken) {
-                                // windowToken == appToken means this window isn't contained by any other windows.
-                                // if it was a window for an activity, it would have TYPE_BASE_APPLICATION.
-                                return true
-                            }
-                        }
-                    }
-                }
-                return false
-            }
-        }
-        ).check(matches(isDisplayed()))
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-            waitFor(3500)
-        }
-    }
+    open fun afterLaunch() {}
 
     fun checkSnackBarDisplayedByMessage(message: String) {
         onView(
@@ -138,4 +112,22 @@ open class BaseUiTest<T : BaseActivity<*, *>>(
             })
         return currentActivity
     }
+
+    fun <T: Any> readDataFromAsset(fileName: String, clazz: Class<T>): T {
+        val iStream =
+            getInstrumentation().context.assets.open("$fileName.json")
+        val data = iStream.bufferedReader().use(BufferedReader::readText)
+        return gson.fromJson(data, clazz)
+    }
+
+    inline fun <reified M: Any> readDataFromAsset(fileName: String): M {
+        val iStream =
+            getInstrumentation().context.assets.open("$fileName.json")
+        val data = iStream.bufferedReader().use(BufferedReader::readText)
+        return fromJson<M>(data)
+    }
+
+    inline fun <reified M> fromJson(json: String)
+            = gson.fromJson<M>(json, M::class.java)
+
 }

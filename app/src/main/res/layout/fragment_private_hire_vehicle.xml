@@ -20,9 +20,9 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/image_description"
             android:scaleType="centerCrop"
-            tools:src="@drawable/choice_img_round"
-            android:contentDescription="@string/image_description" />
+            tools:src="@drawable/choice_img_round" />
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.button.MaterialButton
@@ -61,8 +61,8 @@
         <EditText
             android:id="@+id/ph_expiry"
             style="@style/EditTextStyle.Date"
-            android:hint="@string/private_hire_certificate_expiry"
-            android:autofillHints="date" />
+            android:autofillHints="date"
+            android:hint="@string/private_hire_certificate_expiry" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

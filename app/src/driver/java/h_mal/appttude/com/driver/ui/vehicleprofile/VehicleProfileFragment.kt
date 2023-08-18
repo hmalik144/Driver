@@ -11,8 +11,6 @@ import h_mal.appttude.com.driver.viewmodels.VehicleProfileViewModel
 class VehicleProfileFragment : DataSubmissionBaseFragment
 <VehicleProfileViewModel, FragmentVehicleSetupBinding, VehicleProfile>() {
 
-    override var model = VehicleProfile()
-
     override fun setupView(binding: FragmentVehicleSetupBinding) = binding.run {
         reg.setTextOnChange { model.reg = it }
         make.setTextOnChange { model.make = it }

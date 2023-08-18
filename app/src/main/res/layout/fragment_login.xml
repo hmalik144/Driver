@@ -45,9 +45,9 @@
             style="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:autofillHints="emailAddress"
             android:hint="@string/prompt_email"
-            android:inputType="textEmailAddress"
-            android:autofillHints="emailAddress" />
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -63,9 +63,9 @@
             style="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:autofillHints="password"
             android:hint="@string/prompt_password"
-            android:inputType="textPassword"
-            android:autofillHints="password" />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView

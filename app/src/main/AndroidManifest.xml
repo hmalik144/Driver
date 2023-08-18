@@ -14,8 +14,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.user.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar.User"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar.User">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

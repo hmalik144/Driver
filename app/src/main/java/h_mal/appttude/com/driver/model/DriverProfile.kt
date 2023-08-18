@@ -8,4 +8,4 @@ data class DriverProfile(
     var dob: String? = null,
     var ni: String? = null,
     var dateFirst: String? = null
-) 
+) : Model

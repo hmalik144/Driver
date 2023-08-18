@@ -27,3 +27,5 @@ local
 # Firebase emulator
 database-debug.log
 firebase-debug.log
+# Subtree
+driver_app_data

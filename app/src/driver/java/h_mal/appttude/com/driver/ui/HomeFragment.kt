@@ -3,7 +3,7 @@ package h_mal.appttude.com.driver.ui
 import android.os.Bundle
 import android.view.View
 import h_mal.appttude.com.driver.R
-import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
+import h_mal.appttude.com.driver.base.BaseFragment
 import h_mal.appttude.com.driver.data.DRIVER
 import h_mal.appttude.com.driver.databinding.FragmentHomeDriverBinding
 import h_mal.appttude.com.driver.utils.hide
@@ -13,9 +13,7 @@ import h_mal.appttude.com.driver.viewmodels.RoleViewModel
 
 
 class HomeFragment :
-    DataSubmissionBaseFragment<RoleViewModel, FragmentHomeDriverBinding, String>() {
-
-    override var model = String()
+    BaseFragment<RoleViewModel, FragmentHomeDriverBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

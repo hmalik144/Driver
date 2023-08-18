@@ -1,8 +1,8 @@
 package h_mal.appttude.com.driver.ui.driverprofile
 
 import android.net.Uri
-import h_mal.appttude.com.driver.databinding.FragmentDriverProfileBinding
 import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
+import h_mal.appttude.com.driver.databinding.FragmentDriverProfileBinding
 import h_mal.appttude.com.driver.dialogs.DateDialog
 import h_mal.appttude.com.driver.model.DriverProfile
 import h_mal.appttude.com.driver.utils.isTrue
@@ -12,8 +12,6 @@ import h_mal.appttude.com.driver.viewmodels.DriverProfileViewModel
 
 class DriverProfileFragment :
     DataSubmissionBaseFragment<DriverProfileViewModel, FragmentDriverProfileBinding, DriverProfile>() {
-
-    override var model = DriverProfile()
 
     override fun setupView(binding: FragmentDriverProfileBinding) = binding.run {
         namesInput.setTextOnChange { model.forenames = it }

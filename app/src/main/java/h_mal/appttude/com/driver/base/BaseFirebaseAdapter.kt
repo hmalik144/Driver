@@ -59,6 +59,7 @@ open class BaseFirebaseAdapter<T : Any, VB : ViewBinding>(
         super.onDataChanged()
         if (itemCount == 0) emptyList()
     }
+
     override fun onError(error: DatabaseError) {
         super.onError(error)
         when (error.code) {

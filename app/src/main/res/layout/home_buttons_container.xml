@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_marginBottom="64dp"
+    android:orientation="vertical"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent">
@@ -12,8 +12,8 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/driver"
         style="@style/TextButton.WithIcon"
-        android:text="@string/driver_profile"
-        android:layout_marginBottom="12dp" />
+        android:layout_marginBottom="12dp"
+        android:text="@string/driver_profile" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/car"

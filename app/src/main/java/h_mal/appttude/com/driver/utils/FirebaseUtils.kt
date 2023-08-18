@@ -37,6 +37,7 @@ suspend inline fun <reified T : Any> DatabaseReference.getDataFromDatabaseRef():
         is EventResponse.Changed -> {
             response.snapshot.getValue(T::class.java)
         }
+
         is EventResponse.Cancelled -> {
             throw FirebaseException(response.error)
         }
@@ -53,17 +54,19 @@ suspend inline fun <reified T : Any> DatabaseReference.getListDataFromDatabaseRe
         is EventResponse.Changed -> {
             response.snapshot.children.map { it.getValue(T::class.java) }
         }
+
         is EventResponse.Cancelled -> {
             throw FirebaseException(response.error)
         }
     }
 }
 
-suspend fun <T: Any> DatabaseReference.getDataFromDatabaseRef(clazz : Class<T>): T? {
+suspend fun <T : Any> DatabaseReference.getDataFromDatabaseRef(clazz: Class<T>): T? {
     return when (val response: EventResponse = singleValueEvent()) {
         is EventResponse.Changed -> {
             response.snapshot.getValue(clazz)
         }
+
         is EventResponse.Cancelled -> {
             throw FirebaseException(response.error)
         }

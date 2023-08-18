@@ -25,7 +25,7 @@ abstract class DrawerActivity<V : BaseViewModel, VB : ViewBinding> : BaseActivit
     abstract val containerId: Int
     abstract val drawerLayoutId: Int
     abstract val toolbarId: Int
-    abstract val navViewId:Int
+    abstract val navViewId: Int
 
     lateinit var navController: NavController
     lateinit var appBarConfiguration: AppBarConfiguration

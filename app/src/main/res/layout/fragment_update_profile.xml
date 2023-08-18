@@ -9,8 +9,8 @@
     <TextView
         android:id="@+id/login_title_tv"
         style="@style/headerStyle"
-        android:text="@string/update_profile"
         android:layout_marginBottom="12dp"
+        android:text="@string/update_profile"
         app:layout_constraintBottom_toTopOf="@id/login_subtitle_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -45,25 +45,25 @@
         android:layout_height="120dp"
         app:civ_border_width="3dp"
         app:civ_shadow_radius="1dp"
+        app:layout_constraintBottom_toTopOf="@id/til_new_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/til_new_email"
         tools:src="@drawable/choice_img_round" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_new_email"
         style="@style/text_input_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/update_name"
             style="@style/EditTextStyle"
+            android:autofillHints="name"
             android:hint="@string/prompt_insert_name"
-            android:inputType="textPersonName"
-            android:autofillHints="name" />
+            android:inputType="textPersonName" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton

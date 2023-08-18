@@ -1,23 +1,24 @@
 package h_mal.appttude.com.driver.robots.vehicle
 
 import h_mal.appttude.com.driver.FormRobot
-import h_mal.appttude.com.driver.FormRobot.FilePath.Companion.getFilePath
 import h_mal.appttude.com.driver.R
+import h_mal.appttude.com.driver.model.Insurance
 
 fun insurance(func: InsuranceRobot.() -> Unit) = InsuranceRobot().apply { func() }
-class InsuranceRobot : FormRobot() {
+class InsuranceRobot : FormRobot<Insurance>() {
 
     fun enterInsurance(text: String) = fillEditText(R.id.insurer, text)
-    fun enterInsuranceExpiry(year: Int, monthOfYear: Int, dayOfMonth: Int) =
-        setDate(R.id.insurance_exp, year, monthOfYear, dayOfMonth)
+    fun enterInsuranceExpiry(date: String) = setDate(R.id.insurance_exp, date)
 
-    fun selectImages() =
-        selectMultipleImage(R.id.uploadInsurance, arrayOf(getFilePath(FilePath.INSURANCE)))
+    override fun submitForm(data: Insurance) {
+        selectMultipleImage(R.id.uploadInsurance, data.photoStrings!!.map { it!! })
+        enterInsurance(data.insurerName!!)
+        enterInsuranceExpiry(data.expiryDate!!)
+        super.submitForm(data)
+    }
 
-    fun submitForm(insurer: String, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        selectImages()
-        enterInsurance(insurer)
-        enterInsuranceExpiry(year, monthOfYear, dayOfMonth)
-        submit()
+    override fun validateSubmission(data: Insurance) {
+        matchText(R.id.insurer, data.insurerName!!)
+        matchText(R.id.insurance_exp, data.expiryDate!!)
     }
 }

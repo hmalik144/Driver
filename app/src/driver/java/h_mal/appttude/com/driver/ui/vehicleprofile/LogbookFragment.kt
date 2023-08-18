@@ -12,8 +12,6 @@ import h_mal.appttude.com.driver.viewmodels.LogbookViewModel
 class LogbookFragment :
     DataSubmissionBaseFragment<LogbookViewModel, FragmentLogbookBinding, Logbook>() {
 
-    override var model = Logbook()
-
     override fun setupView(binding: FragmentLogbookBinding) = binding.run {
         v5cNo.setTextOnChange { model.v5cnumber = it }
         uploadLb.setOnClickListener { openGalleryWithPermissionRequest() }

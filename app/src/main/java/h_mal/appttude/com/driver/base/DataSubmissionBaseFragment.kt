@@ -1,26 +1,22 @@
 package h_mal.appttude.com.driver.base
 
-import android.Manifest
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import androidx.viewbinding.ViewBinding
 import h_mal.appttude.com.driver.data.UserAuthState
+import h_mal.appttude.com.driver.model.Model
 import h_mal.appttude.com.driver.ui.user.LoginActivity
-import h_mal.appttude.com.driver.utils.PermissionsUtils.askForPermissions
+import h_mal.appttude.com.driver.utils.GenericsHelper.getGenericClassAt
 import h_mal.appttude.com.driver.utils.TextValidationUtils.validateEditText
+import kotlin.reflect.full.createInstance
 
-private const val IMAGE_PERMISSION_RESULT = 402
+abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, VB : ViewBinding, T : Model> :
+    ImageSelectorFragment<V, VB>() {
 
-abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, VB : ViewBinding, T : Any> :
-    BaseFragment<V, VB>() {
-
-    var picUri: Uri? = null
-
-    abstract var model: T
+    var model: T = getGenericClassAt<T>(2).createInstance()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,17 +48,7 @@ abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, VB
     open fun submit() {}
 
     fun openGalleryWithPermissionRequest() {
-        if (askForPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, IMAGE_PERMISSION_RESULT)) {
-            openGalleryForImage()
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) = onPermissionRequest(requestCode, IMAGE_PERMISSION_RESULT, grantResults) {
-        openGalleryForImage()
+        showStorageWithPermissionCheck()
     }
 
     fun validateEditTexts(vararg editTexts: EditText): Boolean {
@@ -81,8 +67,4 @@ abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, VB
         }
     }
 
-    override fun onImageGalleryResult(imageUri: Uri?) {
-        super.onImageGalleryResult(imageUri)
-        picUri = imageUri
-    }
 }
