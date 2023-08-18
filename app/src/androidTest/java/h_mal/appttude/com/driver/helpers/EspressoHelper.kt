@@ -120,4 +120,50 @@ object EspressoHelper {
 
         throw Exception("Error finding a view matching $viewMatcher")
     }
+
+    /**
+     * try and perform a view interaction for
+     * @param waitMillis at intervals of
+     * @param waitMillisPerTry,
+     * upon failure to locate an element, it will return null
+     *
+     */
+    fun ViewInteraction.tryPerform(
+        vararg viewActions: ViewAction,
+        waitMillis: Int = 1000,
+        waitMillisPerTry: Long = 200,
+    ): ViewInteraction? {
+
+        // Derive the max tries
+        val maxTries = waitMillis / waitMillisPerTry.toInt()
+
+        var tries = 0
+
+        for (i in 0..maxTries)
+            try {
+                // Track the amount of times we've tried
+                tries++
+
+                // Search the root for the view
+                return perform(*viewActions)
+
+            } catch (e: Exception) {
+
+                if (tries == maxTries) {
+                    throw e
+                }
+                sleep(waitMillisPerTry)
+            }
+
+        return null
+    }
+
+    fun <T: Any> trying(action: () -> T): T? {
+        return try {
+            val result = action.invoke()
+            result
+        }catch (_: Exception) {
+            null
+        }
+    }
 }

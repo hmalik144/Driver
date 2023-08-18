@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import h_mal.appttude.com.driver.data.FirebaseAuthSource
 import h_mal.appttude.com.driver.data.FirebaseDatabaseSource
 import h_mal.appttude.com.driver.data.FirebaseStorageSource
-import h_mal.appttude.com.driver.data.prefs.PreferenceProvider
 import h_mal.appttude.com.driver.viewmodels.*
 
 class ApplicationViewModelFactory(

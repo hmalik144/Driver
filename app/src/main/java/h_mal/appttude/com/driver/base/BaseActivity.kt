@@ -161,10 +161,12 @@ abstract class BaseActivity<V : BaseViewModel, VB : ViewBinding> : AppCompatActi
                     mIdlingResource?.setIdleState(false)
                 }
             })
+            toast.show()
         } else {
-
+            mIdlingResource?.setIdleState(true)
+            toast.show()
+            mIdlingResource?.setIdleState(false)
         }
-        toast.show()
     }
 
     fun showSnackBar(message: String) {

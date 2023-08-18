@@ -1,38 +1,39 @@
 package h_mal.appttude.com.driver.robots.driver
 
+import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
+import androidx.test.espresso.action.ViewActions.scrollTo
 import h_mal.appttude.com.driver.FormRobot
 import h_mal.appttude.com.driver.R
+import h_mal.appttude.com.driver.model.DriverProfile
 
 fun driversProfile(func: DriversProfileRobot.() -> Unit) = DriversProfileRobot().apply { func() }
-class DriversProfileRobot : FormRobot() {
+class DriversProfileRobot : FormRobot<DriverProfile>() {
 
     fun enterName(name: String) = fillEditText(R.id.names_input, name)
     fun enterAddress(address: String) = fillEditText(R.id.address_input, address)
     fun enterPostcode(postcode: String) = fillEditText(R.id.postcode_input, postcode)
-    fun enterDateOfBirth(dob: String) = fillEditText(R.id.dob_input, dob)
+    fun enterDateOfBirth(date: String) = setDate(R.id.dob_input, date)
+
     fun enterNINumber(niNumber: String) = fillEditText(R.id.ni_number, niNumber)
-    fun enterDateFirstAvailable(year: Int, monthOfYear: Int, dayOfMonth: Int) =
-        setDate(R.id.date_first, year, monthOfYear, dayOfMonth)
+    fun enterDateFirstAvailable(date: String) {
+        closeSoftKeyboard()
+        matchView(R.id.date_first).perform(scrollTo())
+        setDate(R.id.date_first, date)
+    }
 
-    fun selectImage() = selectSingleImage(R.id.add_photo, FilePath.PROFILE_PIC)
+    override fun validateSubmission(data: DriverProfile) {
+        checkImageViewDoesNotHaveDefaultImage(R.id.driver_pic)
+        matchText(R.id.names_input, data.forenames!!)
+    }
 
-    fun submitForm(
-        name: String,
-        address: String,
-        postcode: String,
-        dob: String,
-        niNumber: String,
-        year: Int,
-        monthOfYear: Int,
-        dayOfMonth: Int
-    ) {
-        selectImage()
-        enterName(name)
-        enterAddress(address)
-        enterPostcode(postcode)
-        enterDateOfBirth(dob)
-        enterNINumber(niNumber)
-        enterDateFirstAvailable(year, monthOfYear, dayOfMonth)
-        submit()
+    override fun submitForm(data: DriverProfile) = data.run {
+        selectSingleImage(R.id.add_photo, driverPic!!)
+        enterName(forenames!!)
+        enterAddress(address!!)
+        enterPostcode(postcode!!)
+        enterDateOfBirth(dob!!)
+        enterNINumber(ni!!)
+        enterDateFirstAvailable(dateFirst!!)
+        super.submitForm(data)
     }
 }

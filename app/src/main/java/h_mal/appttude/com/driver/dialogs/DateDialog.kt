@@ -3,13 +3,10 @@ package h_mal.appttude.com.driver.dialogs
 
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
-import android.icu.util.Calendar
 import android.widget.EditText
 import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.utils.DateUtils
 
-
-private const val DATE_FORMAT = "dd/MM/yyyy"
 
 @Suppress("DEPRECATION")
 class DateDialog(
@@ -19,10 +16,7 @@ class DateDialog(
 
     private val dateSetListener: OnDateSetListener =
         OnDateSetListener { _, year, month, dayOfMonth ->
-            val cal = Calendar.getInstance()
-            cal.set(year, month + 1, dayOfMonth)
-
-            val date = DateUtils.parseCalenderIntoDateString(cal, DATE_FORMAT)
+            val date = DateUtils.getDateString(year, month, dayOfMonth)
             dateSelected(date)
             editText.setText(date)
             editText.error = null
@@ -33,27 +27,17 @@ class DateDialog(
             spinnersShown = true
             calendarViewShown = false
         }
-        val dateString = editText.text?.toString()
-        val date = if (dateString.isNullOrBlank()) {
-            // Set time to now
-            Calendar.getInstance()
-        } else {
-            // Parse current edit text string and set value
-            DateUtils.parseDateStringIntoCalender(dateString, DATE_FORMAT)
-                ?: Calendar.getInstance()
-        }
+        val dateString = editText.text.toString()
+        val date = DateUtils.parseDateStringIntoCalender(dateString)
+
         setDateFromCalender(date)
         setOnDateSetListener(dateSetListener)
         setTitle(context.getString(R.string.set_date))
         show()
     }
 
-    private fun setDateFromCalender(calendar: Calendar) {
-        val mYear = calendar.get(Calendar.YEAR)
-        val mMonth = calendar.get(Calendar.MONTH)
-        val mDay = calendar.get(Calendar.DAY_OF_MONTH)
-
-        updateDate(mYear, mMonth, mDay)
+    private fun setDateFromCalender(calendar: org.joda.time.LocalDate) {
+        updateDate(calendar.year, calendar.monthOfYear, calendar.dayOfMonth)
     }
 
 }

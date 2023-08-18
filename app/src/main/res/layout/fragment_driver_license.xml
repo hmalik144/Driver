@@ -22,8 +22,7 @@
             android:layout_alignParentStart="true"
             android:adjustViewBounds="true"
             android:contentDescription="@string/image_description"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/choice_img_round" />
+            android:scaleType="centerCrop" />
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/search_image"

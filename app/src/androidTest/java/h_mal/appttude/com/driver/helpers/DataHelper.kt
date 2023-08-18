@@ -18,10 +18,9 @@ object DataHelper {
 
     fun createClipData(filePath: String) = createClipData(createClipItem(filePath))
 
-    fun createClipData(filePaths: Array<String>): ClipData {
+    fun createClipData(filePaths: List<String>): ClipData {
         val clipData = createClipData(filePaths[0])
-        val remainingFiles = filePaths.copyOfRange(1, filePaths.size - 1)
-        clipData.addFilePaths(remainingFiles)
+        filePaths.filterIndexed { i, _ -> i > 0 }.let { clipData.addFilePaths(it.toTypedArray()) }
         return clipData
     }
 

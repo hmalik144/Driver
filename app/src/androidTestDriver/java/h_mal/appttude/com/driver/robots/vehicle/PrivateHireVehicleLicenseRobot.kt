@@ -2,22 +2,28 @@ package h_mal.appttude.com.driver.robots.vehicle
 
 import h_mal.appttude.com.driver.FormRobot
 import h_mal.appttude.com.driver.R
+import h_mal.appttude.com.driver.model.PrivateHireVehicle
 
 fun privateHireVehicleLicense(func: PrivateHireVehicleLicenseRobot.() -> Unit) =
     PrivateHireVehicleLicenseRobot().apply { func() }
-
-class PrivateHireVehicleLicenseRobot : FormRobot() {
+class PrivateHireVehicleLicenseRobot : FormRobot<PrivateHireVehicle>() {
 
     fun enterLicenseNumber(text: String) = fillEditText(R.id.ph_no, text)
-    fun enterLicenseExpiry(year: Int, monthOfYear: Int, dayOfMonth: Int) =
-        setDate(R.id.ph_expiry, year, monthOfYear, dayOfMonth)
+    fun enterLicenseExpiry(date: String) = setDate(R.id.ph_expiry, date)
 
-    fun selectImage() = selectSingleImage(R.id.uploadphlic, FilePath.PRIVATE_HIRE)
+    override fun submitForm(data: PrivateHireVehicle) {
+        selectSingleImage(
+            matchText(R.string.upload_private_hire_photo),
+            data.phCarImageString!!
+        )
+        enterLicenseNumber(data.phCarNumber!!)
+        enterLicenseExpiry(data.phCarExpiry!!)
+        super.submitForm(data)
+    }
 
-    fun submitForm(licenseNumber: String, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        selectImage()
-        enterLicenseNumber(licenseNumber)
-        enterLicenseExpiry(year, monthOfYear, dayOfMonth)
-        submit()
+    override fun validateSubmission(data: PrivateHireVehicle) {
+        checkImageViewDoesNotHaveDefaultImage(R.id.imageView2)
+        matchText(R.id.ph_no, data.phCarNumber!!)
+        matchText(R.id.ph_expiry, data.phCarExpiry!!)
     }
 }
