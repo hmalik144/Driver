@@ -41,7 +41,7 @@ object DateUtils {
     fun getDateString(year: Int, month: Int, dayOfMonth: Int): String {
         val date = LocalDate.now()
             .withYear(year)
-            .withMonthOfYear(month + 1)
+            .withMonthOfYear(month)
             .withDayOfMonth(dayOfMonth)
         return date.toString(GLOBAL_FORMAT)
     }
