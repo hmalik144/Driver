@@ -69,6 +69,9 @@ open class BaseTestRobot {
 
     fun matchText(@IdRes resId: Int, text: String): ViewInteraction = matchText(matchView(resId), text)
 
+    fun matchText(@IdRes resId: Int, @StringRes stringId: Int): ViewInteraction = matchText(matchView(resId), getStringFromResource(stringId))
+
+
     fun clickListItem(@IdRes listRes: Int, position: Int) {
         onData(anything())
             .inAdapterView(allOf(withId(listRes)))
