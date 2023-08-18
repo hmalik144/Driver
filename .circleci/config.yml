@@ -235,7 +235,7 @@ workflows:
                 - main_admin
       - deploy-to-playstore:
           context: appttude
-          flavour: "Driver"
+          flavour: "Admin"
           filters:
             branches:
               only:
