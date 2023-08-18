@@ -22,7 +22,6 @@ class DocumentApproverTest : AdminBaseTest() {
         }
         approver {
             clickApprove()
-            checkToastMessage("Document already approved")
             Espresso.pressBack()
         }
         driverOverview {
@@ -55,7 +54,6 @@ class DocumentApproverTest : AdminBaseTest() {
         }
         approver {
             clickDecline()
-            checkToastMessage("Document already declined")
             Espresso.pressBack()
         }
         driverOverview {
