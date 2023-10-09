@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="h_mal.appttude.com.driver.ui.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/nav_update_email"
+        android:name="h_mal.appttude.com.driver.ui.update.UpdateEmailFragment"
+        android:label="UpdateEmailFragment"
+        tools:layout="@layout/fragment_update_email" />
+    <fragment
+        android:id="@+id/nav_update_password"
+        android:name="h_mal.appttude.com.driver.ui.update.UpdatePasswordFragment"
+        android:label="UpdatePasswordFragment"
+        tools:layout="@layout/fragment_update_password" />
+    <fragment
+        android:id="@+id/nav_update_profile"
+        android:name="h_mal.appttude.com.driver.ui.update.UpdateProfileFragment"
+        android:label="fragment_update_profile"
+        tools:layout="@layout/fragment_update_profile" />
+    <fragment
+        android:id="@+id/nav_delete_profile"
+        android:name="h_mal.appttude.com.driver.ui.update.DeleteProfileFragment"
+        android:label="fragment_delete_profile"
+        tools:layout="@layout/fragment_delete_profile" />
+</navigation>

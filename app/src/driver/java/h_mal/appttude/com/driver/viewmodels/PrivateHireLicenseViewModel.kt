@@ -7,8 +7,12 @@ import h_mal.appttude.com.driver.base.DataSubmissionBaseViewModel
 import h_mal.appttude.com.driver.data.FirebaseAuthentication
 import h_mal.appttude.com.driver.data.FirebaseDatabaseSource
 import h_mal.appttude.com.driver.data.FirebaseStorageSource
+import h_mal.appttude.com.driver.data.MOT_SREF
+import h_mal.appttude.com.driver.data.PRIVATE_HIRE_SREF
+import h_mal.appttude.com.driver.model.Mot
 import h_mal.appttude.com.driver.model.PrivateHireLicense
 import h_mal.appttude.com.driver.utils.Coroutines.io
+import kotlinx.coroutines.Job
 
 class PrivateHireLicenseViewModel(
     auth: FirebaseAuthentication,

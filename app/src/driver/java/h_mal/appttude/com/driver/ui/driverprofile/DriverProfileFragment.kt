@@ -1,6 +1,7 @@
 package h_mal.appttude.com.driver.ui.driverprofile
 
 import android.net.Uri
+import com.google.firebase.storage.StorageReference
 import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
 import h_mal.appttude.com.driver.databinding.FragmentDriverProfileBinding
 import h_mal.appttude.com.driver.dialogs.DateDialog
@@ -52,13 +53,16 @@ class DriverProfileFragment :
     override fun setFields(data: DriverProfile) {
         super.setFields(data)
         applyBinding {
-            driverPic.setGlideImage(data.driverPic)
             namesInput.setText(data.forenames)
             addressInput.setText(data.address)
             postcodeInput.setText(data.postcode)
             dobInput.setText(data.dob)
             niNumber.setText(data.ni)
             dateFirst.setText(data.dateFirst)
+
+            data.driverPic?.setImages {
+                driverPic.setGlideImage(it.second)
+            }
         }
     }
 

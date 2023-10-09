@@ -19,6 +19,7 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import h_mal.appttude.com.driver.R
@@ -58,6 +59,7 @@ fun ImageView.setGlideImage(
         .into(this)
 }
 
+
 @SuppressLint("CheckResult")
 fun ImageView.setGlideImage(
     url: Uri?,
@@ -70,6 +72,22 @@ fun ImageView.setGlideImage(
         true
     }
     c.placeholder(placeholderRes)
+        .into(this)
+}
+
+fun ImageView.setGlideImage(
+    ref: StorageReference?,
+    @DrawableRes placeholderRes: Int = R.drawable.choice_img_round
+) {
+
+    val c = Glide.with(context)
+        .load(ref)
+    viewTreeObserver.addOnPreDrawListener {
+        c.override(width, height)
+        true
+    }
+    c.placeholder(placeholderRes)
+        .fitCenter()
         .into(this)
 }
 

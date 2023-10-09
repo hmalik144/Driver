@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import com.google.firebase.storage.StorageReference
 import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
 import h_mal.appttude.com.driver.databinding.FragmentInsuranceBinding
 import h_mal.appttude.com.driver.dialogs.DateDialog
@@ -45,6 +46,7 @@ class InsuranceFragment :
                         imageView.setGlideImage(list[i] as Uri)
                     }
                     is String -> imageView.setGlideImage(list[i] as String)
+                    is StorageReference -> imageView.setGlideImage(list[i] as StorageReference)
                 }
             }
             carouselView.pageCount = list.size
@@ -65,13 +67,25 @@ class InsuranceFragment :
         applyBinding {
             insurer.setText(model.insurerName)
             insuranceExp.setText(model.expiryDate)
-            model.photoStrings?.let { updateImageCarousal(it) }
+
+            data.photoStrings?.also {
+                val keys = viewModel.getMultipleImagesAndThumbnails(it).map {i -> i.key }
+                updateImageCarousal(keys)
+            }
         }
     }
 
     override fun onImageGalleryResult(imageUris: List<Uri>?) {
         selectedImages = imageUris
         selectedImages?.let { updateImageCarousal(it) }
+    }
+
+    override fun onSuccess(data: Any?) {
+        super.onSuccess(data)
+
+        if (data is Map<*,*>) {
+            updateImageCarousal(data.map { it.value })
+        }
     }
 
 }

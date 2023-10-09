@@ -1,6 +1,7 @@
 package h_mal.appttude.com.driver.ui.vehicleprofile
 
 import android.net.Uri
+import com.google.firebase.storage.StorageReference
 import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
 import h_mal.appttude.com.driver.databinding.FragmentPrivateHireLicenseBinding
 import h_mal.appttude.com.driver.dialogs.DateDialog
@@ -34,9 +35,9 @@ class PrivateHireVehicleFragment :
     override fun setFields(data: PrivateHireVehicle) {
         super.setFields(data)
         applyBinding {
-            imageView2.setGlideImage(data.phCarImageString)
             phNo.setText(data.phCarNumber)
             phExpiry.setText(data.phCarExpiry)
+            data.phCarImageString?.setImages { imageView2.setGlideImage(it.second) }
         }
 
     }

@@ -155,7 +155,7 @@ dependencies {
     implementation 'com.synnapps:carouselview:0.1.5'
     / * Glide */
     implementation 'com.github.bumptech.glide:glide:4.12.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    kapt 'com.github.bumptech.glide:compiler:4.12.0'
     / * OKHttp */
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
     / * Kotlin Reflect */
@@ -172,4 +172,6 @@ dependencies {
     kapt "com.github.permissions-dispatcher:permissionsdispatcher-processor:${dispatcher_ver}"
     / * Date utils * /
     implementation 'net.danlew:android.joda:2.12.5'
+    / * FirebaseUI Storage only * /
+    implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
 }

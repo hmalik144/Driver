@@ -6,12 +6,21 @@
     <item android:title="@string/user_profile">
         <menu>
             <item
-                android:id="@+id/nav_user_settings"
+                android:id="@+id/nav_update_profile"
                 android:icon="@drawable/ic_baseline_assignment_ind_24"
                 android:title="@string/update_user_profile" />
+            <item
+                android:id="@+id/nav_update_email"
+                android:icon="@drawable/ic_baseline_assignment_ind_24"
+                android:title="@string/update_email" />
+            <item
+                android:id="@+id/nav_update_password"
+                android:icon="@drawable/ic_baseline_assignment_ind_24"
+                android:title="@string/update_password" />
+            <item
+                android:id="@+id/nav_delete_profile"
+                android:icon="@drawable/ic_baseline_assignment_ind_24"
+                android:title="@string/delete_profile" />
         </menu>
-
-
     </item>
-
 </menu>

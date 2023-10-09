@@ -1,6 +1,7 @@
 package h_mal.appttude.com.driver.ui.vehicleprofile
 
 import android.net.Uri
+import com.google.firebase.storage.StorageReference
 import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
 import h_mal.appttude.com.driver.databinding.FragmentLogbookBinding
 import h_mal.appttude.com.driver.model.Logbook
@@ -30,8 +31,8 @@ class LogbookFragment :
     override fun setFields(data: Logbook) {
         super.setFields(data)
         applyBinding {
-            logBookImg.setGlideImage(data.photoString)
             v5cNo.setText(data.v5cnumber)
+            data.photoString?.setImages { logBookImg.setGlideImage(it.second) }
         }
 
     }

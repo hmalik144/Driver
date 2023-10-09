@@ -11,9 +11,8 @@ import h_mal.appttude.com.driver.utils.Coroutines.io
 import h_mal.appttude.com.driver.utils.DateUtils.getDateTimeStamp
 import h_mal.appttude.com.driver.utils.getDataFromDatabaseRef
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import java.io.IOException
+import java.lang.NullPointerException
 
 
 abstract class DataSubmissionBaseViewModel<T : Any>(
@@ -28,7 +27,7 @@ abstract class DataSubmissionBaseViewModel<T : Any>(
     abstract val storageRef: StorageReference?
     abstract val objectName: String
 
-    abstract fun getDataFromDatabase(): Job
+    abstract fun getDataFromDatabase(): Job?
     open fun setDataInDatabase(data: T, localImageUri: Uri?): Job = Job()
     open fun setDataInDatabase(data: T, localImageUris: List<Uri?>?): Job = Job()
     open fun setDataInDatabase(data: T) {}
@@ -82,19 +81,46 @@ abstract class DataSubmissionBaseViewModel<T : Any>(
         return listOfUrls
     }
 
-    suspend fun <T, R> Iterable<T>.mapSuspend(transform: suspend (T) -> R): List<R> =
-        coroutineScope { map { t: T -> async { transform(t) } }.map { it.await() } }
+    fun downloadImageAndThumbnail(prefix: String) {
+        if (storageRef == null) throw NullPointerException("No image(s) are available to retrieve")
 
-
-    suspend fun <T, R> Iterable<T>.mapIndexSuspend(transform: suspend (index: Int, T) -> R) =
-        coroutineScope {
-            mapIndexed { index: Int, t: T ->
-                async {
-                    transform(
-                        index,
-                        t
-                    )
-                }
-            }.map { it.await() }
+        io {
+            doTryOperation("Failed to retrieve image") {
+                val urlPair = storageRef!!.let { storage!!.getFileAndThumbnail(it, prefix) }
+                onSuccess(urlPair)
+            }
         }
+    }
+
+    fun downloadMultipleImageAndThumbnail(prefix: String) {
+        if (storageRef == null) throw NullPointerException("No image(s) are available to retrieve")
+
+        io {
+            doTryOperation("Failed to retrieve image") {
+                val urlMap = storageRef!!.let { storage!!.getMultipleFilesAndThumbnails(it, prefix) }
+                onSuccess(urlMap)
+            }
+        }
+    }
+
+
+    fun getImageAndThumbnail(filename: String): Pair<StorageReference, StorageReference> {
+        if (storageRef == null) throw NullPointerException("No image(s) are available to retrieve")
+
+        val thumbnail = StringBuilder()
+            .append("thumb_")
+            .append(filename.split(".")[0])
+            .append(".png")
+            .toString()
+
+        return Pair(
+            storageRef!!.child(filename),
+            storageRef!!.child(thumbnail)
+        )
+    }
+
+    fun getMultipleImagesAndThumbnails(filenames: MutableList<String>): Map<StorageReference, StorageReference> {
+        return filenames.associate { getImageAndThumbnail(it) }
+    }
+
 }

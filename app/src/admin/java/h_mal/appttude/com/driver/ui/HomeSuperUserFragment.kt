@@ -14,6 +14,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DataSnapshot
 import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.base.BaseFirebaseAdapter
+import h_mal.appttude.com.driver.base.BaseFirebaseListAdapter
 import h_mal.appttude.com.driver.base.BaseFragment
 import h_mal.appttude.com.driver.base.CustomViewHolder
 import h_mal.appttude.com.driver.data.USER_CONST

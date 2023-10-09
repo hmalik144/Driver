@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/homeDriverFragment"
-        android:name="h_mal.appttude.com.driver.ui.HomeFragment"
+        android:name="h_mal.appttude.com.driver.ui.DriverHomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home_driver">
         <action
@@ -126,11 +126,6 @@
         android:name="h_mal.appttude.com.driver.ui.vehicleprofile.LogbookFragment"
         android:label="fragment_logbook"
         tools:layout="@layout/fragment_logbook" />
-    <activity
-        android:id="@+id/nav_user_settings"
-        android:name="h_mal.appttude.com.driver.ui.update.UpdateActivity"
-        android:label="fragment_profile"
-        tools:layout="@layout/update_activity" />
     <fragment
         android:id="@+id/privateHireLicenseFragment2"
         android:name="h_mal.appttude.com.driver.ui.driverprofile.PrivateHireLicenseFragment"

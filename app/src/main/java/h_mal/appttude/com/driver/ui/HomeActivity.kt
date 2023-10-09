@@ -2,16 +2,16 @@ package h_mal.appttude.com.driver.ui
 
 
 import android.os.Bundle
+import android.view.View
+import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
 import com.google.firebase.auth.FirebaseUser
 import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.base.DrawerActivity
-import h_mal.appttude.com.driver.databinding.ActivityMainBinding
-import h_mal.appttude.com.driver.databinding.NavHeaderMainBinding
-import h_mal.appttude.com.driver.utils.setGlideImage
+import h_mal.appttude.com.driver.databinding.ActivityHomeBinding
 import h_mal.appttude.com.driver.viewmodels.MainViewModel
 
 
-class MainActivity : DrawerActivity<MainViewModel, ActivityMainBinding>() {
+class HomeActivity : DrawerActivity<MainViewModel,ActivityHomeBinding>() {
 
     override val containerId: Int = R.id.container
     override val drawerLayoutId: Int = R.id.drawer_layout
@@ -21,25 +21,16 @@ class MainActivity : DrawerActivity<MainViewModel, ActivityMainBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.getUserDetails()
         setupLogoutInDrawer()
-    }
-
-    override fun onSuccess(data: Any?) {
-        super.onSuccess(data)
-        when (data) {
-            is FirebaseUser -> {
-                setupDrawer(data)
+        
+        drawerLayout.addDrawerListener(object : DrawerListener{
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) { }
+            override fun onDrawerOpened(drawerView: View) {
+                viewModel.getUserDetails()?.let { setupDrawer(it) }
             }
-        }
-    }
-
-    private fun setupDrawer(user: FirebaseUser) {
-        NavHeaderMainBinding.inflate(layoutInflater).apply {
-            driverEmail.text = user.email
-            driverName.text = user.displayName
-            profileImage.setGlideImage(user.photoUrl)
-        }
+            override fun onDrawerClosed(drawerView: View) { }
+            override fun onDrawerStateChanged(newState: Int) { }
+        })
     }
 
     private fun setupLogoutInDrawer() {

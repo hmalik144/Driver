@@ -21,11 +21,7 @@ class MainViewModel(
     }
 
 
-    fun getUserDetails() {
-        firebaseAuth.getUser()?.let {
-            onSuccess(it)
-        }
-    }
+    fun getUserDetails() = firebaseAuth.getUser()
 
     fun logOut() {
         firebaseAuth.logOut()

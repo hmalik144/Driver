@@ -1,6 +1,7 @@
 package h_mal.appttude.com.driver.ui.driverprofile
 
 import android.net.Uri
+import com.google.firebase.storage.StorageReference
 import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
 import h_mal.appttude.com.driver.databinding.FragmentDriverLicenseBinding
 import h_mal.appttude.com.driver.dialogs.DateDialog
@@ -36,9 +37,12 @@ class DriverLicenseFragment :
     override fun setFields(data: DriversLicense) {
         super.setFields(data)
         applyBinding {
-            driversliImg.setGlideImage(data.licenseImageString)
             licNo.setText(data.licenseNumber)
             licExpiry.setText(data.licenseExpiry)
+
+            data.licenseImageString?.setImages{
+                driversliImg.setGlideImage(it.second)
+            }
         }
     }
 

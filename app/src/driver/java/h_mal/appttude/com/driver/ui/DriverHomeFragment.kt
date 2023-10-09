@@ -12,7 +12,7 @@ import h_mal.appttude.com.driver.utils.show
 import h_mal.appttude.com.driver.viewmodels.RoleViewModel
 
 
-class HomeFragment :
+class DriverHomeFragment :
     BaseFragment<RoleViewModel, FragmentHomeDriverBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

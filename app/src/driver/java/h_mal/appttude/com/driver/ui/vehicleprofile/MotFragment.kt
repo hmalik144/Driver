@@ -1,6 +1,7 @@
 package h_mal.appttude.com.driver.ui.vehicleprofile
 
 import android.net.Uri
+import com.google.firebase.storage.StorageReference
 import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
 import h_mal.appttude.com.driver.databinding.FragmentMotBinding
 import h_mal.appttude.com.driver.dialogs.DateDialog
@@ -32,8 +33,8 @@ class MotFragment : DataSubmissionBaseFragment<MotViewModel, FragmentMotBinding,
     override fun setFields(data: Mot) {
         super.setFields(data)
         applyBinding {
-            motImg.setGlideImage(data.motImageString)
             motExpiry.setText(data.motExpiry)
+            data.motImageString?.setImages { motImg.setGlideImage(it.second) }
         }
     }
 

@@ -32,13 +32,12 @@ class FirebaseDatabaseSource {
      * @return T returns data posted
      */
     suspend fun <T : Any> postToDatabaseRed(ref: DatabaseReference, data: T): T {
-        ref.setValue(data).await()
-        return data
+        return ref.setValue(data).continueWith { data }.await()
     }
 
     fun getDatabaseRefFromPath(path: String) = database.getReference(path)
 
-    val users = database.getReference(USER_CONST)
+    private val users = database.getReference(USER_CONST)
 
     fun getUsersRef() = database.reference.child(USER_CONST)
     fun getUserRef(uid: String) = users.child(uid)

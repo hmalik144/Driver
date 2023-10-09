@@ -24,6 +24,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.HomeActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true"/>
+        <activity
             android:name=".ui.MainActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar"

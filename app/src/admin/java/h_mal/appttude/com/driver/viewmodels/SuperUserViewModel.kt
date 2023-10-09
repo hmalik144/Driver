@@ -22,7 +22,8 @@ class SuperUserViewModel(
     }
 
     fun createFirebaseOptions(sort: SortOption? = null) {
-        val ref = firebaseDatabaseSource.getUsersRef().orderByChild("role").startAt("driver").endAt("driver")
+        val ref = firebaseDatabaseSource.getUsersRef().orderByChild("role").startAt("driver")
+            .endAt("driver")
 
         sort?.isNotNull { preferenceProvider.setSortOption(it.label) }
 

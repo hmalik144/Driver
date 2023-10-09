@@ -1,16 +1,19 @@
 package h_mal.appttude.com.driver.base
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import androidx.viewbinding.ViewBinding
+import com.google.firebase.storage.StorageReference
 import h_mal.appttude.com.driver.data.UserAuthState
 import h_mal.appttude.com.driver.model.Model
 import h_mal.appttude.com.driver.ui.user.LoginActivity
 import h_mal.appttude.com.driver.utils.GenericsHelper.getGenericClassAt
 import h_mal.appttude.com.driver.utils.TextValidationUtils.validateEditText
+import h_mal.appttude.com.driver.utils.setGlideImage
 import kotlin.reflect.full.createInstance
 
 abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, VB : ViewBinding, T : Model> :
@@ -26,6 +29,7 @@ abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, VB
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 requireActivity().finish()
+                return@observe
             }
         }
         viewModel.getDataFromDatabase()
@@ -35,9 +39,8 @@ abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, VB
     override fun onSuccess(data: Any?) {
         super.onSuccess(data)
 
-        data?.let {
-            if (it::class.java == model::class.java)
-                setFields(data as T)
+        when (data) {
+            is Model -> setFields(data as T)
         }
     }
 
@@ -65,6 +68,12 @@ abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, VB
         doAfterTextChanged {
             output(text.toString())
         }
+    }
+
+    fun String.setImages(images: (images: Pair<StorageReference, StorageReference>) -> Unit) {
+        // check if its a ref
+        if (!contains("gs://")) return
+        images(viewModel.getImageAndThumbnail(this))
     }
 
 }

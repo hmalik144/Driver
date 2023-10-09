@@ -7,8 +7,13 @@ import h_mal.appttude.com.driver.base.DataSubmissionBaseViewModel
 import h_mal.appttude.com.driver.data.FirebaseAuthentication
 import h_mal.appttude.com.driver.data.FirebaseDatabaseSource
 import h_mal.appttude.com.driver.data.FirebaseStorageSource
+import h_mal.appttude.com.driver.data.LOG_BOOK_SREF
+import h_mal.appttude.com.driver.data.MOT
+import h_mal.appttude.com.driver.data.MOT_SREF
+import h_mal.appttude.com.driver.model.Logbook
 import h_mal.appttude.com.driver.model.Mot
 import h_mal.appttude.com.driver.utils.Coroutines.io
+import kotlinx.coroutines.Job
 
 class MotViewModel(
     auth: FirebaseAuthentication,

@@ -2,6 +2,8 @@ package h_mal.appttude.com.driver.base
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -14,6 +16,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseUser
+import h_mal.appttude.com.driver.R
 import h_mal.appttude.com.driver.databinding.NavHeaderMainBinding
 import h_mal.appttude.com.driver.dialogs.ExitDialog.displayExitDialog
 import h_mal.appttude.com.driver.utils.isTrue
@@ -42,12 +45,17 @@ abstract class DrawerActivity<V : BaseViewModel, VB : ViewBinding> : BaseActivit
         navView = findViewById(navViewId)
 
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+//        supportActionBar?.setDisplayShowTitleEnabled(false)
         navController = findNavController(containerId)
 
         appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
         navView.setupWithNavController(navController)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        toolbar.setOnMenuItemClickListener {
+            if (it.itemId == android.R.id.home) drawerLayout.openDrawer(GravityCompat.END)
+            return@setOnMenuItemClickListener true
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -81,14 +89,10 @@ abstract class DrawerActivity<V : BaseViewModel, VB : ViewBinding> : BaseActivit
         }
     }
 
-    private fun setupDrawer(user: FirebaseUser) {
-        applyBinding {
-            NavHeaderMainBinding.inflate(layoutInflater).apply {
-                driverEmail.text = user.email
-                driverName.text = user.displayName
-                profileImage.setGlideImage(user.photoUrl)
-            }
-        }
+    fun setupDrawer(user: FirebaseUser) {
+        findViewById<TextView>(R.id.driver_email).text = user.email
+        findViewById<TextView>(R.id.driver_name).text = user.displayName
+        findViewById<ImageView>(R.id.profileImage).setGlideImage(user.photoUrl)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

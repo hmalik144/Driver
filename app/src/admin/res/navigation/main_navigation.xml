@@ -5,11 +5,6 @@
     android:id="@+id/main_navigation"
     app:startDestination="@id/homeAdminFragment">
 
-    <activity
-        android:id="@+id/nav_user_settings"
-        android:name="h_mal.appttude.com.driver.ui.update.UpdateActivity"
-        android:label="fragment_profile"
-        tools:layout="@layout/update_activity" />
     <fragment
         android:id="@+id/homeAdminFragment"
         android:name="h_mal.appttude.com.driver.ui.HomeSuperUserFragment"
