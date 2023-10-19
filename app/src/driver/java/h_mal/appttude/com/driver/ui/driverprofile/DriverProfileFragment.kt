@@ -2,7 +2,7 @@ package h_mal.appttude.com.driver.ui.driverprofile
 
 import android.net.Uri
 import com.google.firebase.storage.StorageReference
-import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
+import h_mal.appttude.com.driver.base.ImageFormSubmissionFragment
 import h_mal.appttude.com.driver.databinding.FragmentDriverProfileBinding
 import h_mal.appttude.com.driver.dialogs.DateDialog
 import h_mal.appttude.com.driver.model.DriverProfile
@@ -12,7 +12,7 @@ import h_mal.appttude.com.driver.viewmodels.DriverProfileViewModel
 
 
 class DriverProfileFragment :
-    DataSubmissionBaseFragment<DriverProfileViewModel, FragmentDriverProfileBinding, DriverProfile>() {
+    ImageFormSubmissionFragment<DriverProfileViewModel, FragmentDriverProfileBinding, DriverProfile>() {
 
     override fun setupView(binding: FragmentDriverProfileBinding) = binding.run {
         namesInput.setTextOnChange { model.forenames = it }
@@ -35,7 +35,7 @@ class DriverProfileFragment :
                 }
             }
         }
-        addPhoto.setOnClickListener { openGalleryWithPermissionRequest() }
+        addPhoto.setOnClickListener { openGalleryForImageSelection() }
         submit.setOnClickListener { submit() }
     }
 
@@ -45,13 +45,12 @@ class DriverProfileFragment :
                 namesInput, addressInput, postcodeInput,
                 dobInput, niNumber, dateFirst
             ).isTrue {
-                viewModel.setDataInDatabase(model, picUri)
+                submitDocument()
             }
         }
     }
 
     override fun setFields(data: DriverProfile) {
-        super.setFields(data)
         applyBinding {
             namesInput.setText(data.forenames)
             addressInput.setText(data.address)
@@ -59,18 +58,16 @@ class DriverProfileFragment :
             dobInput.setText(data.dob)
             niNumber.setText(data.ni)
             dateFirst.setText(data.dateFirst)
-
-            data.driverPic?.setImages {
-                driverPic.setGlideImage(it.second)
-            }
         }
     }
 
-    override fun onImageGalleryResult(imageUri: Uri?) {
+    override fun setImage(image: StorageReference, thumbnail: StorageReference) {
+        binding.driverPic.setGlideImage(thumbnail)
+    }
+
+    override fun onImageGalleryResult(imageUri: Uri) {
         super.onImageGalleryResult(imageUri)
-        applyBinding {
-            driverPic.setGlideImage(imageUri)
-        }
+        binding.driverPic.setGlideImage(imageUri)
     }
 
 }

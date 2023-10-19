@@ -21,7 +21,7 @@ class HomeRobot : BaseTestRobot() {
 
     fun updateProfile() {
         openDrawer()
-        clickButton(R.id.nav_user_settings)
+        clickButton(R.id.nav_update_profile)
     }
 
     fun openDriverProfile() = clickButton(R.id.driver)

@@ -1,6 +1,6 @@
 package h_mal.appttude.com.driver.ui.vehicleprofile
 
-import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
+import h_mal.appttude.com.driver.base.FormSubmissionFragment
 import h_mal.appttude.com.driver.databinding.FragmentVehicleSetupBinding
 import h_mal.appttude.com.driver.dialogs.DateDialog
 import h_mal.appttude.com.driver.model.VehicleProfile
@@ -8,8 +8,7 @@ import h_mal.appttude.com.driver.utils.isTrue
 import h_mal.appttude.com.driver.viewmodels.VehicleProfileViewModel
 
 
-class VehicleProfileFragment : DataSubmissionBaseFragment
-<VehicleProfileViewModel, FragmentVehicleSetupBinding, VehicleProfile>() {
+class VehicleProfileFragment : FormSubmissionFragment<VehicleProfileViewModel, FragmentVehicleSetupBinding, VehicleProfile>() {
 
     override fun setupView(binding: FragmentVehicleSetupBinding) = binding.run {
         reg.setTextOnChange { model.reg = it }
@@ -39,7 +38,7 @@ class VehicleProfileFragment : DataSubmissionBaseFragment
                 postcode,
                 startDate
             ).isTrue {
-                viewModel.setDataInDatabase(model)
+                submitDocument()
             }
         }
     }

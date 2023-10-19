@@ -35,12 +35,15 @@ open class FirebaseTest<T : BaseActivity<*, *>>(
             val localHost = "10.0.2.2"
 
             FirebaseAuth.getInstance().useEmulator(localHost, 9099)
-            FirebaseDatabase.getInstance().useEmulator(localHost, 9000)
+            FirebaseDatabase.getInstance().useEmulator(localHost, 9001)
             FirebaseStorage.getInstance().useEmulator(localHost, 9199)
         }
     }
 
     override fun beforeLaunch() {
+//        // sign out if it failed to sign out
+//        if (firebaseAuthSource.getUser() != null) firebaseAuthSource.logOut()
+
         if (registered) {
             runBlocking {
                 setupUser()

@@ -2,7 +2,7 @@ package h_mal.appttude.com.driver.ui.vehicleprofile
 
 import android.net.Uri
 import com.google.firebase.storage.StorageReference
-import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
+import h_mal.appttude.com.driver.base.ImageFormSubmissionFragment
 import h_mal.appttude.com.driver.databinding.FragmentLogbookBinding
 import h_mal.appttude.com.driver.model.Logbook
 import h_mal.appttude.com.driver.utils.isTrue
@@ -11,11 +11,11 @@ import h_mal.appttude.com.driver.viewmodels.LogbookViewModel
 
 
 class LogbookFragment :
-    DataSubmissionBaseFragment<LogbookViewModel, FragmentLogbookBinding, Logbook>() {
+    ImageFormSubmissionFragment<LogbookViewModel, FragmentLogbookBinding, Logbook>() {
 
     override fun setupView(binding: FragmentLogbookBinding) = binding.run {
         v5cNo.setTextOnChange { model.v5cnumber = it }
-        uploadLb.setOnClickListener { openGalleryWithPermissionRequest() }
+        uploadLb.setOnClickListener { openGalleryForImageSelection() }
         submit.setOnClickListener { submit() }
     }
 
@@ -23,24 +23,23 @@ class LogbookFragment :
         super.submit()
         applyBinding {
             validateEditTexts(v5cNo).isTrue {
-                viewModel.setDataInDatabase(model, picUri)
+                submitDocument()
             }
         }
     }
 
     override fun setFields(data: Logbook) {
-        super.setFields(data)
         applyBinding {
             v5cNo.setText(data.v5cnumber)
-            data.photoString?.setImages { logBookImg.setGlideImage(it.second) }
         }
-
     }
 
-    override fun onImageGalleryResult(imageUri: Uri?) {
+    override fun setImage(image: StorageReference, thumbnail: StorageReference) {
+        binding.logBookImg.setGlideImage(thumbnail)
+    }
+
+    override fun onImageGalleryResult(imageUri: Uri) {
         super.onImageGalleryResult(imageUri)
-        applyBinding {
-            logBookImg.setGlideImage(picUri)
-        }
+        binding.logBookImg.setGlideImage(imageUri)
     }
 }

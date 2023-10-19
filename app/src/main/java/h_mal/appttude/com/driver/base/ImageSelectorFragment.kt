@@ -16,13 +16,10 @@ import permissions.dispatcher.PermissionRequest
 import permissions.dispatcher.RuntimePermissions
 
 @RuntimePermissions
-open class ImageSelectorFragment<V : BaseViewModel, VB : ViewBinding> : BaseFragment<V, VB>() {
-    private var multipleImage: Boolean = false
+open class ImageSelectorFragment<V : BaseViewModel, VB : ViewBinding>(
+    private val multipleImage: Boolean = false
+) : BaseFragment<V, VB>() {
     var picUri: Uri? = null
-
-    fun setImageSelectionAsMultiple() {
-        multipleImage = true
-    }
 
     fun openGalleryForImage() {
         permissionRequest.launch(multipleImage)

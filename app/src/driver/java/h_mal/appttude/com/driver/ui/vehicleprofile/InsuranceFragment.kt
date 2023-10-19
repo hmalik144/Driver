@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import com.google.firebase.storage.StorageReference
-import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
+import h_mal.appttude.com.driver.base.MultiImageFormSubmissionFragment3
+import h_mal.appttude.com.driver.data.ImageCollection
 import h_mal.appttude.com.driver.databinding.FragmentInsuranceBinding
 import h_mal.appttude.com.driver.dialogs.DateDialog
 import h_mal.appttude.com.driver.model.Insurance
@@ -15,13 +16,10 @@ import h_mal.appttude.com.driver.viewmodels.InsuranceViewModel
 
 
 class InsuranceFragment :
-    DataSubmissionBaseFragment<InsuranceViewModel, FragmentInsuranceBinding, Insurance>() {
-
-    private var selectedImages: List<Uri>? = listOf()
+    MultiImageFormSubmissionFragment3<InsuranceViewModel, FragmentInsuranceBinding, Insurance>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setImageSelectionAsMultiple()
 
         applyBinding {
             insurer.setTextOnChange { model.insurerName = it }
@@ -32,7 +30,7 @@ class InsuranceFragment :
                     }
                 }
             }
-            uploadInsurance.setOnClickListener { openGalleryWithPermissionRequest() }
+            uploadInsurance.setOnClickListener { openGalleryForImageSelection() }
             submit.setOnClickListener { submit() }
         }
     }
@@ -57,35 +55,24 @@ class InsuranceFragment :
         super.submit()
         applyBinding {
             validateEditTexts(insurer, insuranceExp).isTrue {
-                viewModel.setDataInDatabase(model, selectedImages)
+                submitDocument()
             }
         }
     }
 
     override fun setFields(data: Insurance) {
-        super.setFields(data)
         applyBinding {
             insurer.setText(model.insurerName)
             insuranceExp.setText(model.expiryDate)
-
-            data.photoStrings?.also {
-                val keys = viewModel.getMultipleImagesAndThumbnails(it).map {i -> i.key }
-                updateImageCarousal(keys)
-            }
         }
     }
 
-    override fun onImageGalleryResult(imageUris: List<Uri>?) {
-        selectedImages = imageUris
-        selectedImages?.let { updateImageCarousal(it) }
+    override fun setImages(collection: ImageCollection) {
+        updateImageCarousal(collection.collection.map { it.second })
     }
 
-    override fun onSuccess(data: Any?) {
-        super.onSuccess(data)
-
-        if (data is Map<*,*>) {
-            updateImageCarousal(data.map { it.value })
-        }
+    override fun onImageGalleryResult(imageUris: List<Uri>) {
+        updateImageCarousal(imageUris)
     }
 
 }

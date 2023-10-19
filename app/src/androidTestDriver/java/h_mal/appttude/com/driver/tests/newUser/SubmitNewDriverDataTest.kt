@@ -26,6 +26,8 @@ class SubmitNewDriverDataTest : DriverProfileTest() {
         driversLicense {
             val data = getAssetData<DriversLicense>()
             submitAndValidate(data)
+
+            waitFor(17000)
         }
     }
 

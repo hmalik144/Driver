@@ -9,7 +9,7 @@ import h_mal.appttude.com.driver.model.DriverProfile
 import h_mal.appttude.com.driver.model.DriversLicense
 import h_mal.appttude.com.driver.model.Insurance
 import h_mal.appttude.com.driver.model.Logbook
-import h_mal.appttude.com.driver.model.Model
+import h_mal.appttude.com.driver.base.Model
 import h_mal.appttude.com.driver.model.Mot
 import h_mal.appttude.com.driver.model.PrivateHireLicense
 import h_mal.appttude.com.driver.model.PrivateHireVehicle

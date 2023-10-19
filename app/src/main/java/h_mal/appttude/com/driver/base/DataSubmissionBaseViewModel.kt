@@ -53,8 +53,7 @@ abstract class DataSubmissionBaseViewModel<T : Any>(
 
         return localImageUri?.let { uri ->
             storageRef?.let {
-                val image = storage?.uploadImage(uri, it, imageString)
-                image.toString()
+                storage!!.uploadImageReturnRef(uri, it, imageString)
             }
         }
     }
@@ -65,6 +64,14 @@ abstract class DataSubmissionBaseViewModel<T : Any>(
         }
 
         return uploadImage(localImageUri) ?: imageUrl!!
+    }
+
+    suspend fun getImageStorageRefAfterUpload(localImageUri: Uri?): String {
+        if (localImageUri == null) {
+            throw IOException("No image is selected")
+        }
+
+        return uploadImage(localImageUri) ?: throw IOException("Image ")
     }
 
     suspend fun getImageUrls(localImageUris: List<Uri?>?): List<String?> {

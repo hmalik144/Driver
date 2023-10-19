@@ -6,20 +6,24 @@ import android.view.View
 import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import androidx.viewbinding.ViewBinding
-import com.google.firebase.storage.StorageReference
 import h_mal.appttude.com.driver.data.UserAuthState
 import h_mal.appttude.com.driver.ui.user.LoginActivity
 import h_mal.appttude.com.driver.utils.GenericsHelper.getGenericClassAt
 import h_mal.appttude.com.driver.utils.TextValidationUtils.validateEditText
 import kotlin.reflect.full.createInstance
 
-abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, VB : ViewBinding, T : Model> :
-    ImageSelectorFragment<V, VB>() {
+abstract class FormSubmissionFragment<V : DataSubmissionViewModel<T>, VB : ViewBinding, T : Document> :
+    BaseFragment<V, VB>() {
 
     var model: T = getGenericClassAt<T>(2).createInstance()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.init()
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // If user is logged out then navigate to LoginActivity
         viewModel.stateLiveData.observe(viewLifecycleOwner) {
             if (it is UserAuthState.LoggedOut) {
                 val intent = Intent(requireContext(), LoginActivity::class.java)
@@ -29,7 +33,6 @@ abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, VB
                 return@observe
             }
         }
-        viewModel.getDataFromDatabase()
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -37,19 +40,16 @@ abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, VB
         super.onSuccess(data)
 
         when (data) {
-            is Model -> setFields(data as T)
+            is Model -> {
+                model = data as T
+                setFields(data)
+            }
         }
     }
 
-    open fun setFields(data: T) {
-        model = data
-    }
+    open fun setFields(data: T) { }
 
     open fun submit() {}
-
-    fun openGalleryWithPermissionRequest() {
-        showStorageWithPermissionCheck()
-    }
 
     fun validateEditTexts(vararg editTexts: EditText): Boolean {
         editTexts.forEach {
@@ -67,10 +67,7 @@ abstract class DataSubmissionBaseFragment<V : DataSubmissionBaseViewModel<T>, VB
         }
     }
 
-    fun String.setImages(images: (images: Pair<StorageReference, StorageReference>) -> Unit) {
-        // check if its a ref
-        if (!contains("gs://")) return
-        images(viewModel.getImageAndThumbnail(this))
+    open fun submitDocument() {
+        viewModel.postDataToDatabase(model)
     }
-
 }

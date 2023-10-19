@@ -2,7 +2,7 @@ package h_mal.appttude.com.driver.ui.vehicleprofile
 
 import android.net.Uri
 import com.google.firebase.storage.StorageReference
-import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
+import h_mal.appttude.com.driver.base.ImageFormSubmissionFragment
 import h_mal.appttude.com.driver.databinding.FragmentPrivateHireLicenseBinding
 import h_mal.appttude.com.driver.dialogs.DateDialog
 import h_mal.appttude.com.driver.model.PrivateHireVehicle
@@ -12,7 +12,7 @@ import h_mal.appttude.com.driver.viewmodels.PrivateHireVehicleViewModel
 
 
 class PrivateHireVehicleFragment :
-    DataSubmissionBaseFragment<PrivateHireVehicleViewModel, FragmentPrivateHireLicenseBinding, PrivateHireVehicle>() {
+    ImageFormSubmissionFragment<PrivateHireVehicleViewModel, FragmentPrivateHireLicenseBinding, PrivateHireVehicle>() {
 
     override fun setupView(binding: FragmentPrivateHireLicenseBinding) = binding.run {
         phNo.setTextOnChange { model.phCarNumber = it }
@@ -24,28 +24,29 @@ class PrivateHireVehicleFragment :
             }
         }
 
-        uploadphlic.setOnClickListener { openGalleryWithPermissionRequest() }
+        uploadphlic.setOnClickListener { openGalleryForImageSelection() }
         submit.setOnClickListener {
             validateEditTexts(phNo, phExpiry).isTrue {
-                viewModel.setDataInDatabase(model, picUri)
+                submitDocument()
             }
         }
     }
 
-    override fun setFields(data: PrivateHireVehicle) {
-        super.setFields(data)
+    override fun setFields(
+        data: PrivateHireVehicle
+    ) {
         applyBinding {
             phNo.setText(data.phCarNumber)
             phExpiry.setText(data.phCarExpiry)
-            data.phCarImageString?.setImages { imageView2.setGlideImage(it.second) }
         }
-
     }
 
-    override fun onImageGalleryResult(imageUri: Uri?) {
+    override fun setImage(image: StorageReference, thumbnail: StorageReference) {
+        binding.imageView2.setGlideImage(thumbnail)
+    }
+
+    override fun onImageGalleryResult(imageUri: Uri) {
         super.onImageGalleryResult(imageUri)
-        applyBinding {
-            imageView2.setGlideImage(imageUri)
-        }
+        binding.imageView2.setGlideImage(imageUri)
     }
 }

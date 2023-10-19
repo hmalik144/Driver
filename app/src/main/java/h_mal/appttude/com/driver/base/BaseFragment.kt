@@ -18,7 +18,7 @@ import org.kodein.di.generic.instance
 abstract class BaseFragment<V : BaseViewModel, VB : ViewBinding> : Fragment(), KodeinAware {
 
     private var _binding: VB? = null
-    private val binding: VB
+    val binding: VB
         get() = _binding ?: error("Must only access binding while fragment is attached.")
 
     var mActivity: BaseActivity<V, *>? = null

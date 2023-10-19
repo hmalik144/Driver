@@ -12,7 +12,7 @@ object GenericsHelper {
         ((javaClass.genericSuperclass as? ParameterizedType)
             ?.actualTypeArguments?.getOrNull(position) as? Class<CLASS>)
             ?.kotlin
-            ?: throw IllegalStateException("Can not find class from generic argument")
+            ?: throw IllegalStateException("Can not find class from generic argument ${this}")
 
     /**
      * Create a view binding out of the the generic [VB]

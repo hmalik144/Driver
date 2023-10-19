@@ -2,7 +2,7 @@ package h_mal.appttude.com.driver.ui.driverprofile
 
 import android.net.Uri
 import com.google.firebase.storage.StorageReference
-import h_mal.appttude.com.driver.base.DataSubmissionBaseFragment
+import h_mal.appttude.com.driver.base.ImageFormSubmissionFragment
 import h_mal.appttude.com.driver.databinding.FragmentDriverLicenseBinding
 import h_mal.appttude.com.driver.dialogs.DateDialog
 import h_mal.appttude.com.driver.model.DriversLicense
@@ -11,7 +11,7 @@ import h_mal.appttude.com.driver.utils.setGlideImage
 import h_mal.appttude.com.driver.viewmodels.DriverLicenseViewModel
 
 class DriverLicenseFragment :
-    DataSubmissionBaseFragment<DriverLicenseViewModel, FragmentDriverLicenseBinding, DriversLicense>() {
+    ImageFormSubmissionFragment<DriverLicenseViewModel, FragmentDriverLicenseBinding, DriversLicense>() {
 
     override fun setupView(binding: FragmentDriverLicenseBinding) {
         binding.apply {
@@ -25,32 +25,31 @@ class DriverLicenseFragment :
             }
             licNo.setTextOnChange { model.licenseNumber = it }
 
-            searchImage.setOnClickListener { openGalleryWithPermissionRequest() }
+            searchImage.setOnClickListener { openGalleryForImageSelection() }
             submit.setOnClickListener {
-                validateEditTexts(licExpiry, licNo).isTrue {
-                    viewModel.setDataInDatabase(model, picUri)
-                }
+                validateEditTexts(licExpiry, licNo).isTrue { submitDocument() }
             }
         }
     }
 
     override fun setFields(data: DriversLicense) {
-        super.setFields(data)
         applyBinding {
             licNo.setText(data.licenseNumber)
             licExpiry.setText(data.licenseExpiry)
-
-            data.licenseImageString?.setImages{
-                driversliImg.setGlideImage(it.second)
-            }
         }
     }
 
-    override fun onImageGalleryResult(imageUri: Uri?) {
-        super.onImageGalleryResult(imageUri)
-        applyBinding {
-            driversliImg.setGlideImage(imageUri)
+    override fun setImage(image: StorageReference?, thumbnail: StorageReference?) {
+        thumbnail?.let {
+            binding.driversliImg.setGlideImage(it)
+            return
         }
+        binding.driversliImg.setGlideImage(image)
+    }
+
+    override fun onImageGalleryResult(imageUri: Uri) {
+        super.onImageGalleryResult(imageUri)
+        binding.driversliImg.setGlideImage(imageUri)
     }
 
 }

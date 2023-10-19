@@ -7,6 +7,7 @@ open class DriverProfileTest : DataSubmissionTest() {
     override fun afterLaunch() {
         super.afterLaunch()
         home {
+            waitFor(1500)
             openDriverProfile()
         }
     }

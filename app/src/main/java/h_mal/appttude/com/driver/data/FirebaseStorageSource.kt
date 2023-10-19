@@ -2,6 +2,7 @@ package h_mal.appttude.com.driver.data
 
 import android.net.Uri
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.tasks.await
 
@@ -27,7 +28,7 @@ class FirebaseStorageSource {
 
     suspend fun uploadImageReturnName(localFilePath: Uri, path: StorageReference, filename: String): String {
         val ref = path.child("$filename.jpeg")
-        return ref.putFile(localFilePath)
+        return ref.putFile(localFilePath, StorageMetadata.Builder().setContentType("image/jpeg").build())
             .continueWith { ref.name }
             .await()
     }

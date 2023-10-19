@@ -16,12 +16,14 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.internal.util.Checks
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.GrantPermissionRule
 import com.google.gson.Gson
 import h_mal.appttude.com.driver.base.BaseActivity
 import h_mal.appttude.com.driver.helpers.BaseViewAction
 import h_mal.appttude.com.driver.helpers.SnapshotRule
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers
 import org.hamcrest.Matcher
 import org.hamcrest.core.AllOf
@@ -60,8 +62,10 @@ open class BaseUiTest<T : BaseActivity<*, *>>(
         beforeLaunch()
         mActivityScenarioRule = ActivityScenario.launch(activity)
         mActivityScenarioRule.onActivity {
-            mIdlingResource = it.getIdlingResource()!!
-            IdlingRegistry.getInstance().register(mIdlingResource)
+            runBlocking {
+                mIdlingResource = it.getIdlingResource()!!
+                IdlingRegistry.getInstance().register(mIdlingResource)
+            }
         }
         afterLaunch()
     }

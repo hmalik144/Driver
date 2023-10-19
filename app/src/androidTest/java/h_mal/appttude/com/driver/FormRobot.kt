@@ -7,7 +7,7 @@ import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import h_mal.appttude.com.driver.helpers.EspressoHelper.trying
-import h_mal.appttude.com.driver.model.Model
+import h_mal.appttude.com.driver.base.Model
 import org.hamcrest.CoreMatchers.allOf
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

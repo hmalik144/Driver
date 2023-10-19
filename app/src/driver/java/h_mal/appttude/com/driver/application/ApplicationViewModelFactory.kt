@@ -45,8 +45,7 @@ class ApplicationViewModelFactory(
                 )
                 isAssignableFrom(VehicleProfileViewModel::class.java) -> VehicleProfileViewModel(
                     auth,
-                    database,
-                    storage
+                    database
                 )
                 isAssignableFrom(InsuranceViewModel::class.java) -> InsuranceViewModel(
                     auth,

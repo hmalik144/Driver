@@ -76,7 +76,7 @@ suspend fun <T : Any> DatabaseReference.getDataFromDatabaseRef(clazz: Class<T>):
 
 fun <T : Any> DatabaseReference.toLiveData(): LiveData<DataState> {
     return object : LiveData<DataState>() {
-        private val listener = addValueEventListener(object : ValueEventListener{
+        private val listener = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val data = snapshot.getValue(object : GenericTypeIndicator<T>() {})
                 postValue(DataState.HasData(data ?: FirebaseCompletion.Default))
@@ -84,7 +84,7 @@ fun <T : Any> DatabaseReference.toLiveData(): LiveData<DataState> {
             override fun onCancelled(error: DatabaseError) {
                 postValue(DataState.HasError(error))
             }
-        })
+        }
         override fun onActive() {
             super.onActive()
             // add listener
